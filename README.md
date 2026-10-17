@@ -66,14 +66,17 @@ All figures are computed from the data after removing 132 exact duplicate rows. 
 
    - **Every branch, every week.** Tuesday over the Monday, Wednesday, Thursday and Friday average is 1.56 at Garden, 1.53 at Harbour and 1.52 at Uptown. It is the busiest day in all 25 full weeks, with weekly ratios of 1.32–1.69.
    - **Not a recording error we tested.** No other day is depleted, there are no copied records, it is not a few event days, and the hours and baskets are unchanged (permutation p = 0.75).
-   - **Not a discount day.** 10.1% of Tuesday transactions carry a discount, against 9.4% on other days. The identified-customer share is 64.2% against 63.4%, and dine-in is 58.3% against 59.3%. A per-customer breakdown is being prepared by Muche in TUESDAY_DECOMP.md.
+   - **Not a discount day.** 10.1% of Tuesday transactions carry a discount, against 9.4% on other days. The identified-customer share is 64.2% against 63.4%, and dine-in is 58.3% against 59.3%.
+   - **What the extra Tuesday transactions are made of** ([TUESDAY_DECOMP.md](TUESDAY_DECOMP.md)). The excess is about 95.4 transactions a week over the three branches. 65.3% of it is more distinct customer IDs on the day [62.0%, 68.8%], 0.6% is more trips per ID [−0.1%, 1.2%], and 34.2% has no Customer ID [30.7%, 37.3%], so it cannot be attributed.
+     The extra IDs are mostly ones that also buy on other days, not new ones: from week 9 on only 2.6% of the excess comes from IDs first seen that week, and 99.1% of Tuesday customers also buy on other days.
+     This says what the surge is made of, not why it happens. The cause is not in the data; a campaign calendar or till records would be needed to test it.
    - **Driver.** Our hypothesis is an internal driver; it is not established.
    - **Weekends** average 0.767 of the Monday, Wednesday, Thursday and Friday level [0.745, 0.790].
    - **Commuters and students.** Weekday mornings are not over-represented: 9.78% of weekday transactions fall between 07:00 and 09:59, against 9.55% at weekends. Weekday sales show no clear dip while AUB students were away; every interval includes zero.
 
    **When customers come.** Dine-in is about 46% of transactions every hour until 17:00, then jumps to 69.9% at 18:00 at all three branches. The evening also brings the largest share of traffic (44.2% after 19:00) and of dessert baskets (16.6%). All branches share the same hourly and weekday shape (correlations 0.99 and above), so the data cannot tell what kind of location each branch is. Daytime therefore calls for takeaway speed, evenings for seating, staff and an upsell test, and weekends are the target of the Saturday test.
 
-   Source: `src/tuesday_check.py`, `src/daypart_analysis.py`, `results/tuesday_*.csv`, `results/daypart_*.csv`, `figures/tuesday_check.png`, `figures/daypart_ordertype.png`.
+   Source: `src/tuesday_check.py`, `src/tuesday_decompose.py`, `src/daypart_analysis.py`, `results/tuesday_*.csv`, `results/daypart_*.csv`, `figures/tuesday_check.png`, `figures/daypart_ordertype.png`.
 
 5. **A weekday-and-trend forecast beats the baseline on June, most of all on Tuesdays.**
    - **Models.** We evaluated four on May, after training on January to April: a dummy (training mean), the seasonal naive baseline (same weekday last week), weekday + trend, and weekday + log trend.
@@ -210,6 +213,7 @@ cd src
 python margin_analysis.py        # Garden margin and unit costs
 python pricing_analysis.py       # price lists and Garden/Uptown price scenarios
 python tuesday_check.py          # Tuesday checks, discount and customer mix, regular customers
+python tuesday_decompose.py      # what the Tuesday excess is made of (TUESDAY_DECOMP.md)
 python forecast.py               # June forecast vs seasonal naive (same weekday last week)
 python promo_analysis.py         # Harbour 15% promo, 30 seconds to about 2 minutes
 python discount_analysis.py      # 10% discount
