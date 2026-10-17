@@ -1,0 +1,7 @@
+factor,lr_stat,dof,p_value
+branch,4.278,2,0.1178
+hour_block,1.0524,3,0.7886
+weekday,6.297,6,0.3908
+month,2.4236,5,0.788
+order_type,3.3507,1,0.0672
+drink_cat,31.439,3,0.0
