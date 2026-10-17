@@ -1,0 +1,2 @@
+model,threshold,pr_auc,roc_auc,precision,recall,flag_rate,pr_auc_ci_low,pr_auc_ci_high,roc_auc_ci_low,roc_auc_ci_high,tn,fp,fn,tp,prevalence_test
+logreg_C0.1,0.1013,0.0995,0.5408,0.0902,0.2444,0.2378,0.0692,0.1503,0.4473,0.6267,357,111,34,11,0.0877

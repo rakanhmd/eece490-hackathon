@@ -1,0 +1,32 @@
+,auc,abs_dev_from_0.5
+cat_share_Cold Drinks,0.4694,0.0306
+share_evening,0.4713,0.0287
+cat_share_Matcha & Tea,0.4714,0.0286
+visits_in_april,0.4722,0.0278
+branch_share_Garden,0.4749,0.0251
+cat_share_Desserts,0.5221,0.0221
+branch_share_Uptown,0.5218,0.0218
+share_dine_in,0.4789,0.0211
+april_share_of_visits,0.4794,0.0206
+share_weekend,0.4802,0.0198
+n_categories,0.4808,0.0192
+recency_days,0.5183,0.0183
+active_days,0.483,0.017
+visits,0.4853,0.0147
+spend_total,0.487,0.013
+gp_total,0.4871,0.0129
+cat_share_Bakery,0.4874,0.0126
+tenure_days,0.4881,0.0119
+cat_share_Cold Coffee,0.5113,0.0113
+cat_share_Hot Coffee,0.5107,0.0107
+share_morning,0.5105,0.0105
+share_discounted_visits,0.5096,0.0096
+branch_share_Harbour,0.5078,0.0078
+cat_share_Sandwiches,0.5075,0.0075
+mean_gap_days,0.4938,0.0062
+cat_share_Meals,0.4951,0.0049
+cat_share_Breakfast,0.4963,0.0037
+n_branches,0.5023,0.0023
+avg_basket_usd,0.4981,0.0019
+days_since_first,0.4982,0.0018
+avg_units_per_visit,0.5011,0.0011
