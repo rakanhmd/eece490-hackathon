@@ -120,17 +120,9 @@ Estimates, kept separate from the measured facts. Six-month figures; per year = 
 | Anonymization changed only branch names and IDs | Some patterns could partly reflect that process; Stories can check against its own records |
 
 ## Pilots, staffing, menu and customers
-- **Pilots** ([`EXPERIMENTS.md`](EXPERIMENTS.md)).
-  - **Method:** each design is simulated on Stories' own weeks, resampled in 4-week blocks, with zero effects included and the planned analysis applied.
-  - **Food and evening dessert prompts:** branch-week switchbacks of 12 weeks detect +2.5 points 67% of the time and +5 points every time, with 6.8–7.0% false positives.
-  - **Price, discount and Saturday:** these must be chain-wide week switchbacks, because customers use several branches. They cannot confirm gains of 1–4% of weekly gross profit, and their nominal test gives 8–12% false positives, so they need a threshold calibrated on Stories' history.
-- **Staffing** ([`STAFFING.md`](STAFFING.md)).
-  - **Measured:** the hourly forecast's June error is 1.62 transactions per branch-hour, against 2.24 for the same hour last week.
-  - **Scenario** (8 transactions per staff-hour, breaks covered, at least one person): a forecast roster leaves 5.4% of branch-hours short, against 12.6% for a flat one-person roster.
-- **Menu** ([`MENU.md`](MENU.md)).
-  - **Profit is spread out:** the top 10 products earn 35.9% of it.
-  - **No deletions on margin or volume alone:** low margin or low volume is not a reason to drop an item, because its buyers also buy other items.
-  - **One decision to test:** a 5% rise on four frequent, below-median-margin items, run as a chain-wide week switchback.
+- **Pilots** ([`EXPERIMENTS.md`](EXPERIMENTS.md)). Simulated on Stories' own weeks in 4-week blocks, with zero effects and the planned analysis. The food and evening dessert prompts (12-week branch-week switchbacks) detect +2.5 points 67% of the time and +5 points every time, with 6.8–7.0% false positives. Price, discount and Saturday pilots must be chain-wide, because customers use several branches. They cannot confirm gains of 1–4% of weekly gross profit, and their nominal test gives 8–12% false positives, so they need a threshold calibrated on Stories' history.
+- **Staffing** ([`STAFFING.md`](STAFFING.md)). Measured: the hourly forecast's June error is 1.62 transactions per branch-hour, against 2.24 for the same hour last week. Scenario (8 transactions per staff-hour, breaks covered, at least one person): a forecast roster leaves 5.4% of branch-hours short, against 12.6% for a flat one-person roster.
+- **Menu** ([`MENU.md`](MENU.md)). Profit is spread out (the top 10 products earn 35.9%), and low margin or volume is no reason to drop an item, since its buyers also buy other items. The one decision to test is a 5% rise on four frequent, below-median-margin items, by chain-wide week switchback.
 - **Customers** ([`CUSTOMERS.md`](CUSTOMERS.md)). Lapses could not be predicted at either of two prediction origins with equal three-month feature windows (a sensitivity check; May overlaps), so we recommend no model-targeted win-back.
 
 ## Weak areas and uncertainty
