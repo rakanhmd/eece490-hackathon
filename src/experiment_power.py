@@ -257,7 +257,7 @@ for name, (tot, succ, base) in RATES.items():
                 halfw.append({"design": name, "weeks": W, "median_ci_halfwidth": np.median([o[1] for o in out])})
     print(f"done {name}")
 CHAIN = [("D3 price test (chain GP, %)", sim_chain_weekly, EFF_PCT),
-         ("D3 price test, customer-visit metric (chain transactions, %)", sim_chain_weekly_tx, [0, 1, 2.5, 5, 7.5]),
+         ("D3 price test, customer-visit metric (chain transactions, %)", sim_chain_weekly_tx, [0, 1, 2.5, 5, 6.4, 7.5]),
          ("D4 discount removal (chain GP, %)", sim_chain_weekly, EFF_PCT)]
 for name, fn, effs in CHAIN:
     for W in DUR_CH:

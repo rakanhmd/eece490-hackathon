@@ -15,27 +15,27 @@ D2 evening dessert upsell (points),16,2.62
 "D3 price test (chain GP, %)",20,6.76
 "D3 price test (chain GP, %)",26,5.81
 "D3 price test, customer-visit metric (chain transactions, %)",8,
-"D3 price test, customer-visit metric (chain transactions, %)",12,7.37
-"D3 price test, customer-visit metric (chain transactions, %)",16,6.46
-"D3 price test, customer-visit metric (chain transactions, %)",20,5.21
-"D3 price test, customer-visit metric (chain transactions, %)",26,4.91
+"D3 price test, customer-visit metric (chain transactions, %)",12,7.43
+"D3 price test, customer-visit metric (chain transactions, %)",16,6.15
+"D3 price test, customer-visit metric (chain transactions, %)",20,5.62
+"D3 price test, customer-visit metric (chain transactions, %)",26,4.8
 "D4 discount removal (chain GP, %)",8,
 "D4 discount removal (chain GP, %)",12,
-"D4 discount removal (chain GP, %)",16,7.11
-"D4 discount removal (chain GP, %)",20,6.63
-"D4 discount removal (chain GP, %)",26,6.0
+"D4 discount removal (chain GP, %)",16,
+"D4 discount removal (chain GP, %)",20,6.83
+"D4 discount removal (chain GP, %)",26,5.97
 "D5 Saturday offer, chain-wide (weekly chain GP; Saturday lift %)",8,
 "D5 Saturday offer, chain-wide (weekly chain GP; Saturday lift %)",12,
 "D5 Saturday offer, chain-wide (weekly chain GP; Saturday lift %)",16,
 "D5 Saturday offer, chain-wide (weekly chain GP; Saturday lift %)",20,
 "D5 Saturday offer, chain-wide (weekly chain GP; Saturday lift %)",26,
-"D5 Saturday-only metric, chain-wide (ignores displacement; NOT recommended)",8,33.16
-"D5 Saturday-only metric, chain-wide (ignores displacement; NOT recommended)",12,19.7
-"D5 Saturday-only metric, chain-wide (ignores displacement; NOT recommended)",16,17.21
-"D5 Saturday-only metric, chain-wide (ignores displacement; NOT recommended)",20,15.74
-"D5 Saturday-only metric, chain-wide (ignores displacement; NOT recommended)",26,14.62
+"D5 Saturday-only metric, chain-wide (ignores displacement; NOT recommended)",8,33.94
+"D5 Saturday-only metric, chain-wide (ignores displacement; NOT recommended)",12,20.05
+"D5 Saturday-only metric, chain-wide (ignores displacement; NOT recommended)",16,17.34
+"D5 Saturday-only metric, chain-wide (ignores displacement; NOT recommended)",20,15.81
+"D5 Saturday-only metric, chain-wide (ignores displacement; NOT recommended)",26,14.13
 D5 alternative: branch-week Saturday offer (log branch weekly GP; ignores cross-branch shifting),8,
 D5 alternative: branch-week Saturday offer (log branch weekly GP; ignores cross-branch shifting),12,
 D5 alternative: branch-week Saturday offer (log branch weekly GP; ignores cross-branch shifting),16,
 D5 alternative: branch-week Saturday offer (log branch weekly GP; ignores cross-branch shifting),20,
-D5 alternative: branch-week Saturday offer (log branch weekly GP; ignores cross-branch shifting),26,46.12
+D5 alternative: branch-week Saturday offer (log branch weekly GP; ignores cross-branch shifting),26,46.62
