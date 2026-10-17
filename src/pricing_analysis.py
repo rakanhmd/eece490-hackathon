@@ -80,3 +80,24 @@ for branch in ["Garden", "Uptown"]:
 est = pd.DataFrame(rows)
 print("\nESTIMATES (assumed constant elasticity, per product):\n", est.to_string(index=False))
 save_table(est, "pricing_scenarios.csv", index=False)
+
+# ---------------- ESTIMATED: Garden cost fix and price fix together (no double counting) ----------------
+# Cost fix = Garden pays Harbour's unit cost for each product. Price fix = Garden charges Harbour's price.
+# Both are computed from the same per-product baseline, and "both" is one combined calculation,
+# not the sum of the two: with lost customers (e < 0), each lost unit is worth more after the cost fix.
+g = pb[pb.Branch == "Garden"].set_index("Product")
+h_cost = wide["cost"]["Harbour"].loc[g.index]
+gp0 = g.units * (g.price * g.net_factor - g.cost)
+comb = []
+for e in ELASTICITIES:
+    q1 = g.units * (harbour_price.loc[g.index] / g.price) ** e
+    cost_only = (g.units * (g.price * g.net_factor - h_cost) - gp0).sum()
+    price_only = (q1 * (harbour_price.loc[g.index] * g.net_factor - g.cost) - gp0).sum()
+    both = (q1 * (harbour_price.loc[g.index] * g.net_factor - h_cost) - gp0).sum()
+    comb.append({"elasticity": e, "cost_only_6mo_usd": round(cost_only), "price_only_6mo_usd": round(price_only),
+                 "both_6mo_usd": round(both), "sum_of_separate_6mo_usd": round(cost_only + price_only),
+                 "overlap_usd": round(cost_only + price_only - both),
+                 "both_per_year_usd": round(both * 365 / 181)})
+comb = pd.DataFrame(comb)
+print("\nESTIMATES, Garden cost + price combined:\n", comb.to_string(index=False))
+save_table(comb, "garden_cost_price_combined.csv", index=False)

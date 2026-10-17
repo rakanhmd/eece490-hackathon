@@ -1,10 +1,22 @@
-# Stories Coffee: <headline finding>
+# Stories Coffee: Garden pays 43% more for every product and still charges less
 
 **Team:** Rakan Bou Hatoum Hamadeh · Muche Abere Workie
 EECE 490 (Introduction to Machine Learning), American University of Beirut · Hackathon, October 17, 2026
 
 ## Conclusion
-<One paragraph for the CEO: the problem, the recommended action, the estimated value in USD and the main assumption it depends on. Written last.>
+Garden is Stories' biggest profit leak. On every one of its 45 products, Garden's recorded unit cost is 1.43 times Harbour's. Yet its price list is a flat 95% of Harbour's, so it keeps 47% of sales as gross profit against Harbour's 65%. We recommend two steps. First, audit where Garden's extra cost comes from: suppliers, delivery, or how costs are booked. Second, move a random half of Garden's products to Harbour's prices for four weeks and compare them with the other half. If the costs are real and Garden can buy at Harbour's prices, our estimate is about $17,600 more gross profit per six months, roughly $35,600 a year. This assumes customers cut purchases 1% for every 1% price rise, and the range is $14,600–$20,900. About 90% of that gain comes from the cost fix. The main assumption is that the unit-cost column records money Stories really pays. If Garden's cost includes overheads that other branches book elsewhere, most of the saving disappears, which is why the audit comes first. Separately, Tuesday brings about 1.5 times a normal weekday's transactions at every branch, every week. A simple forecast cuts the Tuesday planning error from 15.2 to 9.0 transactions a day compared with "same weekday last week". Neither discount we examined shows evidence of paying for itself.
+
+| Rank | Finding and action | Value over 6 months (Jan–Jun) | Measured or estimated |
+|---|---|---|---|
+| 1 | Garden: bring unit costs to Harbour's level and prices to Harbour's list | +$17,647 at elasticity −1 (range $14,585 to $20,863); about $35,600 a year | Estimated. The cost and price gaps themselves are measured |
+| 1a | Of which, cost fix alone | +$15,888 | Estimated. Part of row 1, do not add |
+| 1b | Of which, price fix alone | +$2,516 at elasticity −1 (range $174 to $4,975) | Estimated. Part of row 1, do not add |
+| 2 | Uptown: move prices to Harbour's list | +$1,782 at elasticity −1 (range −$1,357 to +$5,216) | Estimated. Can lose money if customers are price-sensitive |
+| 3 | Stop or restrict the 10% discount | $1,696 given away; saving up to that if no sales are lost | Cost measured, saving estimated |
+| 4 | Harbour 15% promo: do not extend it without a proper test | $470 of discounts given; net +$543 only if the promo caused the rise (range −$308 to +$1,349) | Cost measured, net estimated; causation not shown |
+| 5 | Plan Tuesday staffing and stock with the weekday forecast | No dollar figure, because labour costs are not in the data. Tuesday error 9.0 vs 15.2 transactions a day | Measured on June, held-out data |
+
+Rows 1 and 2 concern different branches, so they do not overlap. Removing the 10% discount at Garden or Uptown would slightly raise the price-row gains, which already include discounts as observed.
 
 ## The business problem
 <Which decision this helps Stories make, and why it matters.>
@@ -59,7 +71,20 @@ Facts computed directly from the data (after removing 132 duplicate rows). Each 
 
    On May validation the order was the same, with all-branch errors of 6.12 for the model and 8.94 for the baseline. **Business use:** this sets Tuesday staffing and stock. In June, Harbour averaged 168.8 transactions on Tuesdays against 111.5 on other weekdays. Planning Tuesdays like a normal weekday would be off by 57.3 transactions a day at Harbour. The model's Tuesday error there was 12.2, and the baseline's was 18.6. The forecast assumes the Tuesday pattern is real, as discussed in finding 4. Source: `src/forecast.py`, `results/forecast_mae.csv`, `results/forecast_tuesday.csv`, `results/results.csv`, `figures/forecast_june.png`.
 
-6. <Promo and 10% discount findings: to write up from `results/promo_*.csv` and `results/discount_*.csv`>
+6. **Harbour's 15% promo on Cold Coffee and Desserts shows no clear evidence that it caused extra sales.** All 502 lines with a 15% discount are at Harbour, from 12 March to 19 May, on those two categories only. 23.2% of eligible lines in the window got the discount. We used a difference-in-differences on daily units, with Garden and Uptown as controls. Day fixed effects absorb season and chain-wide growth. The 95% intervals come from a bootstrap over whole weeks:
+
+   | Test | Effect during promo | Effect after promo ended |
+   |---|---|---|
+   | Harbour vs Garden + Uptown | +13.7% [+2.0, +27.7] | +18.6% [+8.1, +29.2] |
+   | Garden as only control | +6.9% [−4.3, +21.0] | +10.1% [−1.5, +22.8] |
+   | Uptown as only control | +21.1% [+6.0, +41.1] | +27.8% [+10.5, +46.4] |
+   | Placebo: categories not on promo | −1.5% [−5.7, +2.9] | +3.4% [−1.3, +8.2] |
+   | Placebo: Cold Drinks, weather-sensitive, never discounted | −1.3% [−16.1, +15.8] | −5.1% [−24.3, +13.4] |
+   | Placebo: fake promo window, Feb 1 to Mar 11 | −1.6% [−15.2, +13.0] | n/a |
+
+   The placebos are flat, and there was no clear pre-promo trend: −0.28 to +0.62 points per week over 10 weeks. But the gain is *larger after the discount stopped*, Harbour only pulls away about five weeks into the promo, and the size depends on which branch is the control. A discount effect would end when the discount ends. So we do not credit the promo with the rise. Source: `src/promo_analysis.py`, `results/promo_*.csv`, `figures/promo_weekly.png`.
+
+7. **The 10% discount buys nothing measurable.** It appears on 5.5–5.8% of lines at every branch, 5.4–5.9% in every month and 5.3–6.2% on every weekday. Known customers get it at the same rate as everyone else, 63.2% vs 63.6% of transactions. Discounted transactions look bigger, with 0.23 more items. But shuffling the discount at random across lines produces the same gap, 0.23, because the discount is applied per line and bigger baskets have more lines to land on. For the same product at the same branch, a discounted line has the same quantity as a full-price one, a difference of +0.0004 units. Discounts given, January to June: **$1,696**. Source: `src/discount_analysis.py`, `results/discount_*.csv`.
 
 ## Estimated business value
 Estimates, kept separate from the measured facts above.
@@ -77,6 +102,15 @@ Estimates, kept separate from the measured facts above.
   | Break-even elasticity | −2.08 | −2.10 | −1.56 | −1.58 |
 
   For Garden, the price rise loses money only if customers are very price-sensitive: a 5% rise would have to cut units by about 10%. Annualised, the Garden scenario is worth about $5,000 a year at an elasticity of −1 and about $10,000 a year if no customers leave. This is smaller than fixing Garden's costs, but it needs no supplier change and can start at once.
+- **Garden cost and Garden price together, without double counting.** The $18,000 above assumes Garden reaches Harbour's margin at Garden's own prices, which means costs slightly *below* Harbour's. Here instead Garden pays exactly Harbour's unit cost per product. Both changes are computed together from one baseline, not added, because after the cost fix every customer lost to a price rise costs more. Six months, from `results/garden_cost_price_combined.csv`:
+
+  | Elasticity (assumed) | Cost fix only | Price fix only | Both together | Sum of the two (overstated) |
+  |---|---|---|---|---|
+  | 0 | $15,888 | $4,975 | $20,863 | $20,863 |
+  | −1.0 | $15,888 | $2,516 | $17,647 | $18,404 |
+  | −2.0 | $15,888 | $174 | $14,585 | $16,062 |
+- **Harbour 15% promo.** If all of the measured rise were caused by the promo, the extra gross profit would be about $1,013 against $470 of discounts, a net +$543. The 95% range is −$308 to +$1,349, over the ten-week window. The promo breaks even at a 5.9% uplift. Because we do not credit the promo with the rise, the true net is probably lower. Source: `results/promo_value.csv`.
+- **Stopping the 10% discount.** This would save up to $1,696 per six months, about $3,420 a year, if no sales are lost. We found no sign that it brings extra items, but we cannot see whether it keeps customers coming back.
 - **Cross-branch effect, not in the numbers above.** 94% of known customers already buy at more than one branch. If a Garden price rise moves some customers to Harbour, the chain still keeps 65% gross margin on those sales instead of 47%. Treating lost Garden units as lost to the chain therefore understates the Garden gain. For Uptown, the two margins are close, so moved customers change little.
 
 ## Assumptions and what would change the recommendation
@@ -87,7 +121,7 @@ Estimates, kept separate from the measured facts above.
 | Price elasticity is between 0 and −2, and the same for every product | Sets the size of the pricing gain | Above about 2.1 in absolute value, raising Garden's prices loses gross profit; for Uptown the limit is about 1.6 |
 | Lower prices at Garden and Uptown are not a deliberate response to local competitors | A competitor next door could make customers more price-sensitive than the range we assume | The price rise could lose more customers than estimated; the pilot below would show this |
 | The Tuesday surge reflects real customer visits | Staffing and stock plans would follow it | If it comes from how the data was produced or exported, Tuesday staffing should not change until Stories checks its till and footfall records |
-| <more> | | |
+| Garden could buy at Harbour's unit costs | Sets the size of the cost fix, the largest row | If part of the gap is unavoidable, such as a remote location, the gain scales down roughly in proportion |
 
 ## A practical test Stories could run
 - **Garden costs.** Audit how Garden's costs are recorded. Then run a one-month pilot buying Garden's top 10 products through Harbour's supplier, comparing cost per unit and sales against the previous month and against the other branches.
@@ -99,12 +133,15 @@ Estimates, kept separate from the measured facts above.
 - 36.5% of lines have no Customer ID, and 94% of known customers appear at several branches, so customer-level conclusions are uncertain.
 - Prices never change in the data, so price sensitivity is an assumption, not a measurement. The pricing estimates are only as good as the elasticity range.
 - We could not find the cause of the Tuesday surge in the data. We can only rule out the recording errors we tested.
-- <more>
+- The promo analysis compares Harbour with only two control branches, and the result changes with the choice of control.
+- The forecast was tested on one month. June continued the January-to-June growth, so a log trend fit well. A change in trend, for example in summer, would hurt it.
 
 ## Approaches we considered and rejected
 - **Estimating price sensitivity from differences between branches.** Uptown is the cheapest branch but sells the least, so comparing branches would suggest higher prices bring more customers. Location and size drive those differences, not price, so we rejected this.
 - **Estimating price sensitivity from the 10% discount.** Discounted lines have the same quantity as full-price lines. But the discount seems to be applied at the till, so customers do not see it when choosing, and it says little about how they react to a posted price.
-- <more>
+- **Customer retention or churn models.** 94% of known customer IDs buy at more than one branch, so we do not trust the IDs to track individuals.
+- **More complex forecast models.** There are only 151 training days per branch, and a weekday-plus-trend regression already beats the baseline at every branch. We kept the model we can explain.
+- **Adding the Garden cost and price gains.** They interact, so we computed them together.
 
 ## Data quality
 See [`data/README.md`](data/README.md): row counts, duplicates removed, missing values and formula checks.
