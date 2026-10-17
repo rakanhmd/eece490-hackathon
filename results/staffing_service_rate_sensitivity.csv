@@ -1,0 +1,37 @@
+cap_tx_per_staff_hour,break_share,min_staff,block_hours,plan,staff_hours_needed,staff_hours_planned,short_staff_hours,share_of_branch_hours_understaffed,surplus_staff_hours
+6,0.0,1,1,forecast (chosen model),5207.0,5106.0,378.0,0.087,277.0
+6,0.0,1,1,"forecast, 80% cover (assumes Poisson counts)",5207.0,5805.0,188.0,0.043,786.0
+6,0.0,1,1,same hour last week,5207.0,5179.0,464.0,0.104,436.0
+6,0.0,1,1,mean of last 4 same weekdays,5207.0,5047.0,442.0,0.1,282.0
+6,0.0,1,1,flat: always the minimum,5207.0,4284.0,923.0,0.186,0.0
+6,0.0,1,1,flat: 2 staff every open hour,5207.0,8568.0,125.0,0.026,3486.0
+6,0.0,2,1,forecast (chosen model),8693.0,8656.0,69.0,0.016,32.0
+6,0.0,2,1,"forecast, 80% cover (assumes Poisson counts)",8693.0,8752.0,46.0,0.01,105.0
+6,0.0,2,1,same hour last week,8693.0,8687.0,78.0,0.018,72.0
+6,0.0,2,1,mean of last 4 same weekdays,8693.0,8648.0,78.0,0.018,33.0
+6,0.0,2,1,flat: always the minimum,8693.0,8568.0,125.0,0.026,0.0
+6,0.0,2,1,flat: 2 staff every open hour,8693.0,8568.0,125.0,0.026,0.0
+8,0.0,1,1,forecast (chosen model),4724.0,4684.0,178.0,0.041,138.0
+8,0.0,1,1,"forecast, 80% cover (assumes Poisson counts)",4724.0,4954.0,106.0,0.025,336.0
+8,0.0,1,1,same hour last week,4724.0,4711.0,236.0,0.054,223.0
+8,0.0,1,1,mean of last 4 same weekdays,4724.0,4614.0,228.0,0.053,118.0
+8,0.0,1,1,flat: always the minimum,4724.0,4284.0,440.0,0.096,0.0
+8,0.0,1,1,flat: 2 staff every open hour,4724.0,8568.0,28.0,0.006,3872.0
+8,0.0,2,1,forecast (chosen model),8596.0,8584.0,18.0,0.004,6.0
+8,0.0,2,1,"forecast, 80% cover (assumes Poisson counts)",8596.0,8617.0,11.0,0.003,32.0
+8,0.0,2,1,same hour last week,8596.0,8596.0,20.0,0.005,20.0
+8,0.0,2,1,mean of last 4 same weekdays,8596.0,8579.0,22.0,0.005,5.0
+8,0.0,2,1,flat: always the minimum,8596.0,8568.0,28.0,0.006,0.0
+8,0.0,2,1,flat: 2 staff every open hour,8596.0,8568.0,28.0,0.006,0.0
+10,0.0,1,1,forecast (chosen model),4519.0,4443.0,126.0,0.029,50.0
+10,0.0,1,1,"forecast, 80% cover (assumes Poisson counts)",4519.0,4657.0,60.0,0.014,198.0
+10,0.0,1,1,same hour last week,4519.0,4514.0,129.0,0.03,124.0
+10,0.0,1,1,mean of last 4 same weekdays,4519.0,4436.0,132.0,0.031,49.0
+10,0.0,1,1,flat: always the minimum,4519.0,4284.0,235.0,0.053,0.0
+10,0.0,1,1,flat: 2 staff every open hour,4519.0,8568.0,7.0,0.002,4056.0
+10,0.0,2,1,forecast (chosen model),8575.0,8572.0,4.0,0.001,1.0
+10,0.0,2,1,"forecast, 80% cover (assumes Poisson counts)",8575.0,8580.0,2.0,0.0,7.0
+10,0.0,2,1,same hour last week,8575.0,8574.0,5.0,0.001,4.0
+10,0.0,2,1,mean of last 4 same weekdays,8575.0,8572.0,4.0,0.001,1.0
+10,0.0,2,1,flat: always the minimum,8575.0,8568.0,7.0,0.002,0.0
+10,0.0,2,1,flat: 2 staff every open hour,8575.0,8568.0,7.0,0.002,0.0

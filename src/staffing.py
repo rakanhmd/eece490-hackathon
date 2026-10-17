@@ -1,13 +1,17 @@
-"""Hourly demand forecast per branch x weekday x hour, and what it implies for staff-hours.
+"""Hourly demand forecast per branch x weekday x hour, and a staffing SCENARIO built on it.
 
 Target:  transactions per branch per calendar hour (07:00-23:59), zero-filled.
-Split:   train Jan-Apr, choose among models on May (validation), refit the chosen model on Jan-May and score June ONCE.
-Baseline (the brief's): same branch, same hour, same weekday last week = the count 7 days earlier. It uses the actual
-         previous week, so it is a 1-week-ahead forecast; the fitted models use nothing from the forecast month (1 to 5 weeks ahead).
-         A second reference, the mean of the same hour over the last four same weekdays, is shown for context.
-Staffing conversion (a SCENARIO under assumptions, not measured): one staff member serves CAP transactions per hour,
-         at least MIN_STAFF people are on duty in every open hour, and breaks are covered inside the hour or by an
-         overlapping shift (break share 0). None of these is in the data; sensitivity to all three is shown.
+Evaluation: ROLLING ORIGINS at a fixed horizon. Every Sunday night from 1 March (8 full weeks of history) a model is refitted on
+         everything before the coming Monday and forecasts that Monday-Sunday (1 to 7 days ahead), which is how a weekly roster
+         would be built. 17 weekly origins cover forecast weeks from Mon 2 Mar to Sun 28 Jun. Test months are April, May and June:
+         for each, the model is chosen among the candidates on the forecast weeks completed before that month's first origin
+         (so April uses March only, June uses March-May), then scored on that month's weeks. Nothing is chosen on test weeks.
+Baselines: same branch, same hour, same weekday last week (the count 7 days earlier) and the mean of the same hour over the four
+         previous same weekdays. Both use only data available at the origin, so every method has the same information and the
+         same lead time. The dummy is the branch mean.
+Uncertainty: contiguous-week block bootstrap on weekly paired differences, all branches and hours of a week kept together.
+Staffing: a SCENARIO under three assumptions that are not in the data (service rate, minimum crew, how breaks and hourly changes
+         are handled). It is not measured against Stories' actual rosters.
 Note on the 18:00 step: dine-in/takeaway shares jump at 18:00 (FINDING_weekend.md), possibly a till default. This script
 forecasts transaction counts, which do not depend on order type; if table service needs more labour than counter service,
 the order-type record must be checked before it is used for staffing.
@@ -126,66 +130,135 @@ def score_row(df, p):
 
 
 # the script replaces its own rows in the shared log on a re-run
+OLD_SPLITS = ["val_may_hourly", "test_june_hourly", "test_apr_jun_rolling"]
 if os.path.exists(RESULTS_CSV):
     _r = pd.read_csv(RESULTS_CSV)
-    _r[~_r.split.isin(["val_may_hourly", "test_june_hourly"])].to_csv(RESULTS_CSV, index=False)
+    _r[~_r.split.isin(OLD_SPLITS)].to_csv(RESULTS_CSV, index=False)
 
-# ---------------- validation: train Jan-Apr, score May ----------------
-tr, va = split(grid.date.min(), TRAIN_END), split(*VAL)
-vrows = []
-for k in KINDS:
-    s = score_row(va, fit_predict(k, tr, va))
-    vrows.append({"model": k, **s})
-    log_result("hourly_" + k, "val_may_hourly", {x: s[x] for x in ["mae_all", "mae_Garden", "mae_Harbour", "mae_Uptown", "wape_pct"]},
-               "transactions per branch-hour; train Jan-Apr")
-val = pd.DataFrame(vrows)
-save_table(val, "staffing_validation_may.csv", index=False)
-print("\nVALIDATION (May; mean absolute error in transactions per branch-hour)\n", val.to_string(index=False))
-best = val[val.model.isin(FITTED)].sort_values("mae_all").iloc[0].model
-print(f"model chosen on May: {best}")
+# ---------------- rolling-origin forecasts ----------------
+FIRST = pd.Timestamp("2026-03-02")
+mondays = [FIRST + pd.Timedelta(days=7 * i) for i in range(30) if FIRST + pd.Timedelta(days=7 * i + 6) <= grid.date.max()]
+pieces = []
+for m in mondays:
+    train = grid[grid.date < m]
+    test = grid[(grid.date >= m) & (grid.date <= m + pd.Timedelta(days=6))].copy()
+    for k in KINDS:
+        test[k] = fit_predict(k, train, test)
+    test["origin"] = m
+    pieces.append(test)
+R = pd.concat(pieces, ignore_index=True)
+R["month"] = R.origin.dt.month
+R["lead_days"] = (R.date - R.origin).dt.days + 1
+print(f"{len(mondays)} weekly origins; forecast weeks {mondays[0].date()} .. {(mondays[-1] + pd.Timedelta(days=6)).date()}; lead 1 to 7 days; "
+      f"{len(R):,} branch-date-hour forecasts per method")
+TEST_MONTHS = {4: "April", 5: "May", 6: "June"}
+BASELINES = ["dummy", "same_hour_last_week", "mean_last_4_same_weekdays"]
 
-# ---------------- test: refit on Jan-May, score June once ----------------
-trf, te = split(grid.date.min(), VAL[1]), split(*TEST)
-P = {k: fit_predict(k, trf, te) for k in ["dummy", "same_hour_last_week", "mean_last_4_same_weekdays", best]}
-trows = []
-for k, p in P.items():
-    s = score_row(te, p)
-    trows.append({"model": k, **s})
-    log_result("hourly_" + k, "test_june_hourly", {x: s[x] for x in ["mae_all", "mae_Garden", "mae_Harbour", "mae_Uptown", "wape_pct"]},
-               "transactions per branch-hour; train Jan-May; model chosen on May; test scored once")
-test = pd.DataFrame(trows)
-save_table(test, "staffing_test_june.csv", index=False)
-print("\nTEST (June, scored once)\n", test.to_string(index=False))
-te = te.assign(pred=P[best], base=P["same_hour_last_week"], base4=P["mean_last_4_same_weekdays"], dummy=P["dummy"])
 
-# paired bootstrap over days: is the model's MAE different from the baseline's?
-day_err = te.assign(e_m=(te.n - te.pred).abs(), e_b=(te.n - te.base).abs()).groupby("date")[["e_m", "e_b"]].mean()
-diff = (day_err.e_m - day_err.e_b).values
-bs = [rng.choice(diff, len(diff)).mean() for _ in range(5000)]
-print(f"\nMAE(model) - MAE(same hour last week) = {diff.mean():+.4f} transactions per branch-hour, 95% bootstrap CI over days "
-      f"[{np.percentile(bs, 2.5):+.4f}, {np.percentile(bs, 97.5):+.4f}] (negative = model better)")
-# the part of the error nobody can remove: if counts were Poisson around the forecast
-lam = np.clip(te.pred.values, 1e-6, None)
-k_ = np.arange(0, 80)
-floor = np.array([np.abs(k_ - l) @ stats.poisson.pmf(k_, l) for l in lam]).mean()
-print(f"noise floor: if June counts were Poisson with mean equal to the model's forecast, the MAE could not go below {floor:.3f}; "
-      f"the model's MAE is {mae(te, te.pred.values)[0]:.3f}")
+def mae_of(df, col):
+    return float(np.abs(df.n - df[col]).mean())
 
-# MAE per hour
-by_hour = te.assign(model=(te.n - te.pred).abs(), last_week=(te.n - te.base).abs(), last4=(te.n - te.base4).abs(),
-                    dummy_=(te.n - te.dummy).abs()).groupby("hour")[["n", "model", "last_week", "last4", "dummy_"]].mean()
-by_hour = by_hour.rename(columns={"n": "mean_transactions", "model": f"mae_{best}", "last_week": "mae_same_hour_last_week",
+
+sel_rows, chosen = [], {}
+for tm in TEST_MONTHS:
+    first_origin = R.loc[R.month == tm, "origin"].min()
+    sel = R[R.origin <= first_origin - pd.Timedelta(days=7)]            # weeks fully completed before this month's first origin
+    scores = {k: mae_of(sel, k) for k in KINDS}
+    chosen[tm] = min(FITTED, key=lambda k: scores[k])
+    sel_rows.append({"test_month": TEST_MONTHS[tm], "selection_weeks": sel.origin.nunique(), "chosen_model": chosen[tm],
+                     **{f"mae_{k}": v for k, v in scores.items()}})
+selt = pd.DataFrame(sel_rows).round(4)
+save_table(selt, "staffing_rolling_selection.csv", index=False)
+print("\nMODEL CHOSEN BEFORE EACH TEST MONTH (MAE on the forecast weeks completed earlier; transactions per branch-hour)")
+print(selt.T.to_string(header=False))
+R["chosen"] = np.nan
+for tm in TEST_MONTHS:
+    mk = R.month == tm
+    R.loc[mk, "chosen"] = R.loc[mk, chosen[tm]]
+T = R[R.month.isin(TEST_MONTHS)].copy()
+METHODS = {"dummy": "dummy (branch mean)", "same_hour_last_week": "same hour last week", "mean_last_4_same_weekdays": "mean of the last 4 same weekdays",
+           "chosen": "chosen model (picked before each month)"}
+res_rows = []
+for col, label in METHODS.items():
+    row = {"method": label}
+    for tm, name in TEST_MONTHS.items():
+        row[f"mae_{name}"] = mae_of(T[T.month == tm], col)
+    row["mae_pooled"] = mae_of(T, col)
+    row["wape_pct_pooled"] = 100 * np.abs(T.n - T[col]).sum() / T.n.sum()
+    for b in BRANCHES:
+        row[f"mae_{b}"] = mae_of(T[T.branch == b], col)
+    res_rows.append(row)
+res = pd.DataFrame(res_rows).round(4)
+save_table(res, "staffing_rolling_results.csv", index=False)
+print(f"\nROLLING-ORIGIN TEST, {T.origin.nunique()} forecast weeks (MAE in transactions per branch-hour)\n", res.to_string(index=False))
+for col, label in METHODS.items():
+    sc = {"mae_all": mae_of(T, col), "wape_pct": 100 * np.abs(T.n - T[col]).sum() / T.n.sum(),
+          **{f"mae_{b}": mae_of(T[T.branch == b], col) for b in BRANCHES}}
+    log_result("hourly_rolling_" + col, "test_apr_jun_rolling", {k_: round(v, 4) for k_, v in sc.items()},
+               "weekly rolling origins, 1-7 days ahead; test weeks Apr-Jun; model chosen before each month on earlier weeks")
+print("models chosen:", {TEST_MONTHS[k]: v for k, v in chosen.items()})
+# context: every candidate over all 17 origins (March included, which is selection data for April, so descriptive only)
+allm = pd.DataFrame({"mae_all_17_weeks": {k: mae_of(R, k) for k in KINDS}}).round(4)
+save_table(allm, "staffing_rolling_all_candidates.csv")
+print("\nall candidates, all 17 forecast weeks (descriptive; includes selection weeks):\n", allm.T.to_string())
+
+# ---- contiguous-week block bootstrap, all branches and hours of a week together ----
+wk = T.assign(e_c=(T.n - T.chosen).abs(), e_l=(T.n - T.same_hour_last_week).abs(), e_4=(T.n - T.mean_last_4_same_weekdays).abs(),
+              e_d=(T.n - T.dummy).abs()).groupby("origin")[["e_c", "e_l", "e_4", "e_d"]].mean().sort_index()
+NW = len(wk)
+
+
+def block_boot(x, L, n_boot=5000):
+    x = np.asarray(x, float)
+    n = len(x)
+    L = min(L, n)
+    out = np.empty(n_boot)
+    for b in range(n_boot):
+        starts = rng.integers(0, n - L + 1, int(np.ceil(n / L)))
+        out[b] = np.concatenate([x[s:s + L] for s in starts])[:n].mean()
+    return np.percentile(out, [2.5, 97.5])
+
+
+pairs = {"chosen minus same hour last week": wk.e_c - wk.e_l, "chosen minus mean of last 4 same weekdays": wk.e_c - wk.e_4,
+         "mean of last 4 minus same hour last week": wk.e_4 - wk.e_l, "chosen minus dummy": wk.e_c - wk.e_d}
+brows = []
+for name, x in pairs.items():
+    for L in (1, 2, 3):
+        lo, hi = block_boot(x.values, L)
+        brows.append({"comparison": name, "block_weeks": L, "mean_difference_mae": x.mean(), "ci_low": lo, "ci_high": hi,
+                      "weeks_where_first_is_better": int((x < 0).sum()), "weeks": NW})
+bt = pd.DataFrame(brows).round(4)
+save_table(bt, "staffing_rolling_bootstrap.csv", index=False)
+print(f"\nPAIRED DIFFERENCES IN MAE over {NW} test weeks (negative = first is better); 95% block-bootstrap interval, blocks of 1, 2 or 3 contiguous weeks\n")
+print(bt.to_string(index=False))
+bm = {TEST_MONTHS[m]: (T[T.month == m].assign(e=lambda z: (z.n - z.chosen).abs() - (z.n - z.same_hour_last_week).abs()).groupby("origin").e.mean() < 0).mean()
+      for m in TEST_MONTHS}
+print("share of weeks in which the chosen model beats last week's same hour, by month:", {k: round(v, 2) for k, v in bm.items()})
+# model-based reference (not a bound on any real forecast): expected MAE if the forecast were the true mean and counts were Poisson
+lam = np.clip(T.chosen.values, 1e-6, None)
+kk = np.arange(0, 80)
+ref = np.array([np.abs(kk - l) @ stats.poisson.pmf(kk, l) for l in lam]).mean()
+print(f"model-based reference: if the chosen forecast were the true mean and counts were Poisson, the expected MAE would be {ref:.3f}; "
+      f"the chosen model's MAE is {mae_of(T, 'chosen'):.3f}. This depends on the model being right, so it is a reference, not a limit.")
+
+# ---- error by hour and branch (pooled test weeks) ----
+by_hour = T.assign(chosen_=(T.n - T.chosen).abs(), last_week=(T.n - T.same_hour_last_week).abs(), last4=(T.n - T.mean_last_4_same_weekdays).abs(),
+                   dummy_=(T.n - T.dummy).abs()).groupby("hour")[["n", "chosen_", "last_week", "last4", "dummy_"]].mean()
+by_hour = by_hour.rename(columns={"n": "mean_transactions", "chosen_": "mae_chosen", "last_week": "mae_same_hour_last_week",
                                   "last4": "mae_mean_last_4_weeks", "dummy_": "mae_dummy"}).round(3)
-by_hour_branch = te.assign(model=(te.n - te.pred).abs(), last_week=(te.n - te.base).abs()).groupby(["branch", "hour"])[["n", "model", "last_week"]].mean().round(3)
+by_hour_branch = T.assign(m=(T.n - T.chosen).abs(), lw=(T.n - T.same_hour_last_week).abs(), l4=(T.n - T.mean_last_4_same_weekdays).abs()
+                          ).groupby(["branch", "hour"])[["n", "m", "lw", "l4"]].mean().round(3)
 save_table(by_hour, "staffing_mae_by_hour.csv")
-save_table(by_hour_branch.rename(columns={"n": "mean_transactions", "model": "mae_model", "last_week": "mae_same_hour_last_week"}), "staffing_mae_by_branch_hour.csv")
-print("\nJUNE MAE PER HOUR (all branches; mean transactions per branch-hour)\n", by_hour.to_string())
-print("hours where the model beats last week's same hour:", int((by_hour.iloc[:, 1] < by_hour.mae_same_hour_last_week).sum()), "of", len(by_hour))
-# forecast of the weekday x hour shape, for the figure and as a plain-language schedule input
-shape = te.groupby(["branch", "weekday", "hour"]).pred.mean().round(2)
-save_table(shape.rename("forecast_transactions").to_frame(), "staffing_forecast_shape_june.csv")
+save_table(by_hour_branch.rename(columns={"n": "mean_transactions", "m": "mae_chosen", "lw": "mae_same_hour_last_week", "l4": "mae_mean_last_4_weeks"}),
+           "staffing_mae_by_branch_hour.csv")
+print("\nMAE PER HOUR (all branches, pooled test weeks)\n", by_hour.to_string())
+print("hours in which the chosen model has lower MAE than same hour last week:", int((by_hour.mae_chosen < by_hour.mae_same_hour_last_week).sum()),
+      "of", len(by_hour), "; than the 4-week mean:", int((by_hour.mae_chosen < by_hour.mae_mean_last_4_weeks).sum()), "of", len(by_hour))
+shape = T.groupby(["branch", "weekday", "hour"]).chosen.mean().round(2)
+save_table(shape.rename("forecast_transactions").to_frame(), "staffing_forecast_shape.csv")
 
-# ---------------- staff-hours (ASSUMPTIONS) ----------------
+
+# ---------------- staffing SCENARIO ----------------
 def staff(arr, cap, minimum, how="mean"):
     a = np.asarray(arr, float)
     if how == "p80":
@@ -193,69 +266,99 @@ def staff(arr, cap, minimum, how="mean"):
     return np.maximum(minimum, np.ceil(a / cap))
 
 
-rows = []
+def block_cover(plan, k):
+    """Staff scheduled in blocks of k consecutive open hours (aligned to 07:00): a block must cover its busiest hour."""
+    if k == 1:
+        return plan
+    key = [T.branch.values, T.date.values, (T.hour.values - HOURS[0]) // k]
+    return pd.Series(plan).groupby(key).transform("max").values
+
+
+def plans_for(cap, minimum, k=1):
+    return {"forecast (chosen model)": block_cover(staff(T.chosen.values, cap, minimum), k),
+            "forecast, 80% cover (assumes Poisson counts)": block_cover(staff(T.chosen.values, cap, minimum, "p80"), k),
+            "same hour last week": block_cover(staff(T.same_hour_last_week.values, cap, minimum), k),
+            "mean of last 4 same weekdays": block_cover(staff(T.mean_last_4_same_weekdays.values, cap, minimum), k),
+            "flat: always the minimum": np.full(len(T), float(minimum)), "flat: 2 staff every open hour": np.full(len(T), 2.0)}
+
+
+def plan_table(cap, minimum, k=1, break_share=0.0):
+    cap_eff = cap * (1 - break_share)
+    need = staff(T.n.values, cap_eff, minimum)
+    out = []
+    for name, plan in plans_for(cap_eff, minimum, k).items():
+        short = np.maximum(need - plan, 0)
+        out.append({"cap_tx_per_staff_hour": cap, "break_share": round(break_share, 4), "min_staff": minimum, "block_hours": k, "plan": name,
+                    "staff_hours_needed": need.sum(), "staff_hours_planned": plan.sum(), "short_staff_hours": short.sum(),
+                    "share_of_branch_hours_understaffed": float((short > 0).mean()), "surplus_staff_hours": np.maximum(plan - need, 0).sum()})
+    return pd.DataFrame(out)
+
+
+main = plan_table(8, 1).round(3)
+save_table(main, "staffing_staff_hours_rolling.csv", index=False)
+print("\nSCENARIO (assumptions: 8 transactions per staff-hour, at least 1 staff in every open hour, no break loss, staff can change every hour);"
+      f"\nforecast weeks Apr-Jun ({NW} weeks), all branches:")
+print(main.drop(columns=["cap_tx_per_staff_hour", "break_share", "min_staff", "block_hours"]).to_string(index=False))
+
+# week-block bootstrap of the difference in understaffed share (main scenario)
+need1 = staff(T.n.values, 8, 1)
+pl = plans_for(8, 1)
+shr = pd.DataFrame({name: pd.Series((np.maximum(need1 - p, 0) > 0)).groupby(T.origin.values).mean() for name, p in pl.items()}).sort_index()
+srows = []
+for a_, b_ in [("forecast (chosen model)", "same hour last week"), ("forecast (chosen model)", "mean of last 4 same weekdays"),
+               ("forecast (chosen model)", "flat: always the minimum")]:
+    x = (shr[a_] - shr[b_]).values
+    lo, hi = block_boot(x, 2)
+    srows.append({"comparison": f"{a_} minus {b_}", "mean_difference_in_understaffed_share": x.mean(), "ci_low_blocks_of_2_weeks": lo, "ci_high_blocks_of_2_weeks": hi})
+sdf = pd.DataFrame(srows).round(4)
+save_table(sdf, "staffing_scenario_bootstrap.csv", index=False)
+print("\nScenario: difference in the share of branch-hours understaffed (negative = first plan better), 95% block-bootstrap interval:\n", sdf.to_string(index=False))
+
+# sensitivities
+sens_rows = []
 for cap in (6, 8, 10):
     for minimum in (1, 2):
-        need = staff(te.n.values, cap, minimum)
-        plans = {"forecast (model)": staff(te.pred.values, cap, minimum), "forecast, 80% cover": staff(te.pred.values, cap, minimum, "p80"),
-                 "same hour last week": staff(np.nan_to_num(te.base.values, nan=te.n.mean()), cap, minimum),
-                 "flat: always the minimum": np.full(len(te), float(minimum)), "flat: 2 staff every open hour": np.full(len(te), 2.0)}
-        for name, plan in plans.items():
-            short = np.maximum(need - plan, 0)
-            rows.append({"cap_tx_per_staff_hour": cap, "min_staff": minimum, "plan": name, "staff_hours_needed": need.sum(),
-                         "staff_hours_planned": plan.sum(), "short_staff_hours": short.sum(),
-                         "share_of_branch_hours_understaffed": float((short > 0).mean()),
-                         "surplus_staff_hours": np.maximum(plan - need, 0).sum()})
-st = pd.DataFrame(rows).round(3)
-save_table(st, "staffing_staff_hours_june.csv", index=False)
-main = st[(st.cap_tx_per_staff_hour == 8) & (st.min_staff == 1)]
-print("\nESTIMATE (main assumptions: 8 transactions per staff-hour, at least 1 staff in every open hour), June, all branches:")
-print(main.to_string(index=False))
-print("\nESTIMATE sensitivity: understaffed share of branch-hours, plan = forecast (model) vs same hour last week")
-sens = st[st.plan.isin(["forecast (model)", "same hour last week", "forecast, 80% cover"])].pivot_table(
-    index=["cap_tx_per_staff_hour", "min_staff"], columns="plan", values="share_of_branch_hours_understaffed")
-print(sens.round(3).to_string())
-# Breaks (ASSUMPTION): the main case assumes breaks are covered inside the hour or by an overlapping shift (break share 0).
-# Sensitivity: a share of each paid staff-hour is lost to breaks, so effective capacity = 8 x (1 - break share).
-# 1/16 = a 30-minute break per 8-hour shift; 1/8 = 30 minutes per 4 hours.
-brk = []
-for b_share in (0.0, 1 / 16, 1 / 8):
-    cap_eff = 8 * (1 - b_share)
-    need_b = staff(te.n.values, cap_eff, 1)
-    for name, plan in {"forecast (model)": staff(te.pred.values, cap_eff, 1),
-                       "same hour last week": staff(np.nan_to_num(te.base.values, nan=te.n.mean()), cap_eff, 1),
-                       "flat: always the minimum": np.full(len(te), 1.0)}.items():
-        short = np.maximum(need_b - plan, 0)
-        brk.append({"break_share": b_share, "effective_tx_per_paid_staff_hour": cap_eff, "min_staff": 1, "plan": name,
-                    "staff_hours_needed": need_b.sum(), "staff_hours_planned": plan.sum(),
-                    "share_of_branch_hours_understaffed": float((short > 0).mean())})
-brk = pd.DataFrame(brk).round(3)
+        t_ = plan_table(cap, minimum)
+        for _, r in t_.iterrows():
+            sens_rows.append(r)
+sens = pd.DataFrame(sens_rows)
+save_table(sens.round(3), "staffing_service_rate_sensitivity.csv", index=False)
+print("\nSENSITIVITY to service rate and minimum crew: share of branch-hours understaffed (hourly changes allowed)")
+print(sens[sens.plan.isin(["forecast (chosen model)", "same hour last week", "mean of last 4 same weekdays", "flat: always the minimum"])].pivot_table(
+    index=["cap_tx_per_staff_hour", "min_staff"], columns="plan", values="share_of_branch_hours_understaffed").round(3).to_string())
+brk = pd.concat([plan_table(8, 1, 1, b) for b in (0.0, 1 / 16, 1 / 8)]).round(3)
 save_table(brk, "staffing_break_sensitivity.csv", index=False)
-print("\nESTIMATE sensitivity to breaks (8 transactions per staff-hour before breaks, at least 1 staff):\n", brk.to_string(index=False))
-need8 = staff(te.n.values, 8, 1)
-print(f"main case: share of June branch-hours that need 2 or more staff: {(need8 >= 2).mean():.1%}; 3 or more: {(need8 >= 3).mean():.2%}")
-byb = te.assign(need=need8, plan=staff(te.pred.values, 8, 1)).groupby("branch")[["need", "plan"]].sum()
-print("staff-hours needed vs planned by branch (June):\n", byb.to_string())
-days_in = te.groupby(["branch", "weekday"]).date.nunique()
-wk = te.assign(need=need8).groupby(["branch", "weekday"]).need.sum() / days_in
-wk_tab = wk.round(1).unstack().rename(columns=dict(enumerate(["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"])))
+print("\nSENSITIVITY to breaks (a share of each paid hour is lost; 1/16 = 30 minutes per 8-hour shift, 1/8 = 30 minutes per 4 hours):")
+print(brk[brk.plan.isin(["forecast (chosen model)", "same hour last week", "mean of last 4 same weekdays", "flat: always the minimum"])].pivot_table(
+    index=["break_share", "staff_hours_needed"], columns="plan", values="share_of_branch_hours_understaffed").round(3).to_string())
+flex = pd.concat([plan_table(8, 1, k) for k in (1, 2, 4)]).round(3)
+save_table(flex, "staffing_flexibility_sensitivity.csv", index=False)
+print("\nSENSITIVITY to hourly flexibility (staff scheduled in blocks of k hours, each block covering its busiest hour):")
+print(flex[flex.plan.isin(["forecast (chosen model)", "same hour last week", "mean of last 4 same weekdays"])][
+    ["block_hours", "plan", "staff_hours_needed", "staff_hours_planned", "short_staff_hours", "share_of_branch_hours_understaffed", "surplus_staff_hours"]].to_string(index=False))
+
+need8 = staff(T.n.values, 8, 1)
+print(f"\nmain scenario: share of branch-hours needing 2 or more staff: {(need8 >= 2).mean():.1%}; 3 or more: {(need8 >= 3).mean():.2%}")
+days_in = T.groupby(["branch", "weekday"]).date.nunique()
+wkn = T.assign(need=need8).groupby(["branch", "weekday"]).need.sum() / days_in
+wk_tab = wkn.round(1).unstack().rename(columns=dict(enumerate(["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"])))
 save_table(wk_tab, "staffing_needed_staff_hours_per_day.csv")
-print("needed staff-hours per day by weekday (main case, June actual demand):\n", wk_tab.to_string())
-hh = te.assign(need=need8, plan=staff(te.pred.values, 8, 1)).groupby("hour")[["need"]].sum()
-eve = hh.loc[18:, "need"].sum() / hh.need.sum()
-print(f"share of all needed staff-hours that fall from 18:00: {eve:.1%} (share of the open hours from 18:00: {6 / 17:.1%})")
-hb = te.assign(need=need8).groupby(["branch", "hour"]).need.mean().unstack(0).round(2)
+print("needed staff-hours per day by weekday (scenario, Apr-Jun actual demand):\n", wk_tab.to_string())
+hh = T.assign(need=need8).groupby("hour")[["need"]].sum()
+print(f"share of all needed staff-hours that fall from 18:00: {hh.loc[18:, 'need'].sum() / hh.need.sum():.1%} (share of the open hours from 18:00: {6 / 17:.1%})")
+hb = T.assign(need=need8).groupby(["branch", "hour"]).need.mean().unstack(0).round(2)
 save_table(hb, "staffing_needed_staff_by_hour.csv")
-print("mean staff needed per hour (main case):\n", hb.T.to_string())
+print("mean staff needed per hour (scenario):\n", hb.T.to_string())
 
 # ---------------- figures ----------------
-fig, ax = plt.subplots(figsize=(8.5, 4.5))
+fig, ax = plt.subplots(figsize=(9, 4.5))
 x = np.arange(len(by_hour))
-ax.bar(x - 0.2, by_hour[f"mae_{best}"], width=0.4, label=f"model: {best}", color="#c0392b")
-ax.bar(x + 0.2, by_hour.mae_same_hour_last_week, width=0.4, label="same hour last week", color="#7f8c8d")
+ax.bar(x - 0.27, by_hour.mae_chosen, width=0.27, label="chosen model", color="#c0392b")
+ax.bar(x, by_hour.mae_mean_last_4_weeks, width=0.27, label="mean of last 4 same weekdays", color="#e59866")
+ax.bar(x + 0.27, by_hour.mae_same_hour_last_week, width=0.27, label="same hour last week", color="#7f8c8d")
 ax.plot(x, by_hour.mean_transactions, "k.-", label="mean transactions per branch-hour")
 ax.set_xticks(x, by_hour.index)
-ax.set_title("June test: error per hour, mean over the three branches")
+ax.set_title("Rolling 1-7 day-ahead forecasts, April-June: error per hour, mean over the three branches")
 ax.set_xlabel("Hour of day")
 ax.set_ylabel("Transactions (MAE, or mean count)")
 ax.legend(fontsize=8)
@@ -265,9 +368,17 @@ for ax, b in zip(axes, BRANCHES):
     M = shape.loc[b].unstack(0)       # hour x weekday
     im = ax.imshow(M.values, aspect="auto", cmap="YlOrRd", origin="lower", extent=[-0.5, 6.5, HOURS[0] - 0.5, HOURS[-1] + 0.5])
     ax.set_xticks(range(7), ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"])
-    ax.set_title(f"{b}: forecast transactions per hour, June")
+    ax.set_title(f"{b}: forecast transactions per hour, Apr-Jun")
     ax.set_xlabel("Weekday")
     fig.colorbar(im, ax=ax)
 axes[0].set_ylabel("Hour of day")
 save_fig(fig, "staffing_forecast_heatmap.png")
-print("\nsaved figures/staffing_mae_by_hour.png, staffing_forecast_heatmap.png")
+fig, ax = plt.subplots(figsize=(9, 4))
+for col, c in [("e_c", "#c0392b"), ("e_4", "#e59866"), ("e_l", "#7f8c8d")]:
+    ax.plot(wk.index, wk[col], marker="o", color=c, label={"e_c": "chosen model", "e_4": "mean of last 4 same weekdays", "e_l": "same hour last week"}[col])
+ax.set_title("Weekly MAE over the 12 test weeks (all branches and hours)")
+ax.set_xlabel("Forecast week starting")
+ax.set_ylabel("MAE (transactions per branch-hour)")
+ax.legend(fontsize=8)
+save_fig(fig, "staffing_weekly_mae.png")
+print("\nsaved figures/staffing_mae_by_hour.png, staffing_forecast_heatmap.png, staffing_weekly_mae.png")

@@ -1,0 +1,13 @@
+comparison,block_weeks,mean_difference_mae,ci_low,ci_high,weeks_where_first_is_better,weeks
+chosen minus same hour last week,1,-0.5969,-0.6548,-0.542,12,12
+chosen minus same hour last week,2,-0.5969,-0.653,-0.5466,12,12
+chosen minus same hour last week,3,-0.5969,-0.6646,-0.5419,12,12
+chosen minus mean of last 4 same weekdays,1,-0.1576,-0.1744,-0.1416,12,12
+chosen minus mean of last 4 same weekdays,2,-0.1576,-0.1672,-0.1471,12,12
+chosen minus mean of last 4 same weekdays,3,-0.1576,-0.1686,-0.148,12,12
+mean of last 4 minus same hour last week,1,-0.4393,-0.5025,-0.3805,12,12
+mean of last 4 minus same hour last week,2,-0.4393,-0.4898,-0.3922,12,12
+mean of last 4 minus same hour last week,3,-0.4393,-0.5079,-0.3816,12,12
+chosen minus dummy,1,-0.5631,-0.6004,-0.5243,12,12
+chosen minus dummy,2,-0.5631,-0.6042,-0.5242,12,12
+chosen minus dummy,3,-0.5631,-0.6003,-0.525,12,12

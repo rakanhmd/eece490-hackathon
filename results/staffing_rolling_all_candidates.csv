@@ -1,0 +1,10 @@
+,mae_all_17_weeks
+dummy,2.0743
+same_hour_last_week,2.1111
+mean_last_4_same_weekdays,1.6726
+profile_trend,1.5761
+poisson_glm_a0.001,1.5383
+poisson_glm_a0.01,1.5298
+poisson_glm_a0.1,1.5548
+gboost_poisson_3_0.05_200,1.5363
+gboost_poisson_4_0.05_300,1.5644

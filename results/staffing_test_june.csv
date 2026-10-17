@@ -1,5 +1,0 @@
-model,mae_all,mae_Garden,mae_Harbour,mae_Uptown,wape_pct
-dummy,2.2825,2.2847,3.1203,1.4426,50.5684
-same_hour_last_week,2.2392,2.3078,2.8333,1.5765,49.609
-mean_last_4_same_weekdays,1.7864,1.8961,2.1745,1.2887,39.5779
-poisson_glm_a0.01,1.6236,1.7069,1.9883,1.1757,35.9709

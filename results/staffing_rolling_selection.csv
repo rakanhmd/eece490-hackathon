@@ -1,0 +1,4 @@
+test_month,selection_weeks,chosen_model,mae_dummy,mae_same_hour_last_week,mae_mean_last_4_same_weekdays,mae_profile_trend,mae_poisson_glm_a0.001,mae_poisson_glm_a0.01,mae_poisson_glm_a0.1,mae_gboost_poisson_3_0.05_200,mae_gboost_poisson_4_0.05_300
+April,5,poisson_glm_a0.01,1.9837,2.0275,1.5908,1.5463,1.4936,1.4838,1.5075,1.5002,1.5375
+May,9,poisson_glm_a0.01,1.9892,2.0115,1.6101,1.5397,1.4919,1.4819,1.5069,1.4916,1.5201
+June,13,poisson_glm_a0.01,2.0344,2.0838,1.6474,1.5564,1.5155,1.5067,1.5345,1.5137,1.5431
