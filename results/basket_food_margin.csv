@@ -1,0 +1,23 @@
+Category,Product,units,revenue,gross_profit,gp_per_unit,gross_margin
+Meals,Chicken Salad Bowl,552,6942.19,3413.95,6.1847,0.4918
+Meals,Quinoa Bowl,502,5902.44,3090.36,6.1561,0.5236
+Sandwiches,Halloumi Wrap,967,9669.32,5203.44,5.381,0.5381
+Sandwiches,Chicken Pesto Sandwich,1145,12373.23,5733.55,5.0075,0.4634
+Breakfast,Avocado Toast,903,8607.08,4315.09,4.7786,0.5013
+Sandwiches,Tuna Sandwich,720,6424.55,3430.1,4.764,0.5339
+Breakfast,Egg Sandwich,994,8187.44,4654.42,4.6825,0.5685
+Sandwiches,Turkey & Cheese Sandwich,1067,10347.86,4720.17,4.4238,0.4561
+Breakfast,Granola Yoghurt,575,4570.19,2407.69,4.1873,0.5268
+Meals,Soup of the Day,449,3259.49,1836.23,4.0896,0.5633
+Desserts,Cheesecake Slice,1209,8192.75,3883.19,3.2119,0.474
+Desserts,Tiramisu Cup,1032,6784.05,3306.05,3.2035,0.4873
+Desserts,Frozen Yoghurt Cup,1117,6886.99,3340.51,2.9906,0.485
+Bakery,Almond Croissant,1177,5793.49,3252.14,2.7631,0.5613
+Bakery,Banana Bread,1257,5660.12,3416.83,2.7182,0.6037
+Bakery,Cinnamon Roll,1511,7882.13,4083.97,2.7028,0.5181
+Bakery,Blueberry Muffin,928,3714.22,2327.4,2.508,0.6266
+Bakery,Chocolate Croissant,1550,6656.79,3877.41,2.5016,0.5825
+Bakery,Butter Croissant,2230,8241.42,5383.66,2.4142,0.6532
+Desserts,Brownie,1317,6812.21,3142.97,2.3865,0.4614
+Bakery,Chocolate Cookie,1662,5295.52,3587.1,2.1583,0.6774
+Bakery,Pistachio Cookie,1330,4630.58,2861.61,2.1516,0.618

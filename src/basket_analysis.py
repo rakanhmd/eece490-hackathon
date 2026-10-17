@@ -114,8 +114,11 @@ item_cat = d.drop_duplicates("Product").set_index("Product")["Category"]
 lines = d.reset_index(drop=True)
 
 
-def pair_counts(tx_mask_months):
-    """Observed and permuted pair-count arrays for the transactions whose month is in tx_mask_months."""
+def pair_counts(tx_mask_months, pool="all"):
+    """Observed and permuted pair-count arrays for the transactions whose month is in tx_mask_months.
+    pool="all": slots are redrawn from the popularity of ALL drink / food lines in the branch (the brief's definition).
+    pool="mixed": redrawn only from lines in drink+food baskets, which isolates the pairing from the fact that some
+    drinks are simply less often bought with food at all."""
     L = lines[lines.month.isin(tx_mask_months)]
     L = L[L["Transaction ID"].map(t.n_drink).gt(0) & L["Transaction ID"].map(t.n_food).gt(0)]  # mixed baskets only
     dl = L[L.is_drink].reset_index(drop=True)
@@ -127,6 +130,8 @@ def pair_counts(tx_mask_months):
     a, b = pr["index_d"].values, pr["index_f"].values
     # popularity is taken from ALL drink / food lines of the branch (not only mixed baskets), as the brief asks
     allL = lines[lines.month.isin(tx_mask_months)]
+    if pool == "mixed":
+        allL = L
     pool_d = {br: allL[allL.is_drink & (allL.Branch == br)].Product.map(di).values for br in allL.Branch.unique()}
     pool_f = {br: allL[~allL.is_drink & (allL.Branch == br)].Product.map(fi).values for br in allL.Branch.unique()}
     d_br, f_br = dl.Branch.values, fl.Branch.values
@@ -182,6 +187,19 @@ cols = ["drink", "food", "observed", "expected", "obs_over_exp", "z", "q_value",
 print("most under-sold pairs:\n", pairs.head(12)[cols].to_string(index=False))
 print("most over-sold pairs:\n", pairs.tail(8)[cols].to_string(index=False))
 
+# conditional version: pool restricted to drink+food baskets (pure pairing affinity)
+obs_c, perms_c, _ = pair_counts(range(1, 7), pool="mixed")
+exp_c, sd_c = perms_c.mean(0), perms_c.std(0)
+z_c = (obs_c - exp_c) / np.where(sd_c > 0, sd_c, np.nan)
+cond = pd.DataFrame([{"drink": drink_items[i], "food": food_items[j], "obs_over_exp_given_basket": obs_c[i, j] / exp_c[i, j],
+                      "z_given_basket": z_c[i, j]} for i in range(nD) for j in range(nF)])
+cond["q_given_basket"] = bh(np.nan_to_num(2 * stats.norm.sf(np.abs(cond.z_given_basket.values)), nan=1.0))
+pairs = pairs.merge(cond.round(4), on=["drink", "food"])
+save_table(pairs, "basket_pairs.csv", index=False)
+print(f"under-sold pairs when only drink+food baskets define popularity (q<0.05): "
+      f"{((pairs.q_given_basket < 0.05) & (pairs.obs_over_exp_given_basket < 1)).sum()}; "
+      f"over-sold: {((pairs.q_given_basket < 0.05) & (pairs.obs_over_exp_given_basket > 1)).sum()}")
+
 # same test one level up (drink category x food category): fewer, bigger cells, so far less noise
 cat_d = np.array([DRINK_CATS.index(item_cat[p]) for p in drink_items])
 cat_f = np.array([FOOD_CATS.index(item_cat[p]) for p in food_items])
@@ -204,9 +222,15 @@ catpairs = pd.DataFrame([{"drink_cat": DRINK_CATS[i], "food_cat": FOOD_CATS[j], 
 catpairs["p_value"] = 2 * stats.norm.sf(catpairs.z.abs())
 catpairs["q_value"] = bh(catpairs.p_value.values)
 catpairs = catpairs.round(4)
+oc2, pc2 = to_cat(obs_c), to_cat(perms_c)
+ec2, sc2 = pc2.mean(0), pc2.std(0)
+catpairs["obs_over_exp_given_basket"] = (oc2 / ec2).reshape(-1).round(4)
+catpairs["q_given_basket"] = bh(2 * stats.norm.sf(np.abs(((oc2 - ec2) / sc2).reshape(-1)))).round(4)
 save_table(catpairs, "basket_pairs_category.csv", index=False)
 print("\nMEASURED: drink category x food category, observed / expected (<1 = under-sold)")
 print(catpairs.pivot(index="drink_cat", columns="food_cat", values="obs_over_exp").round(2).to_string())
+print("same, but expected counts built only from drink+food baskets (pure pairing, ignores that some drinks attach less often):")
+print(catpairs.pivot(index="drink_cat", columns="food_cat", values="obs_over_exp_given_basket").round(2).to_string())
 print(catpairs.sort_values("z").head(6)[["drink_cat", "food_cat", "observed", "expected", "obs_over_exp", "q_value"]].to_string(index=False))
 
 # food mix: is a food item under-represented in drink baskets compared with food-only baskets?
@@ -220,3 +244,163 @@ fm = fm.sort_values("ratio_drink_vs_food_only").round(4)
 save_table(fm, "basket_food_mix.csv")
 print("\nMEASURED: share of each food item in drink baskets vs in food-only baskets (ratio < 1 = bought alone more often)")
 print(fm.head(6).to_string()); print(fm.tail(4).to_string())
+
+# ---------- 3. margin of the food items ----------
+fl_all = lines[~lines.is_drink]
+fmar = fl_all.groupby(["Category", "Product"]).agg(units=("Quantity", "sum"), revenue=(REV, "sum"), gross_profit=(GP, "sum"))
+fmar["gp_per_unit"] = fmar.gross_profit / fmar.units
+fmar["gross_margin"] = fmar.gross_profit / fmar.revenue
+fmar = fmar.round(4).sort_values("gp_per_unit", ascending=False)
+save_table(fmar, "basket_food_margin.csv")
+fcat = fl_all.groupby(["Category", "Branch"]).agg(units=("Quantity", "sum"), revenue=(REV, "sum"), gp=(GP, "sum"))
+fcat["gp_per_unit"] = fcat.gp / fcat.units
+fcat["gross_margin"] = fcat.gp / fcat.revenue
+fcat = fcat.round(4)
+save_table(fcat, "basket_food_margin_category.csv")
+print("\nMEASURED: food gross profit per unit and margin, by category and branch (after discounts)")
+print(fcat[["gp_per_unit", "gross_margin"]].unstack("Branch").round(3).to_string())
+drink_m = lines[lines.is_drink].groupby("Category").apply(lambda g: pd.Series({"gp_per_unit": g[GP].sum() / g.Quantity.sum(),
+                                                                                "gross_margin": g[GP].sum() / g[REV].sum()}), include_groups=False)
+print("for comparison, drinks:\n", drink_m.round(3).to_string())
+
+# ---------- value of under-sold category pairs (reallocation, NOT new sales) ----------
+mixed_ids = t.index[(t.n_drink > 0) & (t.n_food > 0)]
+fm_lines = lines[~lines.is_drink & lines["Transaction ID"].isin(mixed_ids)]
+gp_unit_cat = fm_lines.groupby("Category").apply(lambda g: g[GP].sum() / g.Quantity.sum(), include_groups=False)
+under = catpairs[(catpairs.q_value < 0.05) & (catpairs.obs_over_exp < 1)].copy()
+under["missing_baskets_vs_expected"] = (under.expected - under.observed).round(1)
+under["food_gp_per_unit_in_drink_baskets"] = under.food_cat.map(gp_unit_cat).round(3)
+under["gp_if_closed_usd_upper_bound"] = (under.missing_baskets_vs_expected * under.food_gp_per_unit_in_drink_baskets).round(0)
+save_table(under, "basket_undersold_category_pairs.csv", index=False)
+print("\nMEASURED: category pairs sold less often than popularity predicts (q<0.05), with the food's margin")
+print(under[["drink_cat", "food_cat", "observed", "expected", "obs_over_exp", "missing_baskets_vs_expected",
+             "food_gp_per_unit_in_drink_baskets", "gp_if_closed_usd_upper_bound"]].to_string(index=False))
+print("ESTIMATE note: closing these gaps only moves food between drinks unless total attach rises, so the dollars above\n"
+      "are an upper bound on what pair-steering alone could add, not a forecast.")
+
+# ---------- 4. ESTIMATE: gross profit from a higher attach rate ----------
+DAYS = (d.date.max() - d.date.min()).days + 1
+ANNUAL = 365 / DAYS
+mx = t.loc[mixed_ids]
+per_branch = []
+for br in sorted(t.branch.unique()):
+    ids = mx.index[mx.branch == br]
+    fb = fm_lines[fm_lines["Transaction ID"].isin(ids)]
+    per_branch.append({"branch": br, "drink_tx": int((dt.branch == br).sum()), "attach": dt[dt.branch == br].attached.mean(),
+                       "food_gp_per_attached_basket": fb[GP].sum() / len(ids),
+                       "food_list_rev_per_attached_basket": fb["list_revenue"].sum() / len(ids),
+                       "attached_baskets": len(ids), "food_list_rev_in_attached": fb["list_revenue"].sum()})
+pb = pd.DataFrame(per_branch).set_index("branch")
+tot_gp_basket = (pb.food_gp_per_attached_basket * pb.attached_baskets).sum() / pb.attached_baskets.sum()
+# bootstrap CI for the measured GP per attached basket (resample baskets)
+bk = fm_lines.groupby("Transaction ID")[GP].sum().values
+bs = [rng.choice(bk, len(bk)).mean() for _ in range(1000)]
+print(f"\nMEASURED: food gross profit per drink+food basket = ${bk.mean():.2f} (95% bootstrap CI {np.percentile(bs, 2.5):.2f}-{np.percentile(bs, 97.5):.2f})")
+print(pb.round(3).to_string())
+low_factor = gp_unit_cat["Bakery"] / (fm_lines[GP].sum() / fm_lines.Quantity.sum())   # cheapest food category, as the low case
+print(f"low-case food margin factor = Bakery GP/unit / average food GP/unit = {low_factor:.2f}")
+
+scen = []
+
+
+def add_scenario(name, assumption, gain_by_branch, factor):
+    """gain_by_branch: extra attached baskets per branch (Series). Incremental basket earns factor x branch average."""
+    extra = gain_by_branch
+    gp = (extra * pb.food_gp_per_attached_basket * factor).sum()
+    # if the offer were a 10% discount on food sold with a drink, it also applies to baskets that would attach anyway
+    disc = 0.10 * (pb.food_list_rev_in_attached.sum() + (extra * pb.food_list_rev_per_attached_basket).sum())
+    scen.append({"scenario": name, "assumption": assumption, "extra_attached_baskets_H1": extra.sum(),
+                 "gp_per_extra_basket_factor": factor, "extra_gp_H1_usd": gp,
+                 "extra_gp_annualised_usd": gp * ANNUAL,
+                 "cost_if_10pct_combo_discount_H1_usd": disc,
+                 "net_with_combo_discount_H1_usd": gp - disc})
+
+
+for pp in [0.01, 0.025, 0.05]:
+    for f_, lab in [(low_factor, "cheap add-on (Bakery margin)"), (1.0, "average food margin")]:
+        add_scenario(f"+{pp*100:g} pp attach, {lab}", f"attach rate rises by {pp*100:g} pp in every branch; extra basket earns {f_:.2f}x avg",
+                     pb.drink_tx * pp, f_)
+# data-anchored benchmark: every drink category reaches the best existing category's attach rate
+best = att[(att.dimension == "drink_cat")].set_index("level").attach_rate.max()
+dcat = dt.groupby(["branch", "drink_cat"]).attached.agg(["mean", "size"])
+gap = ((best - dcat["mean"]).clip(lower=0) * dcat["size"]).groupby("branch").sum()
+add_scenario("benchmark: all drink categories reach the best category's rate",
+             f"every drink category rises to {best:.1%} (Matcha & Tea today); assumes drinks differ only by habit, which may be false",
+             gap, 1.0)
+sc = pd.DataFrame(scen).round(1)
+save_table(sc, "basket_value_scenarios.csv", index=False)
+print("\nESTIMATE (assumption-driven, NOT measured): extra gross profit from a higher attach rate, Jan-Jun 2026 volume")
+print(sc.drop(columns="assumption").to_string(index=False))
+
+# break-even for a 10% combo discount applied to every food item sold with a drink
+F0 = pb.food_list_rev_in_attached.sum()
+Ntx = pb.drink_tx.sum()
+net_per_basket = tot_gp_basket - 0.10 * (pb.food_list_rev_in_attached.sum() / pb.attached_baskets.sum())
+be = 0.10 * F0 / (Ntx * net_per_basket)
+print(f"ESTIMATE: a 10% discount on all food sold with a drink only pays if attach rises by >= {be*100:.1f} pp "
+      f"(today's {dt.attached.mean():.1%} -> {(dt.attached.mean()+be):.1%}); a prompt or placement with no discount has no such hurdle")
+save_table(pd.DataFrame({"breakeven_attach_gain_pp_for_10pct_combo_discount": [round(be * 100, 2)]}), "basket_discount_breakeven.csv", index=False)
+
+# ---------- 5. design of a practical test ----------
+daily = dt.join(lines.drop_duplicates("Transaction ID").set_index("Transaction ID")["date"])
+dd = daily.groupby(["branch", "date"]).attached.agg(["sum", "size"])
+dd["rate"] = dd["sum"] / dd["size"]
+p0 = dt.attached.mean()
+deff = {}
+for br in ["Garden", "Harbour", "Uptown"]:
+    x = dd.loc[br]
+    deff[br] = max(1.0, x.rate.var() / (p0 * (1 - p0) / x["size"].mean()))
+print("\nMEASURED: day-to-day variance of attach rate vs pure binomial noise (design effect): "
+      + ", ".join(f"{k} {float(v):.2f}" for k, v in deff.items()))
+june = dd.reset_index()
+june = june[june.date >= "2026-06-01"].groupby("branch")["size"].mean()
+z_a, z_b = stats.norm.ppf(0.975), stats.norm.ppf(0.8)
+options = {"Garden treated vs Uptown control": (min(june["Garden"], june["Uptown"]), max(deff["Garden"], deff["Uptown"])),
+           "Harbour treated vs Garden+Uptown control": (min(june["Harbour"], june["Garden"] + june["Uptown"]),
+                                                       max(deff.values()))}
+pw = []
+for pp in [0.02, 0.03, 0.05]:
+    p1 = p0 + pp
+    n_arm = (z_a + z_b) ** 2 * (p0 * (1 - p0) + p1 * (1 - p1)) / pp**2
+    for name, (per_day, de) in options.items():
+        pw.append({"detectable_gain_pp": pp * 100, "design": name, "drink_tx_needed_per_arm": round(n_arm),
+                   "drink_tx_per_day_in_smaller_arm_june": round(per_day, 1),
+                   "days_needed": round(n_arm * max(1.0, de) / per_day),
+                   "note": "two-proportion test, 80% power, 5% level, inflated by the day-to-day design effect"})
+pw = pd.DataFrame(pw)
+save_table(pw, "basket_pilot_power.csv", index=False)
+print("ESTIMATE: how long a two-branch pilot must run to see a gain of this size\n", pw.drop(columns="note").to_string(index=False))
+
+# ---------- figures ----------
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+from common import save_fig
+
+fig, ax = plt.subplots(figsize=(8, 4.5))
+cat_att = att[att.dimension == "drink_cat"].set_index("level").loc[DRINK_CATS]
+ax.bar(cat_att.index, 100 * cat_att.attach_rate, color="#4c78a8",
+       yerr=100 * np.vstack([cat_att.attach_rate - cat_att.ci_low, cat_att.ci_high - cat_att.attach_rate]), capsize=4)
+ax.axhline(100 * dt.attached.mean(), color="#c0392b", ls="--", label=f"all drink transactions ({dt.attached.mean():.1%})")
+ax.set_ylim(30, 48)
+ax.set_title("Share of drink transactions that also contain food, by primary drink (95% CI)")
+ax.set_xlabel("Primary drink category")
+ax.set_ylabel("Attach rate (%)")
+ax.legend()
+save_fig(fig, "basket_attach_by_category.png")
+
+fig, ax = plt.subplots(figsize=(7, 4))
+M = catpairs.pivot(index="drink_cat", columns="food_cat", values="obs_over_exp").loc[DRINK_CATS, FOOD_CATS]
+im = ax.imshow(M.values, cmap="RdBu", vmin=0.4, vmax=1.6)
+ax.set_xticks(range(len(FOOD_CATS)), FOOD_CATS)
+ax.set_yticks(range(len(DRINK_CATS)), DRINK_CATS)
+for i in range(M.shape[0]):
+    for j in range(M.shape[1]):
+        ax.text(j, i, f"{M.values[i, j]:.2f}", ha="center", va="center", fontsize=9,
+                color="white" if M.values[i, j] > 1.35 or M.values[i, j] < 0.65 else "black")
+ax.set_title("Drink + food baskets: observed / expected from item popularity\n(<1 = under-sold, >1 = over-sold)")
+ax.set_xlabel("Food category")
+ax.set_ylabel("Primary drink category")
+fig.colorbar(im, ax=ax)
+save_fig(fig, "basket_pair_ratio.png")
+print("saved figures/basket_attach_by_category.png, figures/basket_pair_ratio.png")

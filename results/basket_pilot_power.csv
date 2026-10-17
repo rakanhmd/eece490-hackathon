@@ -1,0 +1,7 @@
+detectable_gain_pp,design,drink_tx_needed_per_arm,drink_tx_per_day_in_smaller_arm_june,days_needed,note
+2.0,Garden treated vs Uptown control,9544,29.4,366,"two-proportion test, 80% power, 5% level, inflated by the day-to-day design effect"
+2.0,Harbour treated vs Garden+Uptown control,9544,77.9,139,"two-proportion test, 80% power, 5% level, inflated by the day-to-day design effect"
+3.0,Garden treated vs Uptown control,4254,29.4,163,"two-proportion test, 80% power, 5% level, inflated by the day-to-day design effect"
+3.0,Harbour treated vs Garden+Uptown control,4254,77.9,62,"two-proportion test, 80% power, 5% level, inflated by the day-to-day design effect"
+5.0,Garden treated vs Uptown control,1538,29.4,59,"two-proportion test, 80% power, 5% level, inflated by the day-to-day design effect"
+5.0,Harbour treated vs Garden+Uptown control,1538,77.9,22,"two-proportion test, 80% power, 5% level, inflated by the day-to-day design effect"
