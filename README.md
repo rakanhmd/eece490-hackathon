@@ -49,7 +49,17 @@ Facts computed directly from the data (after removing 132 duplicate rows). Each 
 
    Tuesday is the same customers buying the same things at the same hours, just about 1.5 times as often. Nothing in the data explains why: there is no Tuesday discount and no change in mix. Saturday is the quietest day. Source: `src/tuesday_check.py`, `results/tuesday_*.csv`, `figures/tuesday_check.png`.
 
-5. <Promo and 10% discount findings: to write up from `results/promo_*.csv` and `results/discount_*.csv`>
+5. **A simple weekday-and-growth model forecasts daily transactions better than "same weekday last week", most of all on Tuesdays.** Target: transactions per branch per day. We chose between two models on May, after training on January to April. Then we refit the chosen model on January to May and tested it once on June. The model is a per-branch regression of log(transactions) on weekday plus a time trend. It uses no June data. The baseline uses the actual count from seven days earlier, so it has more recent information than the model. June mean absolute error, in transactions per day:
+
+   | Model | Garden | Harbour | Uptown | All | Tuesdays | Other days |
+   |---|---|---|---|---|---|---|
+   | Dummy (training mean) | 18.15 | 31.30 | 11.35 | 20.27 | 55.04 | 13.31 |
+   | Same weekday last week (baseline) | 10.23 | 11.23 | 7.33 | 9.60 | 15.20 | 8.48 |
+   | Weekday + log trend | **6.96** | **8.17** | **5.74** | **6.95** | **9.02** | **6.54** |
+
+   On May validation the order was the same, with all-branch errors of 6.12 for the model and 8.94 for the baseline. **Business use:** this sets Tuesday staffing and stock. In June, Harbour averaged 168.8 transactions on Tuesdays against 111.5 on other weekdays. Planning Tuesdays like a normal weekday would be off by 57.3 transactions a day at Harbour. The model's Tuesday error there was 12.2, and the baseline's was 18.6. The forecast assumes the Tuesday pattern is real, as discussed in finding 4. Source: `src/forecast.py`, `results/forecast_mae.csv`, `results/forecast_tuesday.csv`, `results/results.csv`, `figures/forecast_june.png`.
+
+6. <Promo and 10% discount findings: to write up from `results/promo_*.csv` and `results/discount_*.csv`>
 
 ## Estimated business value
 Estimates, kept separate from the measured facts above.
@@ -107,6 +117,7 @@ cd src
 python margin_analysis.py     # Garden margin and unit costs
 python pricing_analysis.py    # branch price lists and pricing scenarios
 python tuesday_check.py       # Tuesday surge artifact tests
+python forecast.py            # June forecast vs same-weekday-last-week baseline
 python promo_analysis.py      # Harbour 15% promo, about 40 seconds
 python discount_analysis.py   # 10% discount
 ```

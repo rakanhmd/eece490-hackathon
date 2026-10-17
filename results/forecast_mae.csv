@@ -1,0 +1,8 @@
+model,mae_Garden,mae_Harbour,mae_Uptown,mae_all,mae_tuesdays,mae_other_days,mape_all_pct,split
+dummy,15.13,22.2,9.02,15.45,49.61,10.39,19.82,val_may
+seasonal_naive,7.29,12.26,7.26,8.94,11.92,8.49,13.93,val_may
+weekday_trend,5.8,9.2,4.61,6.54,10.38,5.97,9.97,val_may
+weekday_logtrend,5.56,8.55,4.27,6.12,6.72,6.03,9.6,val_may
+dummy,18.15,31.3,11.35,20.27,55.04,13.31,23.42,test_june
+seasonal_naive,10.23,11.23,7.33,9.6,15.2,8.48,13.88,test_june
+weekday_logtrend,6.96,8.17,5.74,6.95,9.02,6.54,10.73,test_june
