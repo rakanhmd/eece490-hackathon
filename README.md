@@ -19,7 +19,12 @@ Garden is Stories' biggest profit leak. On every one of its 45 products, Garden'
 Rows 1 and 2 concern different branches, so they do not overlap. Removing the 10% discount at Garden or Uptown would slightly raise the price-row gains, which already include discounts as observed.
 
 ## The business problem
-<Which decision this helps Stories make, and why it matters.>
+Stories already knows what each branch sells. We looked instead at decisions where the data points to money left on the table:
+- what each branch pays for its products, and how each branch sets its prices;
+- whether its two discounts, the 10% discount and Harbour's 15% promo, earn back what they give away;
+- how many customers to plan for on each day of the week.
+
+Gross profit is the measure throughout, because it is what is left to pay staff and rent. Revenue would hide Garden's problem.
 
 ## Measured findings
 Facts computed directly from the data (after removing 132 duplicate rows). Each one points to the script and the table that produce it.
