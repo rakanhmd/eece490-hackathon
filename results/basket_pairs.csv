@@ -1,0 +1,507 @@
+drink,food,drink_cat,food_cat,observed,expected,obs_over_exp,z,p_value,q_value,obs_over_exp_jan_mar,obs_over_exp_apr_jun,undersold,oversold,stable_both_halves
+Peach Iced Tea,Chocolate Croissant,Cold Drinks,Bakery,8,27.531,0.2906,-3.79,0.0002,0.0038,0.4442,0.1862,True,False,True
+Strawberry Matcha,Turkey & Cheese Sandwich,Matcha & Tea,Sandwiches,7,23.082,0.3033,-3.3524,0.0008,0.0127,0.1067,0.4308,True,False,True
+Lemonade,Butter Croissant,Cold Drinks,Bakery,15,34.564,0.434,-3.2698,0.0011,0.0165,0.5669,0.319,True,False,True
+Lemonade,Blueberry Muffin,Cold Drinks,Bakery,2,14.1675,0.1412,-3.1582,0.0016,0.0232,0.1493,0.1339,True,False,True
+Vanilla Latte,Frozen Yoghurt Cup,Hot Coffee,Desserts,8,23.314,0.3431,-3.1549,0.0016,0.0232,0.1888,0.4718,True,False,True
+Classic Matcha,Brownie,Matcha & Tea,Desserts,20,39.423,0.5073,-3.119,0.0018,0.0242,0.6044,0.4379,True,False,True
+Chai Latte,Brownie,Matcha & Tea,Desserts,8,22.312,0.3586,-2.9936,0.0028,0.0358,0.0,0.6368,True,False,True
+Fresh Orange Juice,Cinnamon Roll,Cold Drinks,Bakery,9,22.6745,0.3969,-2.8395,0.0045,0.0527,0.4241,0.375,False,False,True
+Vanilla Latte,Halloumi Wrap,Hot Coffee,Sandwiches,7,19.3745,0.3613,-2.8125,0.0049,0.0541,0.3331,0.3765,False,False,True
+Still Water,Butter Croissant,Cold Drinks,Bakery,23,39.8145,0.5777,-2.6871,0.0072,0.076,0.6359,0.5256,False,False,True
+Spanish Latte,Egg Sandwich,Hot Coffee,Breakfast,7,18.2535,0.3835,-2.6713,0.0076,0.0765,0.4854,0.2959,False,False,True
+Sparkling Water,Butter Croissant,Cold Drinks,Bakery,20,36.008,0.5554,-2.6034,0.0092,0.0881,0.3693,0.7091,False,False,True
+Lemonade,Cinnamon Roll,Cold Drinks,Bakery,11,23.268,0.4728,-2.5507,0.0107,0.1007,0.1838,0.7252,False,False,True
+Lemonade,Chocolate Croissant,Cold Drinks,Bakery,11,23.6665,0.4648,-2.5387,0.0111,0.1024,0.3877,0.52,False,False,True
+Spanish Latte,Cheesecake Slice,Hot Coffee,Desserts,10,22.344,0.4475,-2.5246,0.0116,0.1047,0.8954,0.0814,False,False,True
+Fresh Orange Juice,Butter Croissant,Cold Drinks,Bakery,19,33.5945,0.5656,-2.5085,0.0121,0.1071,0.5126,0.6003,False,False,True
+Fresh Orange Juice,Brownie,Cold Drinks,Desserts,9,19.8685,0.453,-2.5042,0.0123,0.1071,0.6282,0.3284,False,False,True
+Iced Matcha,Halloumi Wrap,Matcha & Tea,Sandwiches,19,33.1745,0.5727,-2.4913,0.0127,0.1091,0.4236,0.7109,False,False,True
+Sparkling Water,Banana Bread,Cold Drinks,Bakery,9,20.312,0.4431,-2.4646,0.0137,0.1138,0.3209,0.5453,False,False,True
+Chai Latte,Chicken Pesto Sandwich,Matcha & Tea,Sandwiches,9,19.5535,0.4603,-2.394,0.0167,0.1318,0.3575,0.5425,False,False,True
+Sparkling Water,Chocolate Croissant,Cold Drinks,Bakery,13,24.7485,0.5253,-2.3696,0.0178,0.1346,0.387,0.6281,False,False,True
+Lemonade,Almond Croissant,Cold Drinks,Bakery,8,18.134,0.4412,-2.3692,0.0178,0.1346,0.4701,0.4145,False,False,True
+Iced Mocha,Chicken Salad Bowl,Cold Coffee,Meals,2,8.9575,0.2233,-2.3485,0.0188,0.1403,0.0,0.3769,False,False,True
+Sparkling Water,Cheesecake Slice,Cold Drinks,Desserts,9,19.2025,0.4687,-2.3234,0.0202,0.1474,0.7858,0.1968,False,False,True
+Classic Matcha,Avocado Toast,Matcha & Tea,Breakfast,15,26.576,0.5644,-2.2921,0.0219,0.1561,0.494,0.6204,False,False,True
+Peach Iced Tea,Chocolate Cookie,Cold Drinks,Bakery,18,29.7465,0.6051,-2.1789,0.0293,0.1979,0.8168,0.4292,False,False,True
+Strawberry Matcha,Quinoa Bowl,Matcha & Tea,Meals,4,11.084,0.3609,-2.1715,0.0299,0.199,0.4493,0.2993,False,False,True
+Fresh Orange Juice,Chocolate Croissant,Cold Drinks,Bakery,13,23.2195,0.5599,-2.1486,0.0317,0.2047,0.6776,0.4892,False,False,True
+Still Water,Tiramisu Cup,Cold Drinks,Desserts,9,18.0425,0.4988,-2.1398,0.0324,0.2047,0.5035,0.4963,False,False,True
+Cappuccino,Soup of the Day,Hot Coffee,Meals,4,11.3065,0.3538,-2.1328,0.0329,0.2058,0.3901,0.3223,False,False,True
+Chai Latte,Egg Sandwich,Matcha & Tea,Breakfast,8,16.4755,0.4856,-2.1181,0.0342,0.208,0.4055,0.5486,False,False,True
+Still Water,Cinnamon Roll,Cold Drinks,Bakery,16,26.995,0.5927,-2.1139,0.0345,0.208,0.5127,0.6584,False,False,True
+Strawberry Matcha,Frozen Yoghurt Cup,Matcha & Tea,Desserts,14,24.656,0.5678,-2.1049,0.0353,0.2102,0.7412,0.4339,False,False,True
+Cold Brew,Quinoa Bowl,Cold Coffee,Meals,4,11.1415,0.359,-2.0993,0.0358,0.2106,0.2225,0.4501,False,False,True
+Spanish Latte,Turkey & Cheese Sandwich,Hot Coffee,Sandwiches,10,19.4225,0.5149,-2.0931,0.0363,0.2114,0.3631,0.6259,False,False,True
+Cold Brew,Cheesecake Slice,Cold Coffee,Desserts,16,26.88,0.5952,-2.0873,0.0369,0.212,0.7668,0.4707,False,False,True
+Iced Mocha,Chicken Pesto Sandwich,Cold Coffee,Sandwiches,10,19.3335,0.5172,-2.0748,0.038,0.2161,0.6274,0.443,False,False,True
+Chai Latte,Granola Yoghurt,Matcha & Tea,Breakfast,3,9.6735,0.3101,-2.0685,0.0386,0.217,0.2259,0.3769,False,False,True
+Espresso,Granola Yoghurt,Hot Coffee,Breakfast,1,5.887,0.1699,-2.0205,0.0433,0.223,0.3767,0.0,False,False,True
+Peach Iced Tea,Banana Bread,Cold Drinks,Bakery,13,22.603,0.5751,-2.0187,0.0435,0.223,0.7007,0.4877,False,False,True
+Peach Iced Tea,Butter Croissant,Cold Drinks,Bakery,27,39.9195,0.6764,-2.0166,0.0437,0.223,0.7507,0.6267,False,False,True
+Iced Matcha,Granola Yoghurt,Matcha & Tea,Breakfast,11,19.9755,0.5507,-2.0122,0.0442,0.223,0.2139,0.8316,False,False,True
+Mint Tea,Soup of the Day,Matcha & Tea,Meals,0,4.227,0.0,-2.0059,0.0449,0.223,0.0,0.0,False,False,True
+Vanilla Latte,Banana Bread,Hot Coffee,Bakery,16,26.314,0.608,-2.0051,0.0449,0.223,0.4276,0.7484,False,False,True
+Sparkling Water,Tuna Sandwich,Cold Drinks,Sandwiches,5,11.6955,0.4275,-2.0001,0.0455,0.2234,0.3875,0.4689,False,False,True
+Chai Latte,Soup of the Day,Matcha & Tea,Meals,2,7.3805,0.271,-1.9856,0.0471,0.2275,0.3123,0.235,False,False,True
+Sparkling Water,Blueberry Muffin,Cold Drinks,Bakery,7,14.8225,0.4723,-1.9844,0.0472,0.2275,0.2999,0.6136,False,False,True
+Mint Tea,Frozen Yoghurt Cup,Matcha & Tea,Desserts,4,10.4565,0.3825,-1.9756,0.0482,0.2301,0.0,0.6839,False,False,True
+Cappuccino,Butter Croissant,Hot Coffee,Bakery,41,56.4145,0.7268,-1.9624,0.0497,0.2342,0.9246,0.5558,False,False,True
+Peach Iced Tea,Cinnamon Roll,Cold Drinks,Bakery,17,26.793,0.6345,-1.8793,0.0602,0.2678,0.5881,0.6706,False,False,True
+Mint Tea,Avocado Toast,Matcha & Tea,Breakfast,3,8.395,0.3574,-1.8783,0.0603,0.2678,0.5408,0.2096,False,False,True
+Still Water,Blueberry Muffin,Cold Drinks,Bakery,9,16.403,0.5487,-1.8536,0.0638,0.2807,0.5671,0.5404,False,False,True
+Sparkling Water,Frozen Yoghurt Cup,Cold Drinks,Desserts,10,17.9015,0.5586,-1.842,0.0655,0.2832,0.3506,0.741,False,False,True
+Lemonade,Pistachio Cookie,Cold Drinks,Bakery,12,20.5305,0.5845,-1.8331,0.0668,0.2855,0.7231,0.4588,False,False,True
+Iced Matcha,Cheesecake Slice,Matcha & Tea,Desserts,29,41.2195,0.7036,-1.8307,0.0671,0.2855,0.6594,0.7353,False,False,True
+Fresh Orange Juice,Almond Croissant,Cold Drinks,Bakery,10,17.606,0.568,-1.8211,0.0686,0.2874,0.5529,0.5826,False,False,True
+Coffee Frappe,Granola Yoghurt,Cold Coffee,Breakfast,3,8.2535,0.3635,-1.8202,0.0687,0.2874,0.5505,0.2169,False,False,True
+Peach Iced Tea,Egg Sandwich,Cold Drinks,Breakfast,10,17.4735,0.5723,-1.8031,0.0714,0.2912,0.5066,0.6266,False,False,True
+Iced Mocha,Tuna Sandwich,Cold Coffee,Sandwiches,6,12.155,0.4936,-1.7885,0.0737,0.2983,0.3936,0.5727,False,False,True
+Still Water,Banana Bread,Cold Drinks,Bakery,14,22.4395,0.6239,-1.7687,0.0769,0.307,0.6078,0.6394,False,False,True
+Iced Matcha,Turkey & Cheese Sandwich,Matcha & Tea,Sandwiches,26,36.5725,0.7109,-1.764,0.0777,0.3072,0.6064,0.7862,False,False,True
+Espresso,Cheesecake Slice,Hot Coffee,Desserts,6,12.1595,0.4934,-1.7512,0.0799,0.311,0.3535,0.5995,False,False,True
+Iced Americano,Tiramisu Cup,Cold Coffee,Desserts,15,23.5295,0.6375,-1.7461,0.0808,0.3121,0.597,0.6697,False,False,True
+Espresso,Almond Croissant,Hot Coffee,Bakery,6,12.045,0.4981,-1.7313,0.0834,0.3157,0.5591,0.4407,False,False,True
+Iced Latte,Halloumi Wrap,Cold Coffee,Sandwiches,26,36.5835,0.7107,-1.7288,0.0838,0.3157,0.876,0.5593,False,False,True
+Spanish Latte,Quinoa Bowl,Hot Coffee,Meals,4,9.1365,0.4378,-1.7266,0.0842,0.3157,0.5163,0.3682,False,False,True
+Iced Americano,Granola Yoghurt,Cold Coffee,Breakfast,7,13.3065,0.5261,-1.7011,0.0889,0.3291,0.5143,0.5292,False,False,True
+Cappuccino,Tuna Sandwich,Hot Coffee,Sandwiches,11,18.29,0.6014,-1.679,0.0931,0.3378,0.354,0.8129,False,False,True
+Still Water,Chocolate Croissant,Cold Drinks,Bakery,19,27.806,0.6833,-1.6568,0.0976,0.3476,0.3534,0.9231,False,False,True
+Peach Iced Tea,Pistachio Cookie,Cold Drinks,Bakery,16,23.79,0.6726,-1.6433,0.1003,0.3484,0.4684,0.833,False,False,True
+Cold Brew,Avocado Toast,Cold Coffee,Breakfast,13,20.0695,0.6477,-1.6309,0.1029,0.3543,0.4438,0.8038,False,False,True
+Americano,Cheesecake Slice,Hot Coffee,Desserts,13,20.219,0.643,-1.6262,0.1039,0.3552,0.567,0.7114,False,False,True
+Still Water,Pistachio Cookie,Cold Drinks,Bakery,16,23.993,0.6669,-1.6156,0.1062,0.3594,0.5674,0.7466,False,False,True
+Iced Matcha,Tuna Sandwich,Matcha & Tea,Sandwiches,17,24.94,0.6816,-1.6139,0.1066,0.3594,0.5359,0.8151,False,False,True
+Iced Americano,Pistachio Cookie,Cold Coffee,Bakery,22,30.871,0.7126,-1.5849,0.113,0.3787,0.5223,0.8606,False,False,True
+Spanish Latte,Brownie,Hot Coffee,Desserts,17,24.8505,0.6841,-1.5749,0.1153,0.3838,0.5735,0.7626,False,False,True
+Iced Mocha,Frozen Yoghurt Cup,Cold Coffee,Desserts,12,18.8605,0.6363,-1.5698,0.1165,0.3852,0.8108,0.4903,False,False,True
+Mint Tea,Brownie,Matcha & Tea,Desserts,7,12.35,0.5668,-1.5474,0.1218,0.3956,0.5886,0.5396,False,False,True
+Americano,Frozen Yoghurt Cup,Hot Coffee,Desserts,12,18.7975,0.6384,-1.5471,0.1218,0.3956,0.3548,0.8691,False,False,True
+Still Water,Almond Croissant,Cold Drinks,Bakery,14,20.8005,0.6731,-1.5196,0.1286,0.411,0.8647,0.511,False,False,True
+Sparkling Water,Tiramisu Cup,Cold Drinks,Desserts,10,16.178,0.6181,-1.5188,0.1288,0.411,0.6713,0.5593,False,False,True
+Espresso,Brownie,Hot Coffee,Desserts,8,13.485,0.5933,-1.5163,0.1294,0.411,0.691,0.517,False,False,True
+Iced Matcha,Egg Sandwich,Matcha & Tea,Breakfast,25,34.0245,0.7348,-1.5142,0.13,0.411,0.5587,0.8812,False,False,True
+Sparkling Water,Cinnamon Roll,Cold Drinks,Bakery,17,24.375,0.6974,-1.5077,0.1316,0.4117,0.3627,0.9741,False,False,True
+Fresh Orange Juice,Egg Sandwich,Cold Drinks,Breakfast,9,14.663,0.6138,-1.5017,0.1332,0.4117,0.9612,0.3525,False,False,True
+Iced Matcha,Chicken Salad Bowl,Matcha & Tea,Meals,12,18.6485,0.6435,-1.5008,0.1334,0.4117,0.6099,0.6598,False,False,True
+Iced Latte,Turkey & Cheese Sandwich,Cold Coffee,Sandwiches,31,40.528,0.7649,-1.4936,0.1353,0.4149,0.9875,0.5886,False,False,True
+Cold Brew,Tuna Sandwich,Cold Coffee,Sandwiches,10,16.0405,0.6234,-1.4904,0.1361,0.4149,0.4408,0.7499,False,False,True
+Coffee Frappe,Chocolate Croissant,Cold Coffee,Bakery,15,21.9585,0.6831,-1.4856,0.1374,0.4163,0.5543,0.7686,False,False,True
+Americano,Granola Yoghurt,Hot Coffee,Breakfast,5,9.6965,0.5156,-1.4791,0.1391,0.419,0.9593,0.1807,False,False,True
+English Breakfast Tea,Halloumi Wrap,Matcha & Tea,Sandwiches,3,6.6475,0.4513,-1.4586,0.1447,0.4291,0.6414,0.2761,False,False,True
+Spanish Latte,Granola Yoghurt,Hot Coffee,Breakfast,6,10.8525,0.5529,-1.4498,0.1471,0.4291,0.8194,0.329,False,False,True
+Peach Iced Tea,Tiramisu Cup,Cold Drinks,Desserts,12,18.1575,0.6609,-1.4491,0.1473,0.4291,0.5018,0.781,False,False,True
+English Breakfast Tea,Chicken Pesto Sandwich,Matcha & Tea,Sandwiches,4,8.1215,0.4925,-1.4475,0.1477,0.4291,0.5789,0.4199,False,False,True
+Cappuccino,Tiramisu Cup,Hot Coffee,Desserts,18,25.35,0.7101,-1.4416,0.1494,0.4291,0.5933,0.8057,False,False,True
+Vanilla Latte,Brownie,Hot Coffee,Desserts,20,27.7715,0.7202,-1.4392,0.1501,0.4291,0.7918,0.6818,False,False,True
+Iced Latte,Egg Sandwich,Cold Coffee,Breakfast,29,38.0575,0.762,-1.4348,0.1514,0.4294,1.0124,0.5676,False,False,False
+Iced Matcha,Chicken Pesto Sandwich,Matcha & Tea,Sandwiches,31,40.025,0.7745,-1.4309,0.1525,0.4294,0.7265,0.8173,False,False,True
+Caramel Latte,Tiramisu Cup,Hot Coffee,Desserts,11,16.7805,0.6555,-1.4218,0.1551,0.4294,0.276,0.9328,False,False,True
+Cold Brew,Brownie,Cold Coffee,Desserts,22,29.7525,0.7394,-1.4211,0.1553,0.4294,0.5708,0.8594,False,False,True
+Iced Matcha,Soup of the Day,Matcha & Tea,Meals,10,15.4975,0.6453,-1.3946,0.1631,0.4415,0.7195,0.5924,False,False,True
+Peach Iced Tea,Brownie,Cold Drinks,Desserts,17,23.8405,0.7131,-1.3861,0.1657,0.4428,0.4942,0.8877,False,False,True
+English Breakfast Tea,Tuna Sandwich,Matcha & Tea,Sandwiches,2,5.1225,0.3904,-1.3849,0.1661,0.4428,0.9155,0.0,False,False,True
+Chai Latte,Chicken Salad Bowl,Matcha & Tea,Meals,5,9.084,0.5504,-1.3843,0.1663,0.4428,0.5225,0.5661,False,False,True
+Still Water,Cheesecake Slice,Cold Drinks,Desserts,15,21.286,0.7047,-1.3788,0.168,0.443,0.8393,0.6038,False,False,True
+Spanish Latte,Tiramisu Cup,Hot Coffee,Desserts,13,19.06,0.6821,-1.3774,0.1684,0.443,0.7292,0.6374,False,False,True
+Coffee Frappe,Almond Croissant,Cold Coffee,Bakery,11,16.7325,0.6574,-1.3663,0.1718,0.4482,0.6755,0.6321,False,False,True
+Strawberry Matcha,Granola Yoghurt,Matcha & Tea,Breakfast,8,12.964,0.6171,-1.3415,0.1798,0.4641,0.3693,0.8103,False,False,True
+Iced Americano,Frozen Yoghurt Cup,Cold Coffee,Desserts,19,25.8715,0.7344,-1.3275,0.1844,0.4735,0.6885,0.7657,False,False,True
+Cappuccino,Turkey & Cheese Sandwich,Hot Coffee,Sandwiches,20,26.9,0.7435,-1.315,0.1885,0.4818,0.8226,0.6745,False,False,True
+Cappuccino,Frozen Yoghurt Cup,Hot Coffee,Desserts,21,27.9415,0.7516,-1.3049,0.1919,0.4862,0.5836,0.8997,False,False,True
+Cold Brew,Halloumi Wrap,Cold Coffee,Sandwiches,15,21.0825,0.7115,-1.2963,0.1949,0.4906,0.7128,0.7019,False,False,True
+Iced Latte,Cinnamon Roll,Cold Coffee,Bakery,49,58.6135,0.836,-1.2715,0.2036,0.5063,0.7475,0.901,False,False,True
+Peach Iced Tea,Almond Croissant,Cold Drinks,Bakery,15,20.781,0.7218,-1.2669,0.2052,0.5063,0.8508,0.609,False,False,True
+Iced Matcha,Avocado Toast,Matcha & Tea,Breakfast,24,31.148,0.7705,-1.2655,0.2057,0.5063,0.5993,0.9154,False,False,True
+English Breakfast Tea,Turkey & Cheese Sandwich,Matcha & Tea,Sandwiches,4,7.4865,0.5343,-1.2604,0.2075,0.5063,0.3319,0.6849,False,False,True
+Iced Matcha,Tiramisu Cup,Matcha & Tea,Desserts,28,35.3695,0.7916,-1.2594,0.2079,0.5063,0.8508,0.7348,False,False,True
+Classic Matcha,Frozen Yoghurt Cup,Matcha & Tea,Desserts,26,33.268,0.7815,-1.2559,0.2092,0.5063,0.656,0.8878,False,False,True
+English Breakfast Tea,Soup of the Day,Matcha & Tea,Meals,1,3.2105,0.3115,-1.2558,0.2092,0.5063,0.0,0.5338,False,False,True
+Cold Brew,Blueberry Muffin,Cold Coffee,Bakery,15,20.642,0.7267,-1.2437,0.2136,0.5123,0.8034,0.6701,False,False,True
+Iced Americano,Chicken Pesto Sandwich,Cold Coffee,Sandwiches,20,26.433,0.7566,-1.2308,0.2184,0.5145,0.452,0.9672,False,False,True
+Caramel Latte,Avocado Toast,Hot Coffee,Breakfast,10,14.7765,0.6768,-1.2299,0.2187,0.5145,0.7618,0.6054,False,False,True
+Spanish Latte,Tuna Sandwich,Hot Coffee,Sandwiches,9,13.4425,0.6695,-1.2205,0.2223,0.5159,0.71,0.663,False,False,True
+Sparkling Water,Pistachio Cookie,Cold Drinks,Bakery,16,21.566,0.7419,-1.1981,0.2309,0.531,1.004,0.5235,False,False,False
+Espresso,Halloumi Wrap,Hot Coffee,Sandwiches,6,9.6315,0.623,-1.1832,0.2367,0.5406,0.4337,0.783,False,False,True
+Americano,Tiramisu Cup,Hot Coffee,Desserts,12,16.9035,0.7099,-1.1821,0.2372,0.5406,0.6859,0.7103,False,False,True
+Flat White,Chicken Pesto Sandwich,Hot Coffee,Sandwiches,18,23.8435,0.7549,-1.1773,0.2391,0.5425,0.4122,0.9849,False,False,True
+Flat White,Brownie,Hot Coffee,Desserts,21,27.0925,0.7751,-1.1616,0.2454,0.547,0.7196,0.8151,False,False,True
+Iced Latte,Tiramisu Cup,Cold Coffee,Desserts,32,39.184,0.8167,-1.1462,0.2517,0.5586,0.7578,0.865,False,False,True
+Chai Latte,Frozen Yoghurt Cup,Matcha & Tea,Desserts,14,18.852,0.7426,-1.1285,0.2591,0.5676,0.778,0.697,False,False,True
+Cappuccino,Cinnamon Roll,Hot Coffee,Bakery,31,38.1505,0.8126,-1.1247,0.2607,0.5686,0.8393,0.7829,False,False,True
+Classic Matcha,Tuna Sandwich,Matcha & Tea,Sandwiches,16,21.222,0.7539,-1.1107,0.2667,0.5767,0.6561,0.8276,False,False,True
+Iced Matcha,Frozen Yoghurt Cup,Matcha & Tea,Desserts,32,38.748,0.8258,-1.0976,0.2724,0.5829,0.796,0.8481,False,False,True
+Fresh Orange Juice,Banana Bread,Cold Drinks,Bakery,14,18.865,0.7421,-1.0936,0.2741,0.5829,0.3779,0.9921,False,False,True
+Classic Matcha,Turkey & Cheese Sandwich,Matcha & Tea,Sandwiches,25,31.115,0.8035,-1.0845,0.2782,0.5889,0.6076,0.948,False,False,True
+Iced Americano,Turkey & Cheese Sandwich,Cold Coffee,Sandwiches,19,24.337,0.7807,-1.0705,0.2844,0.5996,0.8022,0.7706,False,False,True
+Iced Mocha,Chocolate Cookie,Cold Coffee,Bakery,22,27.6225,0.7965,-1.0628,0.2879,0.6044,0.6484,0.9147,False,False,True
+Iced Mocha,Cheesecake Slice,Cold Coffee,Desserts,15,19.796,0.7577,-1.0552,0.2913,0.6067,0.9144,0.6403,False,False,True
+Fresh Orange Juice,Chocolate Cookie,Cold Drinks,Bakery,20,25.242,0.7923,-1.0462,0.2955,0.6128,0.7476,0.8309,False,False,True
+Flat White,Quinoa Bowl,Hot Coffee,Meals,7,10.285,0.6806,-1.0374,0.2995,0.616,0.2439,0.9811,False,False,True
+Classic Matcha,Granola Yoghurt,Matcha & Tea,Breakfast,13,17.261,0.7531,-1.0365,0.3,0.616,0.9215,0.6319,False,False,True
+Americano,Halloumi Wrap,Hot Coffee,Sandwiches,12,16.081,0.7462,-1.03,0.303,0.6182,0.948,0.5708,False,False,True
+Cappuccino,Chicken Salad Bowl,Hot Coffee,Meals,10,13.818,0.7237,-1.0248,0.3055,0.6207,0.8387,0.653,False,False,True
+Americano,Chicken Pesto Sandwich,Hot Coffee,Sandwiches,15,19.5265,0.7682,-1.0131,0.311,0.6251,0.4866,0.9655,False,False,True
+Strawberry Matcha,Brownie,Matcha & Tea,Desserts,24,29.3595,0.8175,-1.0124,0.3113,0.6251,1.1852,0.5682,False,False,False
+Chai Latte,Avocado Toast,Matcha & Tea,Breakfast,11,14.994,0.7336,-1.0038,0.3155,0.6291,0.5747,0.8656,False,False,True
+English Breakfast Tea,Blueberry Muffin,Matcha & Tea,Bakery,4,6.568,0.609,-0.9923,0.3211,0.6359,0.7184,0.5378,False,False,True
+Espresso,Egg Sandwich,Hot Coffee,Breakfast,7,10.126,0.6913,-0.9888,0.3228,0.6359,0.8977,0.5424,False,False,True
+Fresh Orange Juice,Blueberry Muffin,Cold Drinks,Bakery,10,13.728,0.7284,-0.9858,0.3242,0.6359,0.8798,0.6109,False,False,True
+Classic Matcha,Tiramisu Cup,Matcha & Tea,Desserts,25,30.42,0.8218,-0.9763,0.3289,0.6426,0.9866,0.7069,False,False,True
+Iced Latte,Chicken Pesto Sandwich,Cold Coffee,Sandwiches,38,44.5455,0.8531,-0.9715,0.3313,0.6441,0.9593,0.7734,False,False,True
+Iced Americano,Chocolate Croissant,Cold Coffee,Bakery,30,35.6565,0.8414,-0.9635,0.3353,0.6441,1.1139,0.6579,False,False,False
+Coffee Frappe,Halloumi Wrap,Cold Coffee,Sandwiches,10,13.618,0.7343,-0.962,0.3361,0.6441,0.4737,0.9669,False,False,True
+Americano,Chocolate Cookie,Hot Coffee,Bakery,23,28.1745,0.8163,-0.9534,0.3404,0.6475,0.9739,0.6968,False,False,True
+Lemonade,Chocolate Cookie,Cold Drinks,Bakery,21,25.769,0.8149,-0.9422,0.3461,0.6504,0.9012,0.7399,False,False,True
+Sparkling Water,Brownie,Cold Drinks,Desserts,17,21.3615,0.7958,-0.9415,0.3464,0.6504,0.7655,0.842,False,False,True
+Espresso,Quinoa Bowl,Hot Coffee,Meals,3,5.0895,0.5894,-0.9403,0.347,0.6504,0.9339,0.3333,False,False,True
+Cappuccino,Granola Yoghurt,Hot Coffee,Breakfast,11,14.6105,0.7529,-0.9327,0.351,0.6526,1.0223,0.5099,False,False,False
+Fresh Orange Juice,Pistachio Cookie,Cold Drinks,Bakery,16,20.2015,0.792,-0.9305,0.3521,0.6526,0.8238,0.7746,False,False,True
+Vanilla Latte,Cheesecake Slice,Hot Coffee,Desserts,20,24.693,0.8099,-0.9237,0.3557,0.6548,0.8241,0.7915,False,False,True
+Americano,Tuna Sandwich,Hot Coffee,Sandwiches,9,12.185,0.7386,-0.9166,0.3593,0.6562,0.7729,0.7056,False,False,True
+English Breakfast Tea,Avocado Toast,Matcha & Tea,Breakfast,4,6.288,0.6361,-0.9119,0.3618,0.6562,1.0506,0.2867,False,False,False
+Strawberry Matcha,Chicken Pesto Sandwich,Matcha & Tea,Sandwiches,21,25.624,0.8195,-0.91,0.3628,0.6562,0.8732,0.7793,False,False,True
+Caramel Latte,Tuna Sandwich,Hot Coffee,Sandwiches,9,12.048,0.747,-0.8975,0.3695,0.6653,0.8091,0.7137,False,False,True
+Still Water,Frozen Yoghurt Cup,Cold Drinks,Desserts,16,19.9155,0.8034,-0.8948,0.3709,0.6655,1.0888,0.5651,False,False,False
+Cold Brew,Egg Sandwich,Cold Coffee,Breakfast,18,22.0105,0.8178,-0.8612,0.3891,0.6861,0.9257,0.7313,False,False,True
+Coffee Frappe,Chicken Pesto Sandwich,Cold Coffee,Sandwiches,13,16.4565,0.79,-0.848,0.3965,0.6955,0.5635,0.9447,False,False,True
+Caramel Latte,Turkey & Cheese Sandwich,Hot Coffee,Sandwiches,14,17.5045,0.7998,-0.8333,0.4047,0.704,0.5478,0.9737,False,False,True
+Flat White,Halloumi Wrap,Hot Coffee,Sandwiches,16,19.7315,0.8109,-0.8307,0.4062,0.704,0.8992,0.7448,False,False,True
+Coffee Frappe,Egg Sandwich,Cold Coffee,Breakfast,11,14.1385,0.778,-0.8305,0.4063,0.704,0.633,0.8938,False,False,True
+English Breakfast Tea,Tiramisu Cup,Matcha & Tea,Desserts,5,7.1365,0.7006,-0.8167,0.4141,0.7098,1.0194,0.4805,False,False,False
+Coffee Frappe,Avocado Toast,Cold Coffee,Breakfast,10,12.872,0.7769,-0.8155,0.4148,0.7098,1.2049,0.4247,False,False,False
+Lemonade,Egg Sandwich,Cold Drinks,Breakfast,12,15.228,0.788,-0.8147,0.4152,0.7098,0.983,0.6362,False,False,True
+Iced Latte,Frozen Yoghurt Cup,Cold Coffee,Desserts,38,43.2145,0.8793,-0.7966,0.4257,0.724,0.9485,0.8093,False,False,True
+Espresso,Pistachio Cookie,Hot Coffee,Bakery,11,13.8605,0.7936,-0.7927,0.428,0.7242,0.486,1.0504,False,False,False
+Caramel Latte,Chicken Pesto Sandwich,Hot Coffee,Sandwiches,16,19.4095,0.8243,-0.7786,0.4362,0.731,0.6239,0.9697,False,False,True
+Iced Mocha,Cinnamon Roll,Cold Coffee,Bakery,21,24.9385,0.8421,-0.7784,0.4363,0.731,1.2016,0.5637,False,False,False
+English Breakfast Tea,Quinoa Bowl,Matcha & Tea,Meals,2,3.463,0.5775,-0.774,0.4389,0.733,0.0,0.9622,False,False,True
+Iced Latte,Blueberry Muffin,Cold Coffee,Bakery,31,35.644,0.8697,-0.768,0.4425,0.7341,0.5787,1.0937,False,False,False
+Peach Iced Tea,Granola Yoghurt,Cold Drinks,Breakfast,8,10.3915,0.7699,-0.7471,0.455,0.7439,0.8556,0.7022,False,False,True
+Classic Matcha,Chicken Salad Bowl,Matcha & Tea,Meals,13,16.035,0.8107,-0.7455,0.456,0.7439,1.2079,0.5325,False,False,False
+Cappuccino,Brownie,Hot Coffee,Desserts,29,33.2245,0.8728,-0.7434,0.4572,0.7439,1.0109,0.7651,False,False,False
+Cold Brew,Frozen Yoghurt Cup,Cold Coffee,Desserts,21,24.758,0.8482,-0.7367,0.4613,0.745,0.9693,0.7378,False,False,True
+Iced Americano,Chicken Salad Bowl,Cold Coffee,Meals,10,12.597,0.7938,-0.7346,0.4626,0.745,0.1971,1.1981,False,False,False
+Coffee Frappe,Cinnamon Roll,Cold Coffee,Bakery,18,21.5,0.8372,-0.7327,0.4638,0.745,1.1854,0.5834,False,False,False
+Coffee Frappe,Brownie,Cold Coffee,Desserts,16,19.205,0.8331,-0.7298,0.4655,0.745,1.0018,0.7298,False,False,False
+Espresso,Avocado Toast,Hot Coffee,Breakfast,7,9.1815,0.7624,-0.7206,0.4712,0.745,0.9613,0.5974,False,False,True
+Lemonade,Soup of the Day,Cold Drinks,Meals,5,6.8975,0.7249,-0.7053,0.4806,0.7514,0.3217,1.0664,False,False,False
+Peach Iced Tea,Cheesecake Slice,Cold Drinks,Desserts,18,21.3225,0.8442,-0.7045,0.4811,0.7514,0.8276,0.859,False,False,True
+Espresso,Tiramisu Cup,Hot Coffee,Desserts,8,10.2765,0.7785,-0.6967,0.486,0.7549,0.6572,0.8681,False,False,True
+Vanilla Latte,Chicken Salad Bowl,Hot Coffee,Meals,9,11.339,0.7937,-0.6961,0.4864,0.7549,0.4378,1.0563,False,False,False
+Cold Brew,Almond Croissant,Cold Coffee,Bakery,23,26.6095,0.8644,-0.6887,0.491,0.7579,0.9581,0.7892,False,False,True
+Mint Tea,Tuna Sandwich,Matcha & Tea,Sandwiches,5,6.797,0.7356,-0.6724,0.5013,0.771,0.7055,0.7444,False,False,True
+Americano,Egg Sandwich,Hot Coffee,Breakfast,14,16.6975,0.8384,-0.661,0.5086,0.7744,0.557,1.066,False,False,False
+Strawberry Matcha,Avocado Toast,Matcha & Tea,Breakfast,17,19.9315,0.8529,-0.6602,0.5092,0.7744,0.3435,1.2441,False,False,False
+Espresso,Chicken Salad Bowl,Hot Coffee,Meals,4,5.514,0.7254,-0.6561,0.5118,0.7744,1.3298,0.297,False,False,False
+English Breakfast Tea,Frozen Yoghurt Cup,Matcha & Tea,Desserts,6,7.825,0.7668,-0.6546,0.5127,0.7744,0.2948,1.1535,False,False,False
+Lemonade,Granola Yoghurt,Cold Drinks,Breakfast,7,8.8925,0.7872,-0.6468,0.5178,0.7764,0.7182,0.8566,False,False,True
+Caramel Latte,Frozen Yoghurt Cup,Hot Coffee,Desserts,16,18.7915,0.8514,-0.6458,0.5184,0.7764,0.5974,1.0845,False,False,False
+Cold Brew,Soup of the Day,Cold Coffee,Meals,8,10.017,0.7986,-0.6431,0.5202,0.7764,0.2391,1.1725,False,False,False
+Espresso,Butter Croissant,Hot Coffee,Bakery,20,23.099,0.8658,-0.6307,0.5282,0.7861,1.0044,0.7645,False,False,False
+Classic Matcha,Soup of the Day,Matcha & Tea,Meals,11,13.232,0.8313,-0.6192,0.5358,0.7904,0.5322,1.0603,False,False,False
+Spanish Latte,Frozen Yoghurt Cup,Hot Coffee,Desserts,18,20.8795,0.8621,-0.6192,0.5358,0.7904,0.9317,0.7913,False,False,True
+Cappuccino,Avocado Toast,Hot Coffee,Breakfast,20,22.908,0.8731,-0.6141,0.5392,0.7912,0.6468,1.0854,False,False,False
+Peach Iced Tea,Blueberry Muffin,Cold Drinks,Bakery,14,16.45,0.8511,-0.6137,0.5394,0.7912,0.8235,0.8808,False,False,True
+Coffee Frappe,Chicken Salad Bowl,Cold Coffee,Meals,6,7.681,0.7811,-0.6046,0.5454,0.7921,0.9425,0.6567,False,False,True
+Mint Tea,Chicken Pesto Sandwich,Matcha & Tea,Sandwiches,9,10.991,0.8189,-0.6012,0.5477,0.7921,0.4509,1.0783,False,False,False
+Flat White,Frozen Yoghurt Cup,Hot Coffee,Desserts,20,22.8765,0.8743,-0.5997,0.5487,0.7921,1.1812,0.6341,False,False,False
+Sparkling Water,Chocolate Cookie,Cold Drinks,Bakery,24,27.1105,0.8853,-0.5991,0.5491,0.7921,0.8804,0.9166,False,False,True
+Classic Matcha,Cheesecake Slice,Matcha & Tea,Desserts,32,35.6025,0.8988,-0.5949,0.5519,0.7921,1.0482,0.7676,False,False,False
+Cold Brew,Pistachio Cookie,Cold Coffee,Bakery,27,30.174,0.8948,-0.5873,0.557,0.7921,0.9801,0.832,False,False,True
+Strawberry Matcha,Egg Sandwich,Matcha & Tea,Breakfast,19,21.7415,0.8739,-0.581,0.5612,0.7921,0.7602,0.969,False,False,True
+Classic Matcha,Egg Sandwich,Matcha & Tea,Breakfast,26,29.167,0.8914,-0.5784,0.563,0.7921,0.9075,0.8675,False,False,True
+Vanilla Latte,Chicken Pesto Sandwich,Hot Coffee,Sandwiches,21,23.8935,0.8789,-0.5776,0.5635,0.7921,0.7907,0.9318,False,False,True
+Strawberry Matcha,Soup of the Day,Matcha & Tea,Meals,8,9.779,0.8181,-0.5735,0.5663,0.7938,0.9913,0.6882,False,False,True
+Iced Americano,Egg Sandwich,Cold Coffee,Breakfast,20,22.6435,0.8833,-0.5553,0.5787,0.8038,1.013,0.7754,False,False,False
+Cold Brew,Turkey & Cheese Sandwich,Cold Coffee,Sandwiches,21,23.5995,0.8898,-0.5445,0.5861,0.8038,0.8153,0.9467,False,False,True
+Iced Matcha,Quinoa Bowl,Matcha & Tea,Meals,15,17.245,0.8698,-0.5337,0.5935,0.8038,0.9094,0.8331,False,False,True
+Espresso,Turkey & Cheese Sandwich,Hot Coffee,Sandwiches,9,10.7335,0.8385,-0.5324,0.5945,0.8038,0.4263,1.1061,False,False,False
+Flat White,Granola Yoghurt,Hot Coffee,Breakfast,10,11.856,0.8435,-0.53,0.5961,0.8038,0.2004,1.2931,False,False,False
+Coffee Frappe,Frozen Yoghurt Cup,Cold Coffee,Desserts,14,16.1165,0.8687,-0.5254,0.5993,0.8038,0.4102,1.2722,False,False,False
+Classic Matcha,Chicken Pesto Sandwich,Matcha & Tea,Sandwiches,31,34.1065,0.9089,-0.5247,0.5998,0.8038,1.3182,0.6112,False,False,False
+Chai Latte,Halloumi Wrap,Matcha & Tea,Sandwiches,14,16.0585,0.8718,-0.5235,0.6006,0.8038,0.662,1.0717,False,False,False
+Coffee Frappe,Soup of the Day,Cold Coffee,Meals,5,6.3455,0.788,-0.5222,0.6015,0.8038,0.7409,0.8376,False,False,True
+Lemonade,Banana Bread,Cold Drinks,Bakery,17,19.326,0.8796,-0.5215,0.602,0.8038,0.9793,0.772,False,False,True
+Iced Latte,Avocado Toast,Cold Coffee,Breakfast,32,35.038,0.9133,-0.515,0.6065,0.805,1.0152,0.8359,False,False,False
+Still Water,Brownie,Cold Drinks,Desserts,21,23.4975,0.8937,-0.5141,0.6072,0.805,0.8093,0.9642,False,False,True
+Strawberry Matcha,Tuna Sandwich,Matcha & Tea,Sandwiches,14,16.076,0.8709,-0.5133,0.6077,0.805,1.0831,0.7435,False,False,False
+Mint Tea,Chicken Salad Bowl,Matcha & Tea,Meals,4,5.1245,0.7806,-0.5052,0.6134,0.8099,1.4911,0.3246,False,False,False
+Mint Tea,Tiramisu Cup,Matcha & Tea,Desserts,8,9.528,0.8396,-0.5034,0.6147,0.8099,1.2274,0.5391,False,False,False
+Espresso,Tuna Sandwich,Hot Coffee,Sandwiches,6,7.348,0.8165,-0.4932,0.6219,0.8172,0.9626,0.7084,False,False,True
+Cappuccino,Chocolate Cookie,Hot Coffee,Bakery,39,42.1965,0.9242,-0.4911,0.6234,0.8172,0.9387,0.9074,False,False,True
+Vanilla Latte,Tiramisu Cup,Hot Coffee,Desserts,19,21.131,0.8992,-0.4756,0.6344,0.8239,0.9914,0.8398,False,False,True
+Caramel Latte,Quinoa Bowl,Hot Coffee,Meals,7,8.345,0.8388,-0.4701,0.6383,0.8241,0.8716,0.8264,False,False,True
+Peach Iced Tea,Frozen Yoghurt Cup,Cold Drinks,Desserts,18,20.1405,0.8937,-0.4699,0.6384,0.8241,0.9603,0.8265,False,False,True
+Americano,Butter Croissant,Hot Coffee,Bakery,35,37.8545,0.9246,-0.4617,0.6443,0.8295,0.9873,0.8692,False,False,True
+Fresh Orange Juice,Avocado Toast,Cold Drinks,Breakfast,12,13.5735,0.8841,-0.4307,0.6667,0.8503,1.3816,0.5277,False,False,False
+Caramel Latte,Brownie,Hot Coffee,Desserts,20,21.9565,0.9109,-0.4197,0.6747,0.8551,1.2166,0.6953,False,False,False
+Still Water,Granola Yoghurt,Cold Drinks,Breakfast,9,10.338,0.8706,-0.4148,0.6783,0.8551,1.3214,0.5159,False,False,False
+Flat White,Almond Croissant,Hot Coffee,Bakery,22,24.017,0.916,-0.4134,0.6793,0.8551,0.9674,0.8736,False,False,True
+Caramel Latte,Cheesecake Slice,Hot Coffee,Desserts,18,19.7885,0.9096,-0.399,0.6899,0.862,0.9083,0.9108,False,False,True
+Espresso,Frozen Yoghurt Cup,Hot Coffee,Desserts,10,11.3115,0.8841,-0.3909,0.6959,0.8652,0.7304,1.0103,False,False,False
+Mint Tea,Cheesecake Slice,Matcha & Tea,Desserts,10,11.297,0.8852,-0.3887,0.6975,0.8652,1.2103,0.6287,False,False,False
+Fresh Orange Juice,Chicken Salad Bowl,Cold Drinks,Meals,7,8.0675,0.8677,-0.378,0.7055,0.8696,0.646,0.9922,False,False,True
+Flat White,Chocolate Cookie,Hot Coffee,Bakery,32,34.197,0.9358,-0.3768,0.7063,0.8696,1.0047,0.8709,False,False,False
+Vanilla Latte,Turkey & Cheese Sandwich,Hot Coffee,Sandwiches,20,21.748,0.9196,-0.3715,0.7102,0.8702,0.7694,1.0248,False,False,False
+English Breakfast Tea,Chicken Salad Bowl,Matcha & Tea,Meals,3,3.7215,0.8061,-0.3661,0.7143,0.873,0.0,1.3078,False,False,False
+Iced Americano,Soup of the Day,Cold Coffee,Meals,9,10.1595,0.8859,-0.3568,0.7212,0.8732,1.1841,0.663,False,False,False
+Flat White,Soup of the Day,Hot Coffee,Meals,8,9.0225,0.8867,-0.3457,0.7296,0.8732,0.8078,0.9314,False,False,True
+Lemonade,Frozen Yoghurt Cup,Cold Drinks,Desserts,16,17.3685,0.9212,-0.3268,0.7438,0.8853,0.8349,1.0245,False,False,False
+Flat White,Chicken Salad Bowl,Hot Coffee,Meals,10,11.102,0.9007,-0.3267,0.7439,0.8853,1.5547,0.4507,False,False,False
+Iced Americano,Cheesecake Slice,Cold Coffee,Desserts,26,27.7025,0.9385,-0.3199,0.749,0.8855,1.0737,0.8351,False,False,False
+Iced Matcha,Brownie,Matcha & Tea,Desserts,44,46.1205,0.954,-0.3127,0.7545,0.8879,0.7268,1.1388,False,False,False
+Cappuccino,Chocolate Croissant,Hot Coffee,Bakery,37,38.911,0.9509,-0.3102,0.7564,0.888,1.0686,0.8709,False,False,False
+Iced Latte,Banana Bread,Cold Coffee,Bakery,47,49.052,0.9582,-0.2874,0.7738,0.9063,0.9307,0.9837,False,False,True
+Peach Iced Tea,Avocado Toast,Cold Drinks,Breakfast,15,16.0725,0.9333,-0.2671,0.7894,0.9214,1.096,0.8071,False,False,False
+Still Water,Avocado Toast,Cold Drinks,Breakfast,15,16.0805,0.9328,-0.2659,0.7903,0.9214,0.9688,0.9007,False,False,True
+Strawberry Matcha,Chicken Salad Bowl,Matcha & Tea,Meals,11,11.888,0.9253,-0.2553,0.7985,0.9245,1.0632,0.818,False,False,False
+Classic Matcha,Blueberry Muffin,Matcha & Tea,Bakery,26,27.326,0.9515,-0.2501,0.8025,0.926,1.0021,0.9225,False,False,False
+Lemonade,Avocado Toast,Cold Drinks,Breakfast,13,13.8665,0.9375,-0.2313,0.8171,0.9328,0.9149,0.9694,False,False,True
+English Breakfast Tea,Cinnamon Roll,Matcha & Tea,Bakery,10,10.7515,0.9301,-0.2262,0.821,0.9328,1.0796,0.8372,False,False,False
+Chai Latte,Banana Bread,Matcha & Tea,Bakery,20,21.03,0.951,-0.2247,0.8222,0.9328,0.962,0.9636,False,False,True
+Cappuccino,Chicken Pesto Sandwich,Hot Coffee,Sandwiches,28,29.1555,0.9604,-0.2122,0.8319,0.9355,1.0564,0.8761,False,False,False
+Chai Latte,Turkey & Cheese Sandwich,Matcha & Tea,Sandwiches,17,17.818,0.9541,-0.1893,0.8499,0.9473,1.0433,0.8807,False,False,False
+Coffee Frappe,Chocolate Cookie,Cold Coffee,Bakery,23,23.9225,0.9614,-0.1865,0.852,0.9473,0.56,1.2933,False,False,False
+Americano,Quinoa Bowl,Hot Coffee,Meals,8,8.518,0.9392,-0.1804,0.8568,0.9473,0.2954,1.3937,False,False,False
+Espresso,Chocolate Croissant,Hot Coffee,Bakery,15,15.7095,0.9548,-0.1767,0.8597,0.9478,1.2513,0.7627,False,False,False
+Flat White,Banana Bread,Hot Coffee,Bakery,25,25.8445,0.9673,-0.1684,0.8663,0.9482,0.537,1.2814,False,False,False
+Spanish Latte,Avocado Toast,Hot Coffee,Breakfast,16,16.6495,0.961,-0.1597,0.8732,0.9482,0.9185,0.9959,False,False,True
+Coffee Frappe,Butter Croissant,Cold Coffee,Bakery,31,31.8705,0.9727,-0.1561,0.876,0.9482,0.8672,1.0623,False,False,False
+Classic Matcha,Quinoa Bowl,Matcha & Tea,Meals,14,14.5955,0.9592,-0.1545,0.8772,0.9482,0.8197,1.0497,False,False,False
+Cappuccino,Almond Croissant,Hot Coffee,Bakery,29,29.807,0.9729,-0.1496,0.8811,0.9482,1.0069,0.9407,False,False,False
+Americano,Pistachio Cookie,Hot Coffee,Bakery,22,22.6565,0.971,-0.1376,0.8905,0.9506,0.7175,1.1839,False,False,False
+Iced Americano,Tuna Sandwich,Cold Coffee,Sandwiches,16,16.5395,0.9674,-0.1328,0.8944,0.9508,1.1546,0.8393,False,False,False
+Chai Latte,Quinoa Bowl,Matcha & Tea,Meals,8,8.368,0.956,-0.1298,0.8967,0.9508,0.8493,1.0325,False,False,False
+Iced Mocha,Soup of the Day,Cold Coffee,Meals,7,7.3255,0.9556,-0.1241,0.9012,0.9508,0.6436,1.1474,False,False,False
+Lemonade,Cheesecake Slice,Cold Drinks,Desserts,18,18.532,0.9713,-0.1228,0.9022,0.9508,1.1259,0.8364,False,False,False
+Spanish Latte,Soup of the Day,Hot Coffee,Meals,8,8.3275,0.9607,-0.1118,0.911,0.9555,1.7,0.4208,False,False,False
+Vanilla Latte,Quinoa Bowl,Hot Coffee,Meals,10,10.349,0.9663,-0.1067,0.915,0.9566,1.1969,0.8225,False,False,False
+Caramel Latte,Almond Croissant,Hot Coffee,Bakery,19,19.395,0.9796,-0.0932,0.9257,0.9658,1.1967,0.8133,False,False,False
+Coffee Frappe,Tuna Sandwich,Cold Coffee,Sandwiches,10,10.228,0.9777,-0.0707,0.9436,0.9764,0.9195,1.0468,False,False,False
+Caramel Latte,Egg Sandwich,Hot Coffee,Breakfast,16,16.2705,0.9834,-0.0674,0.9463,0.9765,1.1211,0.8883,False,False,False
+Vanilla Latte,Blueberry Muffin,Hot Coffee,Bakery,19,19.2885,0.985,-0.0657,0.9476,0.9765,1.2188,0.8318,False,False,False
+Cappuccino,Halloumi Wrap,Hot Coffee,Sandwiches,24,24.2355,0.9903,-0.049,0.9609,0.985,1.0827,0.8952,False,False,False
+Iced Americano,Blueberry Muffin,Cold Coffee,Bakery,21,21.2245,0.9894,-0.0481,0.9616,0.985,1.4304,0.6543,False,False,False
+Americano,Chicken Salad Bowl,Hot Coffee,Meals,9,9.1145,0.9874,-0.038,0.9697,0.9873,1.9196,0.3651,False,False,False
+Iced Mocha,Avocado Toast,Cold Coffee,Breakfast,15,15.083,0.9945,-0.0214,0.9829,0.9952,1.338,0.7262,False,False,False
+Caramel Latte,Chicken Salad Bowl,Hot Coffee,Meals,9,9.0555,0.9939,-0.0183,0.9854,0.9952,0.8249,1.1106,False,False,False
+Iced Mocha,Banana Bread,Cold Coffee,Bakery,21,21.0615,0.9971,-0.0134,0.9893,0.9952,1.3019,0.7619,False,False,False
+Iced Latte,Pistachio Cookie,Cold Coffee,Bakery,52,52.0635,0.9988,-0.0086,0.9931,0.9953,0.8234,1.1472,False,False,False
+Iced Americano,Cinnamon Roll,Cold Coffee,Bakery,35,35.05,0.9986,-0.0084,0.9933,0.9953,1.0065,1.0016,False,False,False
+Caramel Latte,Banana Bread,Hot Coffee,Bakery,21,20.9885,1.0005,0.0025,0.998,0.998,1.1077,0.9318,False,False,False
+Coffee Frappe,Banana Bread,Cold Coffee,Bakery,18,17.932,1.0038,0.0159,0.9873,0.9952,0.756,1.183,False,False,False
+Flat White,Blueberry Muffin,Hot Coffee,Bakery,19,18.9105,1.0047,0.0205,0.9837,0.9952,1.2496,0.8387,False,False,False
+Americano,Turkey & Cheese Sandwich,Hot Coffee,Sandwiches,18,17.8925,1.006,0.0257,0.9795,0.9952,0.8121,1.1503,False,False,False
+Iced Mocha,Tiramisu Cup,Cold Coffee,Desserts,17,16.8345,1.0098,0.0401,0.968,0.9873,0.6787,1.2391,False,False,False
+Flat White,Tiramisu Cup,Hot Coffee,Desserts,21,20.805,1.0094,0.0418,0.9667,0.9873,1.2352,0.8398,False,False,False
+Iced Americano,Avocado Toast,Cold Coffee,Breakfast,21,20.7185,1.0136,0.0607,0.9516,0.9787,1.095,0.9652,False,False,False
+Iced Mocha,Turkey & Cheese Sandwich,Cold Coffee,Sandwiches,18,17.6925,1.0174,0.0716,0.9429,0.9764,1.3725,0.7687,False,False,False
+Vanilla Latte,Avocado Toast,Hot Coffee,Breakfast,19,18.68,1.0171,0.0723,0.9424,0.9764,0.7053,1.2585,False,False,False
+Mint Tea,Quinoa Bowl,Matcha & Tea,Meals,5,4.813,1.0389,0.0853,0.932,0.9704,1.6611,0.7115,False,False,False
+Coffee Frappe,Tiramisu Cup,Cold Coffee,Desserts,15,14.571,1.0294,0.1104,0.9121,0.9555,1.4133,0.7329,False,False,False
+Iced Mocha,Almond Croissant,Cold Coffee,Bakery,20,19.4575,1.0279,0.1209,0.9038,0.9508,0.8099,1.1957,False,False,False
+Cold Brew,Chocolate Cookie,Cold Coffee,Bakery,38,37.245,1.0203,0.1234,0.9018,0.9508,1.32,0.7629,False,False,False
+Flat White,Pistachio Cookie,Hot Coffee,Bakery,28,27.339,1.0242,0.1275,0.8985,0.9508,0.8523,1.1487,False,False,False
+Americano,Chocolate Croissant,Hot Coffee,Bakery,27,26.283,1.0273,0.1392,0.8893,0.9506,1.2395,0.8936,False,False,False
+Caramel Latte,Granola Yoghurt,Hot Coffee,Breakfast,10,9.565,1.0455,0.1414,0.8876,0.9506,1.2086,0.9163,False,False,False
+Flat White,Egg Sandwich,Hot Coffee,Breakfast,21,20.3285,1.033,0.1477,0.8826,0.9482,0.9173,1.1379,False,False,False
+Iced Latte,Cheesecake Slice,Cold Coffee,Desserts,47,45.9695,1.0224,0.1507,0.8802,0.9482,0.9185,1.09,False,False,False
+Sparkling Water,Avocado Toast,Cold Drinks,Breakfast,15,14.4075,1.0411,0.1546,0.8771,0.9482,1.3153,0.7798,False,False,False
+Iced Latte,Quinoa Bowl,Cold Coffee,Meals,20,19.308,1.0358,0.1578,0.8746,0.9482,1.0005,1.0654,False,False,True
+Iced Mocha,Blueberry Muffin,Cold Coffee,Bakery,16,15.3675,1.0412,0.1595,0.8733,0.9482,1.3406,0.8147,False,False,False
+Iced Latte,Chocolate Cookie,Cold Coffee,Bakery,66,64.6715,1.0205,0.164,0.8698,0.9482,0.9954,1.0337,False,False,False
+Fresh Orange Juice,Tiramisu Cup,Cold Drinks,Desserts,16,15.3275,1.0439,0.1702,0.8649,0.9482,0.6282,1.3257,False,False,False
+Coffee Frappe,Cheesecake Slice,Cold Coffee,Desserts,18,17.217,1.0455,0.1796,0.8575,0.9473,1.2945,0.8577,False,False,False
+Americano,Brownie,Hot Coffee,Desserts,23,22.1315,1.0392,0.1823,0.8553,0.9473,0.7638,1.2138,False,False,False
+Vanilla Latte,Butter Croissant,Hot Coffee,Bakery,48,46.7205,1.0274,0.1839,0.8541,0.9473,0.9522,1.0889,False,False,False
+Flat White,Cinnamon Roll,Hot Coffee,Bakery,32,30.91,1.0353,0.1945,0.8458,0.9468,0.9995,1.0584,False,False,False
+Iced Americano,Brownie,Cold Coffee,Desserts,32,30.863,1.0368,0.2076,0.8356,0.9375,0.6343,1.3209,False,False,False
+Cappuccino,Banana Bread,Hot Coffee,Bakery,33,31.7935,1.0379,0.215,0.8298,0.9351,0.8638,1.1801,False,False,False
+Fresh Orange Juice,Cheesecake Slice,Cold Drinks,Desserts,19,18.067,1.0516,0.219,0.8267,0.9337,1.1841,0.9633,False,False,False
+Flat White,Turkey & Cheese Sandwich,Hot Coffee,Sandwiches,23,21.9735,1.0467,0.222,0.8243,0.9331,1.2427,0.9238,False,False,False
+Sparkling Water,Almond Croissant,Cold Drinks,Bakery,20,19.019,1.0516,0.2286,0.8192,0.9328,0.8178,1.2734,False,False,False
+Mint Tea,Egg Sandwich,Matcha & Tea,Breakfast,10,9.2895,1.0765,0.2293,0.8186,0.9328,1.4775,0.7776,False,False,False
+Chai Latte,Cheesecake Slice,Matcha & Tea,Desserts,21,19.934,1.0535,0.2392,0.8109,0.9305,1.3022,0.8336,False,False,False
+Americano,Avocado Toast,Hot Coffee,Breakfast,16,15.069,1.0618,0.2465,0.8053,0.9261,0.4441,1.5418,False,False,False
+Vanilla Latte,Soup of the Day,Hot Coffee,Meals,10,9.251,1.081,0.2489,0.8034,0.926,1.2644,0.9264,False,False,False
+Americano,Almond Croissant,Hot Coffee,Bakery,21,19.83,1.059,0.2559,0.7981,0.9245,1.0614,1.0646,False,False,True
+Caramel Latte,Halloumi Wrap,Hot Coffee,Sandwiches,17,15.96,1.0652,0.2571,0.7971,0.9245,0.6893,1.3708,False,False,False
+Strawberry Matcha,Tiramisu Cup,Matcha & Tea,Desserts,24,22.4645,1.0684,0.3153,0.7526,0.8876,0.9683,1.144,False,False,False
+Vanilla Latte,Egg Sandwich,Hot Coffee,Breakfast,22,20.5655,1.0698,0.3224,0.7471,0.8853,1.2105,0.9654,False,False,False
+Classic Matcha,Halloumi Wrap,Matcha & Tea,Sandwiches,30,28.27,1.0612,0.3239,0.746,0.8853,1.0676,1.0671,False,False,True
+Still Water,Chocolate Cookie,Cold Drinks,Bakery,32,30.0145,1.0662,0.3452,0.73,0.8732,1.2774,0.9135,False,False,False
+Mint Tea,Halloumi Wrap,Matcha & Tea,Sandwiches,10,8.9575,1.1164,0.3469,0.7287,0.8732,0.753,1.4267,False,False,False
+Iced Matcha,Banana Bread,Matcha & Tea,Bakery,46,43.6355,1.0542,0.3493,0.7268,0.8732,0.6884,1.3663,False,False,False
+Mint Tea,Pistachio Cookie,Matcha & Tea,Bakery,14,12.7185,1.1008,0.3527,0.7243,0.8732,1.0785,1.1017,False,False,True
+Lemonade,Tiramisu Cup,Cold Drinks,Desserts,17,15.6095,1.0891,0.353,0.7241,0.8732,1.0905,1.0776,False,False,True
+Iced Americano,Banana Bread,Cold Coffee,Bakery,31,29.032,1.0678,0.3575,0.7207,0.8732,1.1089,1.0162,False,False,True
+Still Water,Quinoa Bowl,Cold Drinks,Meals,10,8.9235,1.1206,0.3636,0.7162,0.8732,1.6,0.7747,False,False,False
+Iced Mocha,Pistachio Cookie,Cold Coffee,Bakery,24,22.2275,1.0797,0.3719,0.71,0.8702,1.2139,0.9603,False,False,False
+Iced Latte,Tuna Sandwich,Cold Coffee,Sandwiches,30,28.005,1.0712,0.3809,0.7033,0.8696,1.2446,0.938,False,False,False
+Iced Mocha,Egg Sandwich,Cold Coffee,Breakfast,18,16.4065,1.0971,0.3885,0.6976,0.8652,0.8278,1.3334,False,False,False
+Iced Mocha,Granola Yoghurt,Cold Coffee,Breakfast,11,9.687,1.1355,0.4087,0.6828,0.8551,0.7067,1.47,False,False,False
+Vanilla Latte,Pistachio Cookie,Hot Coffee,Bakery,30,27.869,1.0765,0.4097,0.682,0.8551,0.8928,1.2236,False,False,False
+Iced Mocha,Brownie,Cold Coffee,Desserts,24,22.0525,1.0883,0.4127,0.6798,0.8551,1.0933,1.093,False,False,True
+Strawberry Matcha,Pistachio Cookie,Matcha & Tea,Bakery,32,29.711,1.077,0.4127,0.6798,0.8551,1.5175,0.767,False,False,False
+Fresh Orange Juice,Granola Yoghurt,Cold Drinks,Breakfast,10,8.7145,1.1475,0.4301,0.6671,0.8503,1.382,0.991,False,False,False
+Mint Tea,Blueberry Muffin,Matcha & Tea,Bakery,10,8.701,1.1493,0.4355,0.6632,0.8496,1.0581,1.2236,False,False,True
+Iced Latte,Chocolate Croissant,Cold Coffee,Bakery,63,59.591,1.0572,0.4381,0.6613,0.8493,1.0272,1.0686,False,False,True
+Cold Brew,Cinnamon Roll,Cold Coffee,Bakery,37,34.214,1.0814,0.4746,0.635,0.8239,0.6143,1.4338,False,False,False
+Iced Americano,Halloumi Wrap,Cold Coffee,Sandwiches,24,21.714,1.1053,0.4813,0.6303,0.822,0.7025,1.4324,False,False,False
+English Breakfast Tea,Pistachio Cookie,Matcha & Tea,Bakery,11,9.5315,1.1541,0.488,0.6255,0.8179,1.6519,0.7505,False,False,False
+English Breakfast Tea,Cheesecake Slice,Matcha & Tea,Desserts,10,8.4315,1.186,0.5291,0.5967,0.8038,1.614,0.8512,False,False,False
+Iced Americano,Butter Croissant,Cold Coffee,Bakery,56,52.0825,1.0752,0.5385,0.5903,0.8038,1.0991,1.0634,False,False,True
+Sparkling Water,Granola Yoghurt,Cold Drinks,Breakfast,11,9.3725,1.1736,0.5391,0.5898,0.8038,0.4643,1.7886,False,False,False
+Iced Latte,Granola Yoghurt,Cold Coffee,Breakfast,25,22.4225,1.115,0.5458,0.5852,0.8038,1.0144,1.1943,False,False,True
+Iced Mocha,Quinoa Bowl,Cold Coffee,Meals,10,8.3875,1.1923,0.548,0.5837,0.8038,1.4793,1.0177,False,False,True
+Spanish Latte,Cinnamon Roll,Hot Coffee,Bakery,31,28.0495,1.1052,0.5503,0.5821,0.8038,1.3034,0.9494,False,False,False
+Spanish Latte,Chicken Pesto Sandwich,Hot Coffee,Sandwiches,24,21.413,1.1208,0.5546,0.5791,0.8038,1.2167,1.0597,False,False,True
+Vanilla Latte,Chocolate Croissant,Hot Coffee,Bakery,35,31.8825,1.0978,0.5555,0.5785,0.8038,1.476,0.8429,False,False,False
+Cold Brew,Chicken Salad Bowl,Cold Coffee,Meals,14,12.0495,1.1619,0.5776,0.5635,0.7921,2.054,0.5523,False,False,False
+Iced Latte,Butter Croissant,Cold Coffee,Bakery,93,87.5335,1.0625,0.5785,0.5629,0.7921,0.9581,1.1468,False,False,False
+Caramel Latte,Pistachio Cookie,Hot Coffee,Bakery,25,22.2075,1.1257,0.5914,0.5543,0.7921,1.0281,1.2009,False,False,True
+Strawberry Matcha,Blueberry Muffin,Matcha & Tea,Bakery,23,20.352,1.1301,0.5918,0.554,0.7921,1.0545,1.1805,False,False,True
+Spanish Latte,Chocolate Croissant,Hot Coffee,Bakery,32,28.795,1.1113,0.5982,0.5497,0.7921,1.698,0.7069,False,False,False
+Iced Latte,Almond Croissant,Cold Coffee,Bakery,50,45.799,1.0917,0.6058,0.5446,0.7921,0.8998,1.2382,False,False,False
+Spanish Latte,Chicken Salad Bowl,Hot Coffee,Meals,12,10.021,1.1975,0.6275,0.5304,0.787,0.4683,1.6811,False,False,False
+Iced Latte,Brownie,Cold Coffee,Desserts,56,51.404,1.0894,0.6438,0.5197,0.7764,1.1216,1.0705,False,False,True
+Mint Tea,Granola Yoghurt,Matcha & Tea,Breakfast,7,5.462,1.2816,0.6594,0.5096,0.7744,1.2576,1.259,False,False,True
+Iced Latte,Soup of the Day,Cold Coffee,Meals,20,17.185,1.1638,0.6658,0.5055,0.7744,1.2317,1.1094,False,False,True
+Cold Brew,Banana Bread,Cold Coffee,Bakery,32,28.3705,1.1279,0.6882,0.4913,0.7579,1.0552,1.1884,False,False,True
+Still Water,Soup of the Day,Cold Drinks,Meals,10,8.0305,1.2453,0.7095,0.478,0.7511,2.083,0.6614,False,False,False
+Cappuccino,Cheesecake Slice,Hot Coffee,Desserts,34,30.03,1.1322,0.71,0.4777,0.7511,1.1824,1.0843,False,False,True
+Iced Americano,Quinoa Bowl,Cold Coffee,Meals,14,11.4855,1.2189,0.7226,0.4699,0.745,1.4948,1.0251,False,False,True
+Strawberry Matcha,Cheesecake Slice,Matcha & Tea,Desserts,30,26.2325,1.1436,0.7249,0.4685,0.745,0.7069,1.4569,False,False,False
+Coffee Frappe,Turkey & Cheese Sandwich,Cold Coffee,Sandwiches,18,15.173,1.1863,0.7267,0.4674,0.745,1.1012,1.2571,False,False,True
+Iced Mocha,Halloumi Wrap,Cold Coffee,Sandwiches,19,15.997,1.1877,0.7372,0.461,0.745,1.5079,0.9219,False,False,False
+Coffee Frappe,Blueberry Muffin,Cold Coffee,Bakery,16,13.312,1.2019,0.7532,0.4513,0.7415,1.0422,1.3622,False,False,True
+Cold Brew,Butter Croissant,Cold Coffee,Bakery,56,50.6195,1.1063,0.7546,0.4505,0.7415,0.893,1.2586,False,False,False
+Flat White,Chocolate Croissant,Hot Coffee,Bakery,36,31.5795,1.14,0.7611,0.4466,0.7385,1.1183,1.1546,False,False,True
+Peach Iced Tea,Chicken Salad Bowl,Cold Drinks,Meals,12,9.651,1.2434,0.7686,0.4421,0.7341,1.4778,1.07,False,False,True
+Iced Mocha,Butter Croissant,Cold Coffee,Bakery,42,37.17,1.1299,0.7864,0.4317,0.7281,1.0007,1.2208,False,False,True
+Caramel Latte,Butter Croissant,Hot Coffee,Bakery,42,37.1445,1.1307,0.7954,0.4264,0.724,1.2795,1.0228,False,False,True
+Caramel Latte,Chocolate Cookie,Hot Coffee,Bakery,32,27.66,1.1569,0.8215,0.4113,0.7098,1.2258,1.0873,False,False,True
+Chai Latte,Tuna Sandwich,Matcha & Tea,Sandwiches,15,12.042,1.2456,0.8466,0.3972,0.6955,1.3253,1.1676,False,False,True
+Espresso,Blueberry Muffin,Hot Coffee,Bakery,12,9.2965,1.2908,0.8812,0.3782,0.6691,1.2079,1.2861,False,False,True
+Spanish Latte,Almond Croissant,Hot Coffee,Bakery,26,21.805,1.1924,0.8861,0.3756,0.6668,0.718,1.5507,False,False,False
+Spanish Latte,Banana Bread,Hot Coffee,Bakery,28,23.7225,1.1803,0.8863,0.3755,0.6668,1.4379,0.9938,False,False,False
+Americano,Cinnamon Roll,Hot Coffee,Bakery,30,25.518,1.1756,0.8913,0.3727,0.6665,1.4679,0.9609,False,False,False
+English Breakfast Tea,Granola Yoghurt,Matcha & Tea,Breakfast,6,4.1445,1.4477,0.9094,0.3631,0.6562,1.6575,1.3126,False,False,True
+Strawberry Matcha,Halloumi Wrap,Matcha & Tea,Sandwiches,25,20.915,1.1953,0.9128,0.3614,0.6562,1.3857,1.0277,False,False,True
+Mint Tea,Turkey & Cheese Sandwich,Matcha & Tea,Sandwiches,13,10.015,1.2981,0.9233,0.3559,0.6548,1.5079,1.1799,False,False,True
+Americano,Soup of the Day,Hot Coffee,Meals,10,7.422,1.3473,0.9349,0.3498,0.6526,0.9464,1.5782,False,False,False
+Cold Brew,Tiramisu Cup,Cold Coffee,Desserts,27,22.4785,1.2011,0.9426,0.3459,0.6504,1.2364,1.1644,False,False,True
+Lemonade,Brownie,Cold Drinks,Desserts,25,20.6365,1.2114,0.9569,0.3386,0.6465,0.9794,1.435,False,False,False
+Caramel Latte,Blueberry Muffin,Hot Coffee,Bakery,19,15.2235,1.2481,0.9654,0.3343,0.6441,1.053,1.3719,False,False,True
+Mint Tea,Butter Croissant,Matcha & Tea,Bakery,26,21.494,1.2096,0.9684,0.3328,0.6441,1.1062,1.3035,False,False,True
+Chai Latte,Almond Croissant,Matcha & Tea,Bakery,24,19.675,1.2198,0.9881,0.3231,0.6359,1.4763,1.0165,False,False,True
+Spanish Latte,Pistachio Cookie,Hot Coffee,Bakery,30,24.97,1.2014,1.0031,0.3158,0.6291,1.2478,1.1649,False,False,True
+Flat White,Avocado Toast,Hot Coffee,Breakfast,23,18.525,1.2416,1.0222,0.3067,0.6207,1.8763,0.7695,False,False,False
+Spanish Latte,Chocolate Cookie,Hot Coffee,Bakery,37,31.1085,1.1894,1.0349,0.3007,0.616,1.2751,1.1127,False,False,True
+Cappuccino,Egg Sandwich,Hot Coffee,Breakfast,30,24.7815,1.2106,1.0555,0.2912,0.6067,1.3449,1.084,False,False,True
+Cold Brew,Chocolate Croissant,Cold Coffee,Bakery,41,34.623,1.1842,1.0935,0.2742,0.5829,1.0092,1.3129,False,False,True
+Sparkling Water,Egg Sandwich,Cold Drinks,Breakfast,20,15.6715,1.2762,1.1024,0.2703,0.582,1.2307,1.2973,False,False,True
+English Breakfast Tea,Egg Sandwich,Matcha & Tea,Breakfast,10,7.0695,1.4145,1.1202,0.2626,0.5703,1.3055,1.5448,False,False,True
+Americano,Blueberry Muffin,Hot Coffee,Bakery,20,15.4555,1.294,1.1306,0.2582,0.5676,1.364,1.2284,False,False,True
+Vanilla Latte,Granola Yoghurt,Hot Coffee,Breakfast,16,12.0055,1.3327,1.1353,0.2563,0.5663,1.323,1.3459,False,False,True
+Vanilla Latte,Cinnamon Roll,Hot Coffee,Bakery,38,31.3715,1.2113,1.1661,0.2436,0.5453,1.4646,1.014,False,False,True
+Flat White,Cheesecake Slice,Hot Coffee,Desserts,30,24.312,1.234,1.1666,0.2434,0.5453,1.6906,0.8679,False,False,False
+Lemonade,Quinoa Bowl,Cold Drinks,Meals,11,7.7165,1.4255,1.1695,0.2422,0.5453,1.5113,1.4068,False,False,True
+English Breakfast Tea,Brownie,Matcha & Tea,Desserts,13,9.2745,1.4017,1.1982,0.2309,0.531,1.065,1.6254,False,False,True
+Cold Brew,Chicken Pesto Sandwich,Cold Coffee,Sandwiches,32,25.711,1.2446,1.221,0.2221,0.5159,1.3689,1.1429,False,False,True
+English Breakfast Tea,Almond Croissant,Matcha & Tea,Bakery,12,8.453,1.4196,1.2275,0.2196,0.5145,1.9204,1.0395,False,False,True
+Lemonade,Chicken Salad Bowl,Cold Drinks,Meals,12,8.3465,1.4377,1.2339,0.2172,0.5145,1.1238,1.6998,False,False,True
+Cappuccino,Quinoa Bowl,Hot Coffee,Meals,17,12.4775,1.3625,1.2389,0.2154,0.514,1.4358,1.2965,False,False,True
+Lemonade,Chicken Pesto Sandwich,Cold Drinks,Sandwiches,23,17.747,1.296,1.2532,0.2101,0.5063,1.1412,1.425,False,False,True
+Caramel Latte,Chocolate Croissant,Hot Coffee,Bakery,32,25.586,1.2507,1.2654,0.2057,0.5063,0.8904,1.4913,False,False,False
+Spanish Latte,Halloumi Wrap,Hot Coffee,Sandwiches,23,17.439,1.3189,1.3042,0.1922,0.4862,1.7197,0.9593,False,False,False
+Vanilla Latte,Tuna Sandwich,Hot Coffee,Sandwiches,20,14.804,1.351,1.3484,0.1775,0.4606,2.4984,0.4683,False,False,False
+Coffee Frappe,Pistachio Cookie,Cold Coffee,Bakery,25,18.938,1.3201,1.3755,0.169,0.443,0.9524,1.6194,False,False,False
+Sparkling Water,Quinoa Bowl,Cold Drinks,Meals,12,8.075,1.4861,1.3984,0.162,0.4407,2.2956,0.8783,False,False,False
+Vanilla Latte,Chocolate Cookie,Hot Coffee,Bakery,43,34.7755,1.2365,1.405,0.16,0.4377,1.4271,1.0955,False,False,True
+Espresso,Cinnamon Roll,Hot Coffee,Bakery,21,15.529,1.3523,1.4064,0.1596,0.4377,1.8196,1.0236,False,False,True
+Chai Latte,Pistachio Cookie,Matcha & Tea,Bakery,29,22.3975,1.2948,1.4218,0.1551,0.4294,0.8879,1.6181,False,False,False
+Fresh Orange Juice,Frozen Yoghurt Cup,Cold Drinks,Desserts,23,17.0785,1.3467,1.4237,0.1545,0.4294,1.7883,1.0516,False,False,True
+Chai Latte,Tiramisu Cup,Matcha & Tea,Desserts,23,17.0075,1.3523,1.4403,0.1498,0.4291,0.6576,1.8872,False,False,False
+Fresh Orange Juice,Halloumi Wrap,Cold Drinks,Sandwiches,20,14.3315,1.3955,1.4535,0.1461,0.4291,1.1027,1.6373,False,False,True
+Iced Mocha,Chocolate Croissant,Cold Coffee,Bakery,33,25.576,1.2903,1.4575,0.145,0.4291,1.4263,1.1747,False,False,True
+Espresso,Chicken Pesto Sandwich,Hot Coffee,Sandwiches,17,11.78,1.4431,1.5046,0.1324,0.4117,1.2037,1.6254,False,False,True
+Cappuccino,Pistachio Cookie,Hot Coffee,Bakery,43,33.937,1.2671,1.5466,0.1219,0.3956,1.0637,1.465,False,False,True
+Cold Brew,Granola Yoghurt,Cold Coffee,Breakfast,19,13.0795,1.4527,1.6424,0.1005,0.3484,1.2229,1.6161,False,False,True
+Caramel Latte,Soup of the Day,Hot Coffee,Meals,12,7.4415,1.6126,1.647,0.0996,0.3484,1.3236,1.8521,False,False,True
+Iced Americano,Almond Croissant,Cold Coffee,Bakery,36,27.1315,1.3269,1.6515,0.0986,0.3484,1.459,1.2231,False,False,True
+Mint Tea,Almond Croissant,Matcha & Tea,Bakery,17,11.2885,1.506,1.674,0.0941,0.3378,2.0646,1.1087,False,False,True
+Strawberry Matcha,Chocolate Cookie,Matcha & Tea,Bakery,47,36.9855,1.2708,1.6753,0.0939,0.3378,1.4388,1.1343,False,False,True
+Chai Latte,Chocolate Cookie,Matcha & Tea,Bakery,37,27.8835,1.3269,1.6966,0.0898,0.3291,1.4003,1.2655,False,False,True
+Espresso,Chocolate Cookie,Hot Coffee,Bakery,24,17.139,1.4003,1.7001,0.0891,0.3291,0.7723,1.9181,False,False,False
+Still Water,Egg Sandwich,Cold Drinks,Breakfast,25,17.582,1.4219,1.7329,0.0831,0.3157,1.6659,1.2413,False,False,True
+Flat White,Butter Croissant,Hot Coffee,Bakery,58,45.902,1.2636,1.7605,0.0783,0.3072,1.2654,1.2679,False,False,True
+Iced Matcha,Almond Croissant,Matcha & Tea,Bakery,52,40.6615,1.2789,1.768,0.0771,0.307,1.322,1.2296,False,False,True
+Coffee Frappe,Quinoa Bowl,Cold Coffee,Meals,12,7.146,1.6793,1.806,0.0709,0.2912,1.3769,1.9212,False,False,True
+Caramel Latte,Cinnamon Roll,Hot Coffee,Bakery,34,25.0025,1.3599,1.8142,0.0696,0.2888,1.0337,1.6083,False,False,True
+English Breakfast Tea,Chocolate Croissant,Matcha & Tea,Bakery,17,10.8715,1.5637,1.8444,0.0651,0.2832,2.0307,1.2192,False,False,True
+Spanish Latte,Butter Croissant,Hot Coffee,Bakery,54,41.631,1.2971,1.8953,0.0581,0.2623,1.1582,1.4005,False,False,True
+Peach Iced Tea,Soup of the Day,Cold Drinks,Meals,13,7.916,1.6422,1.8968,0.0579,0.2623,1.7689,1.5422,False,False,True
+Espresso,Banana Bread,Hot Coffee,Bakery,20,13.0275,1.5352,1.9406,0.0523,0.2406,1.2267,1.7952,False,False,True
+Mint Tea,Chocolate Croissant,Matcha & Tea,Bakery,22,14.543,1.5128,1.9518,0.051,0.2366,1.3769,1.5919,False,False,True
+Lemonade,Halloumi Wrap,Cold Drinks,Sandwiches,22,14.6285,1.5039,1.9601,0.05,0.2342,1.4193,1.5795,False,False,True
+English Breakfast Tea,Butter Croissant,Matcha & Tea,Bakery,24,16.0515,1.4952,2.0128,0.0441,0.223,1.9057,1.2078,False,False,True
+Cappuccino,Blueberry Muffin,Hot Coffee,Bakery,33,23.2555,1.419,2.0245,0.0429,0.223,1.7624,1.1215,False,False,True
+Classic Matcha,Banana Bread,Matcha & Tea,Bakery,50,37.6465,1.3281,2.0268,0.0427,0.223,1.5011,1.1946,False,False,True
+Mint Tea,Banana Bread,Matcha & Tea,Bakery,19,11.9305,1.5926,2.0316,0.0422,0.223,2.0855,1.1692,False,False,True
+Americano,Banana Bread,Hot Coffee,Bakery,31,21.284,1.4565,2.0449,0.0409,0.223,1.7258,1.2334,False,False,True
+Flat White,Tuna Sandwich,Hot Coffee,Sandwiches,23,15.0295,1.5303,2.0482,0.0405,0.223,1.2873,1.74,False,False,True
+Espresso,Soup of the Day,Hot Coffee,Meals,9,4.5655,1.9713,2.1187,0.0341,0.208,1.023,2.6056,False,False,True
+Strawberry Matcha,Butter Croissant,Matcha & Tea,Bakery,65,49.7905,1.3055,2.1418,0.0322,0.2047,1.2112,1.3785,False,False,True
+Sparkling Water,Soup of the Day,Cold Drinks,Meals,13,7.252,1.7926,2.1567,0.031,0.2039,2.8373,0.9857,False,False,False
+Lemonade,Turkey & Cheese Sandwich,Cold Drinks,Sandwiches,25,16.1915,1.544,2.212,0.027,0.1844,1.8372,1.334,False,False,True
+Chai Latte,Chocolate Croissant,Matcha & Tea,Bakery,37,25.81,1.4336,2.2233,0.0262,0.1816,1.3969,1.4776,False,False,True
+Mint Tea,Cinnamon Roll,Matcha & Tea,Bakery,23,14.3555,1.6022,2.2368,0.0253,0.1778,1.3105,1.8256,False,False,True
+Spanish Latte,Blueberry Muffin,Hot Coffee,Bakery,27,17.382,1.5533,2.319,0.0204,0.1474,1.0593,1.9643,False,False,True
+Iced Latte,Chicken Salad Bowl,Cold Coffee,Meals,32,21.16,1.5123,2.3787,0.0174,0.1346,1.638,1.4324,False,False,True
+Sparkling Water,Chicken Pesto Sandwich,Cold Drinks,Sandwiches,29,18.582,1.5607,2.4248,0.0153,0.123,1.3438,1.7325,False,False,True
+Still Water,Turkey & Cheese Sandwich,Cold Drinks,Sandwiches,30,18.993,1.5795,2.4376,0.0148,0.1207,1.5146,1.6229,False,False,True
+Fresh Orange Juice,Soup of the Day,Cold Drinks,Meals,13,6.6305,1.9606,2.4801,0.0131,0.1108,0.7434,2.7708,False,False,False
+Still Water,Chicken Salad Bowl,Cold Drinks,Meals,18,9.6395,1.8673,2.6064,0.0092,0.0881,2.0276,1.7422,False,False,True
+Lemonade,Tuna Sandwich,Cold Drinks,Sandwiches,20,11.11,1.8002,2.661,0.0078,0.0773,1.6098,2.0077,False,False,True
+English Breakfast Tea,Banana Bread,Matcha & Tea,Bakery,17,8.986,1.8918,2.6749,0.0075,0.0765,1.7374,2.005,False,False,True
+Chai Latte,Butter Croissant,Matcha & Tea,Bakery,54,37.427,1.4428,2.7184,0.0066,0.0706,1.6307,1.2824,False,False,True
+Iced Americano,Chocolate Cookie,Cold Coffee,Bakery,56,38.623,1.4499,2.82,0.0048,0.054,1.3634,1.5265,False,False,True
+Fresh Orange Juice,Chicken Pesto Sandwich,Cold Drinks,Sandwiches,29,17.268,1.6794,2.8352,0.0046,0.0527,2.4237,1.147,False,False,True
+Iced Matcha,Cinnamon Roll,Matcha & Tea,Bakery,73,52.0935,1.4013,2.8427,0.0045,0.0527,1.1991,1.565,False,False,True
+Fresh Orange Juice,Turkey & Cheese Sandwich,Cold Drinks,Sandwiches,27,15.8615,1.7022,2.8836,0.0039,0.0485,1.8771,1.5797,False,True,True
+Still Water,Tuna Sandwich,Cold Drinks,Sandwiches,24,12.972,1.8501,2.9802,0.0029,0.0364,1.4304,2.1375,False,True,True
+Chai Latte,Blueberry Muffin,Matcha & Tea,Bakery,28,15.2455,1.8366,3.1337,0.0017,0.0236,2.1801,1.5247,False,True,True
+Fresh Orange Juice,Quinoa Bowl,Cold Drinks,Meals,16,7.4535,2.1466,3.1392,0.0017,0.0236,2.3589,1.9606,False,True,True
+Peach Iced Tea,Halloumi Wrap,Cold Drinks,Sandwiches,31,16.951,1.8288,3.3897,0.0007,0.0114,1.6086,1.961,False,True,True
+Classic Matcha,Pistachio Cookie,Matcha & Tea,Bakery,61,39.595,1.5406,3.4141,0.0006,0.0108,1.738,1.3797,False,True,True
+Chai Latte,Cinnamon Roll,Matcha & Tea,Bakery,43,25.4145,1.6919,3.4149,0.0006,0.0108,1.7035,1.7243,False,True,True
+Peach Iced Tea,Quinoa Bowl,Cold Drinks,Meals,19,8.882,2.1392,3.5082,0.0005,0.0082,2.1305,2.1203,False,True,True
+Still Water,Halloumi Wrap,Cold Drinks,Sandwiches,32,17.285,1.8513,3.5512,0.0004,0.0072,1.7603,1.9287,False,True,True
+Iced Matcha,Blueberry Muffin,Matcha & Tea,Bakery,52,31.9495,1.6276,3.5631,0.0004,0.0071,2.0728,1.2168,False,True,True
+Strawberry Matcha,Almond Croissant,Matcha & Tea,Bakery,44,25.9515,1.6955,3.6162,0.0003,0.0061,1.3694,1.947,False,True,True
+Vanilla Latte,Almond Croissant,Hot Coffee,Bakery,43,24.4625,1.7578,3.6536,0.0003,0.0055,1.471,1.9679,False,True,True
+Sparkling Water,Halloumi Wrap,Cold Drinks,Sandwiches,30,15.5085,1.9344,3.6597,0.0003,0.0055,2.2584,1.6272,False,True,True
+Still Water,Chicken Pesto Sandwich,Cold Drinks,Sandwiches,38,20.881,1.8198,3.7267,0.0002,0.0045,2.4192,1.4036,False,True,True
+Peach Iced Tea,Chicken Pesto Sandwich,Cold Drinks,Sandwiches,38,20.861,1.8216,3.7799,0.0002,0.0038,1.7859,1.8609,False,True,True
+Classic Matcha,Chocolate Cookie,Matcha & Tea,Bakery,76,49.593,1.5325,3.7818,0.0002,0.0038,1.5445,1.5137,False,True,True
+Peach Iced Tea,Tuna Sandwich,Cold Drinks,Sandwiches,26,12.6705,2.052,3.826,0.0001,0.0037,1.6431,2.3318,False,True,True
+English Breakfast Tea,Chocolate Cookie,Matcha & Tea,Bakery,25,11.7705,2.124,3.8269,0.0001,0.0037,1.697,2.4478,False,True,True
+Mint Tea,Chocolate Cookie,Matcha & Tea,Bakery,31,15.668,1.9786,3.8878,0.0001,0.0032,2.32,1.7263,False,True,True
+Peach Iced Tea,Turkey & Cheese Sandwich,Cold Drinks,Sandwiches,36,18.799,1.915,3.9046,0.0001,0.0032,1.6046,2.1336,False,True,True
+Classic Matcha,Chocolate Croissant,Matcha & Tea,Bakery,74,46.13,1.6042,4.0274,0.0001,0.002,1.3771,1.7877,False,True,True
+Iced Matcha,Butter Croissant,Matcha & Tea,Bakery,114,77.7955,1.4654,4.0289,0.0001,0.002,1.4078,1.5153,False,True,True
+Fresh Orange Juice,Tuna Sandwich,Cold Drinks,Sandwiches,24,10.782,2.2259,4.1342,0.0,0.0015,2.2571,2.1721,False,True,True
+Iced Matcha,Chocolate Cookie,Matcha & Tea,Bakery,89,58.0755,1.5325,4.1375,0.0,0.0015,1.6865,1.4085,False,True,True
+Strawberry Matcha,Banana Bread,Matcha & Tea,Bakery,50,27.8705,1.794,4.1512,0.0,0.0015,1.7034,1.8754,False,True,True
+Sparkling Water,Chicken Salad Bowl,Cold Drinks,Meals,21,8.7355,2.404,4.1598,0.0,0.0015,2.3847,2.4043,False,True,True
+Classic Matcha,Cinnamon Roll,Matcha & Tea,Bakery,76,44.9875,1.6894,4.5914,0.0,0.0003,1.9228,1.52,False,True,True
+Strawberry Matcha,Chocolate Croissant,Matcha & Tea,Bakery,62,34.196,1.8131,4.6909,0.0,0.0002,1.4355,2.062,False,True,True
+Classic Matcha,Butter Croissant,Matcha & Tea,Bakery,104,66.528,1.5633,4.7125,0.0,0.0002,1.4488,1.6614,False,True,True
+Classic Matcha,Almond Croissant,Matcha & Tea,Bakery,63,34.8345,1.8086,4.774,0.0,0.0002,1.4134,2.1252,False,True,True
+Iced Matcha,Chocolate Croissant,Matcha & Tea,Bakery,89,53.7505,1.6558,4.8162,0.0,0.0002,1.7928,1.5934,False,True,True
+Sparkling Water,Turkey & Cheese Sandwich,Cold Drinks,Sandwiches,37,17.1885,2.1526,4.8884,0.0,0.0002,2.2891,2.0918,False,True,True
+Iced Matcha,Pistachio Cookie,Matcha & Tea,Bakery,82,46.221,1.7741,5.2677,0.0,0.0,1.7996,1.7618,False,True,True
+Strawberry Matcha,Cinnamon Roll,Matcha & Tea,Bakery,65,33.543,1.9378,5.3196,0.0,0.0,1.9271,1.9481,False,True,True

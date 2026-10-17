@@ -1,0 +1,23 @@
+Product,share_of_food_in_food_only_baskets,share_of_food_in_drink_baskets,ratio_drink_vs_food_only,category
+Frozen Yoghurt Cup,0.0544,0.0357,0.6569,Desserts
+Granola Yoghurt,0.0274,0.0191,0.6953,Breakfast
+Tiramisu Cup,0.0482,0.0356,0.7395,Desserts
+Brownie,0.0611,0.046,0.7524,Desserts
+Avocado Toast,0.0418,0.0316,0.755,Breakfast
+Egg Sandwich,0.0453,0.0357,0.7885,Breakfast
+Cheesecake Slice,0.0547,0.0439,0.8019,Desserts
+Soup of the Day,0.0189,0.0181,0.9605,Meals
+Chicken Salad Bowl,0.0229,0.0227,0.9873,Meals
+Chicken Pesto Sandwich,0.0474,0.0472,0.9947,Sandwiches
+Turkey & Cheese Sandwich,0.0439,0.0444,1.0107,Sandwiches
+Tuna Sandwich,0.0294,0.0302,1.025,Sandwiches
+Halloumi Wrap,0.0394,0.0407,1.0331,Sandwiches
+Banana Bread,0.0499,0.0545,1.0915,Bakery
+Blueberry Muffin,0.0365,0.0407,1.1145,Bakery
+Quinoa Bowl,0.0195,0.0223,1.1395,Meals
+Butter Croissant,0.0868,0.099,1.1399,Bakery
+Pistachio Cookie,0.0512,0.0598,1.1676,Bakery
+Cinnamon Roll,0.0581,0.0681,1.1721,Bakery
+Chocolate Croissant,0.0584,0.0712,1.2194,Bakery
+Almond Croissant,0.0437,0.0549,1.2547,Bakery
+Chocolate Cookie,0.0608,0.0788,1.2957,Bakery

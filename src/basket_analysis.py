@@ -96,3 +96,127 @@ for f in factors:
 lr = pd.DataFrame(lr).round(4)
 save_table(lr, "basket_attach_adjusted_tests.csv", index=False)
 print("\nMEASURED: does each factor still matter after controlling for the others? (likelihood-ratio test)\n", lr.to_string(index=False))
+
+# ---------- 2. under-sold drink + food pairs ----------
+# Null model: "each item is chosen according to its popularity, independently of the other items in the basket".
+# We keep every basket's shape (how many drink lines and food lines it has) and its branch, then shuffle which
+# drink product fills each drink slot and which food product fills each food slot, within the branch. A pair that is
+# bought together less often than in these shuffles is under-sold relative to the popularity of its two items.
+# Total drink+food baskets is fixed by the null, so over-sold pairs are balanced by under-sold ones: this finds
+# WHICH food goes with which drink, it does not show that total food sales could rise (that is section 4).
+N_PERM = 2000
+drink_items = sorted(d.loc[d.is_drink, "Product"].unique())
+food_items = sorted(d.loc[~d.is_drink, "Product"].unique())
+di = {p: i for i, p in enumerate(drink_items)}
+fi = {p: i for i, p in enumerate(food_items)}
+nD, nF = len(drink_items), len(food_items)
+item_cat = d.drop_duplicates("Product").set_index("Product")["Category"]
+lines = d.reset_index(drop=True)
+
+
+def pair_counts(tx_mask_months):
+    """Observed and permuted pair-count arrays for the transactions whose month is in tx_mask_months."""
+    L = lines[lines.month.isin(tx_mask_months)]
+    L = L[L["Transaction ID"].map(t.n_drink).gt(0) & L["Transaction ID"].map(t.n_food).gt(0)]  # mixed baskets only
+    dl = L[L.is_drink].reset_index(drop=True)
+    fl = L[~L.is_drink].reset_index(drop=True)
+    d_item = dl.Product.map(di).values
+    f_item = fl.Product.map(fi).values
+    # all (drink line, food line) pairs inside each basket
+    pr = dl.reset_index().merge(fl.reset_index(), on="Transaction ID", suffixes=("_d", "_f"))
+    a, b = pr["index_d"].values, pr["index_f"].values
+    # popularity is taken from ALL drink / food lines of the branch (not only mixed baskets), as the brief asks
+    allL = lines[lines.month.isin(tx_mask_months)]
+    pool_d = {br: allL[allL.is_drink & (allL.Branch == br)].Product.map(di).values for br in allL.Branch.unique()}
+    pool_f = {br: allL[~allL.is_drink & (allL.Branch == br)].Product.map(fi).values for br in allL.Branch.unique()}
+    d_br, f_br = dl.Branch.values, fl.Branch.values
+
+    def count(di_vec, fi_vec):
+        return np.bincount(di_vec[a] * nF + fi_vec[b], minlength=nD * nF).reshape(nD, nF)
+
+    obs = count(d_item, f_item)
+    perms = np.empty((N_PERM, nD, nF))
+    for k in range(N_PERM):
+        dv, fv = d_item.copy(), f_item.copy()
+        for br in pool_d:      # redraw each slot from the branch's overall popularity
+            m = d_br == br
+            dv[m] = rng.choice(pool_d[br], m.sum())
+            m = f_br == br
+            fv[m] = rng.choice(pool_f[br], m.sum())
+        perms[k] = count(dv, fv)
+    return obs, perms, L["Transaction ID"].nunique()
+
+
+def bh(p):
+    """Benjamini-Hochberg q-values."""
+    p = np.asarray(p)
+    o = np.argsort(p)
+    q = np.empty_like(p)
+    q[o] = np.minimum.accumulate((p[o] * len(p) / (np.arange(len(p)) + 1))[::-1])[::-1]
+    return np.minimum(q, 1)
+
+
+obs, perms, n_mixed = pair_counts(range(1, 7))
+exp, sd = perms.mean(0), perms.std(0)
+z = (obs - exp) / np.where(sd > 0, sd, np.nan)
+p_two = 2 * stats.norm.sf(np.abs(z))
+pairs = pd.DataFrame([{"drink": drink_items[i], "food": food_items[j], "drink_cat": item_cat[drink_items[i]],
+                       "food_cat": item_cat[food_items[j]], "observed": int(obs[i, j]), "expected": exp[i, j],
+                       "obs_over_exp": obs[i, j] / exp[i, j], "z": z[i, j], "p_value": p_two[i, j]}
+                      for i in range(nD) for j in range(nF)])
+pairs["q_value"] = bh(pairs.p_value.fillna(1).values)
+# does the same direction hold in each half of the data? (replication, not a second test)
+for name, months in [("jan_mar", [1, 2, 3]), ("apr_jun", [4, 5, 6])]:
+    o2, p2, _ = pair_counts(months)
+    pairs[f"obs_over_exp_{name}"] = (o2 / p2.mean(0)).reshape(-1)
+pairs["undersold"] = (pairs.q_value < 0.05) & (pairs.obs_over_exp < 1)
+pairs["oversold"] = (pairs.q_value < 0.05) & (pairs.obs_over_exp > 1)
+pairs["stable_both_halves"] = (np.sign(pairs.obs_over_exp_jan_mar - 1) == np.sign(pairs.obs_over_exp - 1)) & \
+                              (np.sign(pairs.obs_over_exp_apr_jun - 1) == np.sign(pairs.obs_over_exp - 1))
+pairs = pairs.sort_values("z").round(4)
+save_table(pairs, "basket_pairs.csv", index=False)
+print(f"\nMEASURED: {n_mixed:,} drink+food baskets; {len(pairs)} item pairs tested, shuffle null with {N_PERM} draws")
+print(f"pairs significantly under-sold (BH q<0.05): {pairs.undersold.sum()}; over-sold: {pairs.oversold.sum()}; "
+      f"under-sold and same direction in both halves: {(pairs.undersold & pairs.stable_both_halves).sum()}")
+cols = ["drink", "food", "observed", "expected", "obs_over_exp", "z", "q_value", "obs_over_exp_jan_mar", "obs_over_exp_apr_jun"]
+print("most under-sold pairs:\n", pairs.head(12)[cols].to_string(index=False))
+print("most over-sold pairs:\n", pairs.tail(8)[cols].to_string(index=False))
+
+# same test one level up (drink category x food category): fewer, bigger cells, so far less noise
+cat_d = np.array([DRINK_CATS.index(item_cat[p]) for p in drink_items])
+cat_f = np.array([FOOD_CATS.index(item_cat[p]) for p in food_items])
+
+
+def to_cat(a):
+    out = np.zeros(a.shape[:-2] + (len(DRINK_CATS), len(FOOD_CATS)))
+    for i in range(nD):
+        for j in range(nF):
+            out[..., cat_d[i], cat_f[j]] += a[..., i, j]
+    return out
+
+
+oc, pc = to_cat(obs), to_cat(perms)
+ec, sc = pc.mean(0), pc.std(0)
+catpairs = pd.DataFrame([{"drink_cat": DRINK_CATS[i], "food_cat": FOOD_CATS[j], "observed": int(oc[i, j]),
+                          "expected": ec[i, j], "obs_over_exp": oc[i, j] / ec[i, j],
+                          "z": (oc[i, j] - ec[i, j]) / sc[i, j]}
+                         for i in range(len(DRINK_CATS)) for j in range(len(FOOD_CATS))])
+catpairs["p_value"] = 2 * stats.norm.sf(catpairs.z.abs())
+catpairs["q_value"] = bh(catpairs.p_value.values)
+catpairs = catpairs.round(4)
+save_table(catpairs, "basket_pairs_category.csv", index=False)
+print("\nMEASURED: drink category x food category, observed / expected (<1 = under-sold)")
+print(catpairs.pivot(index="drink_cat", columns="food_cat", values="obs_over_exp").round(2).to_string())
+print(catpairs.sort_values("z").head(6)[["drink_cat", "food_cat", "observed", "expected", "obs_over_exp", "q_value"]].to_string(index=False))
+
+# food mix: is a food item under-represented in drink baskets compared with food-only baskets?
+f_lines = lines[~lines.is_drink].copy()
+f_lines["in_drink_basket"] = f_lines["Transaction ID"].map(t.n_drink).gt(0)
+fm = f_lines.groupby(["Product", "in_drink_basket"])["Quantity"].sum().unstack()
+fm = (fm / fm.sum()).rename(columns={True: "share_of_food_in_drink_baskets", False: "share_of_food_in_food_only_baskets"})
+fm["ratio_drink_vs_food_only"] = fm.iloc[:, 1] / fm.iloc[:, 0]
+fm["category"] = item_cat.reindex(fm.index)
+fm = fm.sort_values("ratio_drink_vs_food_only").round(4)
+save_table(fm, "basket_food_mix.csv")
+print("\nMEASURED: share of each food item in drink baskets vs in food-only baskets (ratio < 1 = bought alone more often)")
+print(fm.head(6).to_string()); print(fm.tail(4).to_string())

@@ -1,0 +1,21 @@
+drink_cat,food_cat,observed,expected,obs_over_exp,z,p_value,q_value
+Hot Coffee,Bakery,1637,1503.282,1.089,3.5983,0.0003,0.0006
+Hot Coffee,Breakfast,287,317.2855,0.9045,-1.7193,0.0856,0.107
+Hot Coffee,Desserts,476,598.2765,0.7956,-4.9651,0.0,0.0
+Hot Coffee,Meals,180,191.501,0.9399,-0.827,0.4083,0.4725
+Hot Coffee,Sandwiches,445,500.796,0.8886,-2.4739,0.0134,0.0206
+Cold Coffee,Bakery,1363,1344.7235,1.0136,0.5164,0.6056,0.6374
+Cold Coffee,Breakfast,252,283.7865,0.888,-1.8454,0.065,0.0866
+Cold Coffee,Desserts,482,536.2605,0.8988,-2.3231,0.0202,0.0288
+Cold Coffee,Meals,173,170.946,1.012,0.1531,0.8783,0.8783
+Cold Coffee,Sandwiches,386,445.7725,0.8659,-2.818,0.0048,0.0081
+Cold Drinks,Bakery,605,958.398,0.6313,-11.6618,0.0,0.0
+Cold Drinks,Breakfast,191,202.3275,0.944,-0.7974,0.4252,0.4725
+Cold Drinks,Desserts,315,383.334,0.8217,-3.5703,0.0004,0.0006
+Cold Drinks,Meals,192,122.217,1.571,6.3239,0.0,0.0
+Cold Drinks,Sandwiches,546,320.307,1.7046,12.9556,0.0,0.0
+Matcha & Tea,Bakery,2069,1397.7885,1.4802,18.394,0.0,0.0
+Matcha & Tea,Breakfast,220,294.5805,0.7468,-4.3332,0.0,0.0
+Matcha & Tea,Desserts,457,557.288,0.82,-4.2573,0.0,0.0001
+Matcha & Tea,Meals,128,177.3965,0.7215,-3.6456,0.0003,0.0006
+Matcha & Tea,Sandwiches,367,464.733,0.7897,-4.4893,0.0,0.0
