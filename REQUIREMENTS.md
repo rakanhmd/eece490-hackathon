@@ -3,7 +3,7 @@
 | # | Requirement (brief wording) | Status | Where we meet it |
 |---|---|---|---|
 | 1 | "Choose a business problem that matters." | Met | README: The business problem; Conclusion |
-| 2 | "Support your conclusions with evidence. Check data quality and test alternative explanations." | Met | data/README.md (data quality); README findings 4 (five artifact tests), 6 (placebos, control choice, pre-trend), 7 (random-assignment null), 8 (adjusted tests, reshuffle null) |
+| 2 | "Support your conclusions with evidence. Check data quality and test alternative explanations." | Met | data/README.md (data quality); README findings 4 (five recording-error tests), 6 (placebos, control choice, pre-trend), 7 (random-assignment null), 8 (adjusted tests, reshuffle null) |
 | 3 | "Estimate business value, costs, and tradeoffs. Explain which assumptions could change the recommended action." | Met | README: Estimated business value (elasticity and attach-rate ranges, break-even points); Assumptions table |
 | 4 | "If you build a model, compare it with a simple baseline. Test it on data it did not use for training." | Met | README finding 5; `src/forecast.py`; `results/forecast_mae.csv`, `results/results.csv`. Model chosen on May, tested once on June, against "same weekday last week" and a dummy |
 | 5 | "Explain weak areas, uncertainty, and possible failures. Identify missing information and a practical test Stories could run before wider use." | Met | README: Weak areas and uncertainty; A practical test Stories could run |

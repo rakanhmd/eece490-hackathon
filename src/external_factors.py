@@ -17,7 +17,7 @@ Tests
      Jan-Feb trend; KEY school/campus test: is the Tuesday ratio lower when schools or AUB are out?
      Thursday check (university Tue/Thu timetables).
   3. Tuesday ratio per branch with bootstrap CIs.
-  4. Data diagnostic: day-to-day variation vs a Poisson model.
+  4. Demand stability: day-to-day variation vs a Poisson model.
   5. Garden costs vs a public coffee price series.
 Nothing here proves cause. Results are associations, tested against shuffled versions of the same data.
 """
@@ -510,10 +510,10 @@ summary = pd.DataFrame([
      "Tuesday ratio per branch, bootstrap over weeks",
      "; ".join(f"{r.branch} {r.tue_ratio:.2f} [{r.ci_low:.2f}, {r.ci_high:.2f}]" for r in tb[tb.branch.isin(BR)].itertuples()),
      "does not explain"],
-    ["Real-world day-to-day noise", "Transactions only",
+    ["Day-to-day variation", "Transactions only",
      "Variance / mean of daily counts after weekday x month, vs simulated Poisson",
      "; ".join(f"{r.branch} {r.dispersion_ratio:.2f} (Poisson range {r._5:.2f}-{r._6:.2f})" for r in disp.itertuples()),
-     "cannot tell (data diagnostic)"],
+     "does not explain (steady, habitual demand)"],
     ["World coffee price and Garden's costs", "FRED PCOFFOTMUSDM (IMF arabica price)",
      "Do recorded unit costs move with the world price?",
      f"arabica {cost_res.arabica_change_pct[0]:+.1f}% Jan-Jun; {cost_res.pairs_with_one_unit_cost_all_6_months[0]} of {cost_res.product_branch_pairs[0]} product-branch pairs keep one unit cost all six months",

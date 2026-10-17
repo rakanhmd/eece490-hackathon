@@ -76,7 +76,7 @@ Distance between each branch and the other two pooled (Jensen–Shannon distance
 
 Evidence for it: (1) one fixed cost per product per branch for six months; (2) slope 1.4302 with a 95% interval of ±0.0006 and no fixed-fee component; (3) the same ratio for cheap and expensive items and every category; (4) no connection to Brent even though Brent doubled; (5) Garden's sales look like Harbour's and Uptown's. Real purchase prices would normally differ by product and change over the months.
 
-**Alternatives we cannot exclude with this data:** (a) a real supplier agreement with a flat 43% surcharge; (b) an artefact of how the data set was built (the transaction IDs are replacement IDs, `SYN-…`, and Uptown and the prices also follow flat branch multipliers).
+**Alternatives we cannot exclude with this data:** (a) a real supplier agreement with a flat 43% surcharge; (b) a field changed during anonymization. We assume anonymization changed only branch names and IDs; Uptown's costs and every branch's prices also follow flat branch multipliers, which fits a standard-cost and price-list setup in the till system.
 
 **How to confirm (ask finance):**
 1. Garden's and Harbour's supplier invoices for 5 to 10 products across two or three months. If the invoice price is about the same and only the booked cost differs, the gap is accounting. If Garden's invoice is about 43% higher, it is a real purchase-price gap.

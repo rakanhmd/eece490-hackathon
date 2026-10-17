@@ -8,7 +8,7 @@ tables are committed). Source, license and real/fictional claim are recorded in 
 
 1. Signatures for every dataset: Tuesday ratio, busiest weekday, peak hour, overdispersion, basket size,
    top-category share.
-2. Template check: does our data look derived from the Maven dataset?
+2. Public-template check: is our data derived from the public Maven dataset?
 3. Effect-size transfer: weather and holiday effects in the (real) bakery, compared with the 95% CIs we
    measured in our own data (src/external_factors.py). ASSUMPTION: the bakery is in Paris (the dataset names no
    city); weather from Open-Meteo for Paris, holidays from the French government API.

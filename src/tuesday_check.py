@@ -1,6 +1,6 @@
-"""Tuesday check: is the Tuesday surge a real demand pattern or a data artifact?
+"""Tuesday check: is the Tuesday surge a real demand pattern or a recording error?
 
-Artifact hypotheses and the test for each:
+Recording-error hypotheses and the test for each:
   A. Batch posting: another day's sales booked on Tuesday. -> Monday or Wednesday would be low; Tuesday
      timestamps would bunch (e.g. at one hour) or replacement IDs would be out of time order.
   B. Duplicated records: Tuesday transactions copied from elsewhere. -> near-duplicate rate (same branch,
@@ -139,6 +139,33 @@ print(f"   known Tuesday transactions by customers who also buy on other days: "
       f"{k[k.is_tue].cust.isin(seen_other).mean():.3f}")
 
 save_table(pd.Series(out).to_frame("value"), "tuesday_tests_summary.csv")
+
+# ---- F. is Tuesday a discount day, or new customers? ----
+tx_f = d.groupby("Transaction ID").agg(is_tue=("is_tue", "first"),
+                                       discounted=("Discount Rate", lambda s: (s > 0).any()),
+                                       identified=("Customer ID", lambda s: s.notna().any()),
+                                       order_type=("Order Type", "first"))
+f = pd.DataFrame({
+    "tuesday": [tx_f[tx_f.is_tue].discounted.mean(), tx_f[tx_f.is_tue].identified.mean(),
+                (tx_f[tx_f.is_tue].order_type == "Dine-in").mean(), (tx_f[tx_f.is_tue].order_type == "Takeaway").mean()],
+    "other_days": [tx_f[~tx_f.is_tue].discounted.mean(), tx_f[~tx_f.is_tue].identified.mean(),
+                   (tx_f[~tx_f.is_tue].order_type == "Dine-in").mean(), (tx_f[~tx_f.is_tue].order_type == "Takeaway").mean()],
+}, index=["share_of_transactions_with_a_discount", "identified_customer_share", "dine_in_share", "takeaway_share"])
+print("\nF. Discount, identified customers and order type, Tuesday vs other days:\n", f.round(4))
+save_table(f.round(4), "tuesday_discount_customer_mix.csv")
+
+# regulars: how often identified customers come back and use several branches
+kc = d.dropna(subset=["Customer ID"])
+ct = kc.groupby("Transaction ID").agg(c=("Customer ID", "first"), date=("date", "first"), b=("Branch", "first"))
+g = ct.groupby("c")
+reg = pd.DataFrame({
+    "identified_customers": [g.ngroups],
+    "share_with_more_than_one_purchase": [(g.size() > 1).mean()],
+    "share_returning_within_30_days_of_first_visit": [g.date.apply(lambda s: (s.sort_values().diff().dt.days.dropna() <= 30).any()).mean()],
+    "share_using_more_than_one_branch": [(g.b.nunique() > 1).mean()],
+    "median_purchases_per_customer": [g.size().median()]})
+print("\nRegular customers:\n", reg.round(4).T)
+save_table(reg.round(4), "customer_regulars.csv", index=False)
 
 # ---- figure ----
 fig, axes = plt.subplots(1, 2, figsize=(12, 4.2))

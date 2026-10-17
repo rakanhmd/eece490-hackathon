@@ -16,7 +16,7 @@ The brief ranks teams on original, evidence-backed findings with clear business 
 |---|---|---|
 | Garden margin gap, reproducing script | Done | Findings 1–2; `src/margin_analysis.py` |
 | Branch price lists vs costs, elasticity scenarios | Done (added during the session) | Finding 3; `src/pricing_analysis.py` |
-| Tuesday surge: real or artifact | Done | Finding 4; `src/tuesday_check.py` |
+| Tuesday surge: real or recording error | Done | Finding 4; `src/tuesday_check.py` |
 | June forecast vs same-weekday-last-week baseline | Done | Finding 5; `src/forecast.py` |
 | Harbour 15% promo: did it pay? | Done. Causation not shown, net value range includes a loss | Finding 6; `src/promo_analysis.py` |
 | 10% discount: does it buy anything? | Done. No basket effect, small cost | Finding 7; `src/discount_analysis.py` |

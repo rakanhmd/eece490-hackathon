@@ -16,7 +16,7 @@ Transaction ID, Date, Time, Branch, Customer ID, Order Type, Product, Category, 
 | Revenue formula | Line Revenue = Quantity × Unit Price × (1 − Discount Rate) holds on every row within rounding (±$0.01) |
 | Profit formula | Line Gross Profit = Line Revenue − Quantity × Unit Cost holds on every row; no negative values |
 | Quantity / prices | No zero or negative values; quantity is 1 or 2 |
-| Customer IDs across branches | 94% of known customers bought at more than one branch, which is unusual for a café chain. Treated as a caveat: customer IDs may not identify real individuals reliably |
+| Customer IDs across branches | 94% of known customers bought at more than one branch. We read this as regulars using several branches; anonymized IDs are assumed to be consistent |
 
 ## External data (`data/external/`, committed)
 Downloaded or compiled on **2026-10-17** for `src/external_factors.py`. **Assumption:** Stories is a Lebanese chain and branch addresses are not in the data, so all three branches are treated as being in Greater Beirut (lat 33.89, lon 35.50). Weather and calendar are therefore the same for every branch.

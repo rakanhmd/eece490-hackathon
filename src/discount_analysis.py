@@ -65,7 +65,7 @@ save_table(res, "discount_effect.csv", index=False)
 
 # 2b. NULL MODEL. The discount is applied per line, so a transaction with more lines has more chances to
 # contain a discounted line. Shuffle the 10% flag randomly across lines within each branch x weekday x hour
-# cell and redo the comparison. If the observed gap matches this null, the "bigger basket" is a counting artifact.
+# cell and redo the comparison. If the observed gap matches this null, the "bigger basket" is a counting effect.
 d10 = d10.assign(cell=d10.Branch + "_" + d10.weekday.astype(str) + "_" + d10.hour.astype(str),
                  is10=(d10["Discount Rate"] == 0.10))
 tid = d10["Transaction ID"].values

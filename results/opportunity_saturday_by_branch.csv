@@ -1,0 +1,10 @@
+branch,scenario,saturdays,saturday_tx_per_day,mon_wed_thu_fri_tx_per_day,tuesday_tx_per_day,extra_tx_per_saturday,extra_tx_6mo,saturday_basket_usd,saturday_gross_margin,extra_revenue_6mo_usd,extra_gross_profit_6mo_usd
+Garden,Saturday reaches the Mon/Wed/Thu/Fri average,26,42.6538,60.8155,94.6538,18.1617,472.2039,8.774,0.4724,4143.1356,1957.2063
+Garden,Saturday gains 25% of Tuesday's lift,26,42.6538,60.8155,94.6538,8.4596,219.949,8.774,0.4724,1929.8415,911.652
+Garden,Saturday gains 50% of Tuesday's lift,26,42.6538,60.8155,94.6538,16.9192,439.8981,8.774,0.4724,3859.683,1823.3041
+Harbour,Saturday reaches the Mon/Wed/Thu/Fri average,26,61.5769,89.5534,136.7308,27.9765,727.3883,9.496,0.6468,6907.3043,4467.373
+Harbour,Saturday gains 25% of Tuesday's lift,26,61.5769,89.5534,136.7308,11.7943,306.6529,9.496,0.6468,2911.9864,1883.3584
+Harbour,Saturday gains 50% of Tuesday's lift,26,61.5769,89.5534,136.7308,23.5887,613.3058,9.496,0.6468,5823.9728,3766.7168
+Uptown,Saturday reaches the Mon/Wed/Thu/Fri average,26,24.4615,35.0194,53.1538,10.5579,274.5049,9.0798,0.6291,2492.4393,1567.9838
+Uptown,Saturday gains 25% of Tuesday's lift,26,24.4615,35.0194,53.1538,4.5336,117.8738,9.0798,0.6291,1070.2662,673.3003
+Uptown,Saturday gains 50% of Tuesday's lift,26,24.4615,35.0194,53.1538,9.0672,235.7476,9.0798,0.6291,2140.5324,1346.6005
