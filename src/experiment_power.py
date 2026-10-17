@@ -284,25 +284,26 @@ def sim_saturday_bw(W, lift):
 
 
 # ---------------- menu price test (D6): +5% on the four frequent, below-median-margin items, chain-wide ABBA ----------
-# Outcome = weekly gross profit of every transaction that contains any of the four items (own + accompanying items),
-# Tuesday-Sunday, same weekly model as D3. Central effect = the +$881 six-month estimate at elasticity -1
-# (results/menu_price_scenarios.csv) as a percent of the six-month gross profit of those transactions.
+# PRIMARY outcome = TOTAL chain weekly gross profit (Tuesday-Sunday), so customers who swap to another item or skip the
+# item are counted wherever they spend. (Sales of the four items and their substitutes are secondary metrics in the pilot
+# spec; they are not simulated.) Central effect = the +$880.80 six-month estimate at elasticity -1
+# (results/menu_price_scenarios.csv) as a percent of six-month chain gross profit.
 flags = pd.read_csv(os.path.join(ROOT, "results", "menu_flags_chain.csv"))
 FOUR = flags[flags.frequent_below_median_margin].Product.tolist()
 ids4 = set(d[d.Product.isin(FOUR)]["Transaction ID"])
 mask4 = tx["Transaction ID"].isin(ids4).values
 GPm = cell(mask4, tx.gp.values)
 mscen = pd.read_csv(os.path.join(ROOT, "results", "menu_price_scenarios.csv")).set_index("elasticity_assumed")
-MENU_CENTRAL = 100 * float(mscen.loc[-1.0, "gp_change_6mo_usd"]) / d[d["Transaction ID"].isin(ids4)][GP].sum()
+MENU_CENTRAL = 100 * float(mscen.loc[-1.0, "gp_change_6mo_usd"]) / d[GP].sum()
 print(f"D6 menu test: items {FOUR}; their transactions earn {100 * GPm.sum() / GPc.sum():.1f}% of chain GP; "
-      f"central effect = {MENU_CENTRAL:.2f}% of their gross profit")
+      f"central effect = {MENU_CENTRAL:.3f}% of six-month chain gross profit")
 
 
 def sim_menu(W, e_pct, carry=0.0):
     treat = schedule_chain(W)
     pick, scale, _ = synth_weeks(W)
     prev = np.r_[0, treat[:-1]]
-    y = (GPm[pick] * scale).sum(axis=1)[:, 1:].sum(axis=1) * (1 + e_pct / 100 * np.where(treat == 1, 1.0, carry * (prev == 1)))
+    y = (GPc[pick] * scale).sum(axis=1)[:, 1:].sum(axis=1) * (1 + e_pct / 100 * np.where(treat == 1, 1.0, carry * (prev == 1)))
     est, se, df = ols_t(np.column_stack([treat.astype(float), np.ones(W), np.arange(W, dtype=float)]), y)
     return 100 * est / y.mean(), 100 * se / y.mean(), df
 
@@ -314,7 +315,8 @@ CHAIN_FNS = {"D3 price test (chain GP, %)": sim_chain_weekly,
              "D4 discount removal (chain GP, %)": sim_chain_weekly,
              "D5 Saturday offer, chain-wide (weekly chain GP; Saturday lift %)": lambda W, l: sim_saturday(W, l),
              "D5 Saturday-only metric, chain-wide (ignores displacement; NOT recommended)": lambda W, l: sim_saturday(W, l, saturday_only=True),
-             "D6 menu price test, 4 items (GP of their transactions, %)": sim_menu}
+             "D6 menu price test, 4 items (chain GP, %)": sim_menu,
+             "D3b price Option B, Garden and Uptown to Harbour's prices (chain GP, %)": sim_chain_weekly}
 CRIT = {}           # raw calibrated values; the threshold USED is never below the nominal t (see crit_for)
 NOM_FPR = {}        # false-positive rate of the NOMINAL t in the same null pilots
 
@@ -334,7 +336,7 @@ def crit_for(name, W):
 def one_cal(name, W, e):
     est, se, df = CHAIN_FNS[name](W, e)
     c = crit_for(name, W)
-    return abs(est / se) > c and (e == 0 or est > 0), c * se
+    return abs(est / se) > c and (e == 0 or np.sign(est) == np.sign(e)), c * se
 
 
 RATES = {"D1 food prompt (attach, points)": (Dn, Att, a0_food), "D2 evening dessert upsell (points)": (En, Edes, a0_des)}
@@ -347,13 +349,20 @@ for name, (tot, succ, base) in RATES.items():
             if e == 0:
                 halfw.append({"design": name, "weeks": W, "median_ci_halfwidth": np.median([o[1] for o in out])})
     print(f"done {name}")
-EFF_MENU = [0, 1, MENU_CENTRAL, 5, 7.5, 10, 15]
+EFF_MENU = [0, MENU_CENTRAL, 1, 2.5, 5, 7.5]
+# Option B (Garden +5.0%, Uptown +9.4% to Harbour's prices; Harbour unchanged), chain-wide week switchback, chain GP.
+# Central = its $4,298 six-month estimate at elasticity -1 (results/decision_thresholds.csv) as % of chain GP. The effect
+# is applied to chain GP as a whole; the simulation does not model it falling only on Garden and Uptown.
+OPTB_CENTRAL = 100 * float(pd.read_csv(os.path.join(ROOT, "results", "decision_thresholds.csv")).option_b_6mo_usd.iloc[0]) / d[GP].sum()
+EFF_OPTB = [0, OPTB_CENTRAL, 4.5, 7.5]
+print(f"D3b Option B central effect = {OPTB_CENTRAL:.2f}% of chain gross profit")
 CHAIN = [("D3 price test (chain GP, %)", EFF_PCT),
-         ("D3 price test, customer-visit metric (chain transactions, %)", [0, 1, 2.5, 5, 6.4, 7.5]),
+         ("D3 price test, customer-visit metric (chain transactions, %)", [0, -1, -2.5, -5, -6.4, -7.5]),
+         ("D3b price Option B, Garden and Uptown to Harbour's prices (chain GP, %)", EFF_OPTB),
          ("D4 discount removal (chain GP, %)", EFF_PCT),
          ("D5 Saturday offer, chain-wide (weekly chain GP; Saturday lift %)", EFF_SAT),
          ("D5 Saturday-only metric, chain-wide (ignores displacement; NOT recommended)", EFF_SAT),
-         ("D6 menu price test, 4 items (GP of their transactions, %)", EFF_MENU)]
+         ("D6 menu price test, 4 items (chain GP, %)", EFF_MENU)]
 for name, effs in CHAIN:
     for W in DUR_CH:
         for e in effs:
@@ -392,9 +401,9 @@ for name, g in res.groupby("design"):
     print(g.pivot_table(index="effect", columns="weeks", values="detection_rate").to_string())
 
 mde = []
-for (name, W), g in res[res.effect > 0].groupby(["design", "weeks"]):
-    g = g.sort_values("effect")
-    eff, pw = g.effect.values, g.detection_rate.values
+for (name, W), g in res[res.effect != 0].groupby(["design", "weeks"]):
+    g = g.assign(a=g.effect.abs()).sort_values("a")          # the visit metric uses negative effects (a fall)
+    eff, pw = g.a.values, g.detection_rate.values
     val = np.nan
     if pw.max() >= 0.8:
         j = np.argmax(pw >= 0.8)
@@ -444,7 +453,8 @@ LONG = [8, 12, 16, 20, 26, 39, 52]       # beyond 52 weeks the simulated growth 
 CENTRAL = {"D1 food prompt (attach, points)": 2.5, "D2 evening dessert upsell (points)": 2.5,
            "D3 price test (chain GP, %)": 4.5, "D3 price test, customer-visit metric (chain transactions, %)": -6.4,
            "D4 discount removal (chain GP, %)": 0.99, "D5 Saturday offer, chain-wide (weekly chain GP; Saturday lift %)": 19.0,
-           "D6 menu price test, 4 items (GP of their transactions, %)": MENU_CENTRAL}
+           "D6 menu price test, 4 items (chain GP, %)": MENU_CENTRAL,
+           "D3b price Option B, Garden and Uptown to Harbour's prices (chain GP, %)": OPTB_CENTRAL}
 BW_CRIT = {}
 
 
@@ -520,11 +530,17 @@ def decision_rate(fn, W, e, test, chain_name=None):
 
 
 for name, (tot, succ, base) in RATES.items():
-    for W in [12, 16]:
+    for W in [12, 16, 20]:
         for e in [0, 1, 2.5, 5]:
-            rule_rows.append({"design": name, "rule": f"roll out if the lower 95% bound of the gain is >= {M_POINTS:g} point", "weeks": W,
-                              "true_effect": e, "share_of_pilots_that_roll_out": decision_rate(
-                                  lambda W_, e_: sim_rate_design(W_, e_, tot, succ, base), W, e, lambda est, h: 100 * (est - h) >= M_POINTS)})
+            lbs = []
+            for _ in range(N_SIM):
+                est, se, df = sim_rate_design(W, e, tot, succ, base)
+                lbs.append(100 * (est - bw_crit(name, W) * se))          # lower 95% bound in points, calibrated threshold
+            lbs = np.array(lbs)
+            for label, thr_pts in [(f"roll out if the lower 95% bound of the gain is >= {M_POINTS:g} point", M_POINTS),
+                                   ("roll out if the lower 95% bound of the gain is > 0", 0.0)]:
+                rule_rows.append({"design": name, "rule": label, "weeks": W, "true_effect": e,
+                                  "share_of_pilots_that_roll_out": float((lbs >= thr_pts).mean() if thr_pts else (lbs > 0).mean())})
 # D1/D2 estimates are fractions (hence the x100); D3/D4 functions already return percent
 for W in [12, 16, 20, 26]:
     for u in [-0.033, -0.064, -0.09, U_STAR, -0.124]:
@@ -535,15 +551,29 @@ for W in [12, 16, 20, 26]:
         rule_rows.append({"design": "D3 price test", "rule": f"B: roll out if the lower 95% bound of the visit effect is > {100 * U_STAR:.1f}% (break-even units change)", "weeks": W,
                           "true_effect": f"units {100 * u:+.1f}% (GP {e_gp:+.1f}%)",
                           "share_of_pilots_that_roll_out": decision_rate(sim_chain_weekly_tx, W, 100 * u, lambda est, h: est - h > 100 * U_STAR, "D3 price test, customer-visit metric (chain transactions, %)")})
+# D4 NON-INFERIORITY: remove the discount only if the lower 95% bound of the chain GP effect is above -MARGIN; otherwise
+# (inconclusive) keep the discount. MARGIN = the smallest loss margin that the pilot passes with 80% probability when the
+# true effect is the whole prize (+0.99%, no visits lost), at each length.
+ni_rows = []
+D4N = "D4 discount removal (chain GP, %)"
 for W in [12, 20, 26]:
-    for e in [0.99, 0, -2.5, -5, -7.5]:
-        rule_rows.append({"design": "D4 discount removal", "rule": "revert if the upper 95% bound of the chain GP effect is < 0", "weeks": W,
-                          "true_effect": f"GP {e:+.2f}%", "share_of_pilots_that_roll_out": decision_rate(sim_chain_weekly, W, e, lambda est, h: est + h < 0, "D4 discount removal (chain GP, %)")})
+    c = crit_for(D4N, W)
+    lb = {}
+    for e in [0.99, 0.0, -2.5, -5.0]:
+        lb[e] = np.array([o[0] - c * o[1] for o in (sim_chain_weekly(W, e) for _ in range(2 * N_SIM))])
+    margin = -np.percentile(lb[0.99], 20)
+    for e in lb:
+        ni_rows.append({"weeks": W, "margin_pct": margin, "true_effect_pct": e, "share_removed": float((lb[e] > -margin).mean())})
+        rule_rows.append({"design": "D4 discount removal", "rule": f"remove only if the lower 95% bound of the chain GP effect is > -margin (margin {margin:.2f}% at {W} weeks); else keep",
+                          "weeks": W, "true_effect": f"GP {e:+.2f}%", "share_of_pilots_that_roll_out": float((lb[e] > -margin).mean())})
+ni = pd.DataFrame(ni_rows).round(4)
+save_table(ni, "experiment_discount_noninferiority.csv", index=False)
+print("\nD4 NON-INFERIORITY (margin = loss passed with 80% probability when the true effect is +0.99%):\n", ni.to_string(index=False))
 for W in [12, 20, 26]:
-    for e in [0, MENU_CENTRAL, 5, 10, -2.5]:
-        rule_rows.append({"design": "D6 menu price test", "rule": "keep the rise if the lower 95% bound of the effect on their transactions' GP is > 0", "weeks": W,
-                          "true_effect": f"GP of their transactions {e:+.2f}%",
-                          "share_of_pilots_that_roll_out": decision_rate(sim_menu, W, e, lambda est, h: est - h > 0, "D6 menu price test, 4 items (GP of their transactions, %)")})
+    for e in [0, MENU_CENTRAL, 2.5, 5, -1]:
+        rule_rows.append({"design": "D6 menu price test", "rule": "keep the rise if the lower 95% bound of the chain GP effect is > 0", "weeks": W,
+                          "true_effect": f"chain GP {e:+.2f}%",
+                          "share_of_pilots_that_roll_out": decision_rate(sim_menu, W, e, lambda est, h: est - h > 0, "D6 menu price test, 4 items (chain GP, %)")})
 rules = pd.DataFrame(rule_rows)
 rules = rules.rename(columns={"share_of_pilots_that_roll_out": "share_of_pilots_triggering_rule"}).round(3)
 save_table(rules, "experiment_rollout_rules.csv", index=False)

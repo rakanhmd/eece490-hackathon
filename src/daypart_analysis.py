@@ -162,7 +162,7 @@ save_table(sim.round(4), "daypart_branch_similarity.csv", index=False)
 # ---------------- 5. ESTIMATE: evening dessert attach test ----------------
 des = d[d.Category == "Desserts"]
 des_gp_unit = des.groupby("Branch")[GP].sum() / des.groupby("Branch").Quantity.sum()
-eve = tx[tx.hour >= 19]
+eve = tx[tx.hour >= 18]            # 18:00 onward: the same definition as the evening dessert pilot (EXPERIMENTS.md)
 est_rows = []
 for b in BR:
     n_eve = int((eve.branch == b).sum())
@@ -174,7 +174,7 @@ for b in BR:
                          "dessert_gp_per_unit_usd": des_gp_unit[b], "extra_gp_6mo_usd": extra * des_gp_unit[b]})
 ev = pd.DataFrame(est_rows)
 ev_tot = ev.groupby("attach_rise_pts")[["extra_dessert_baskets", "extra_gp_6mo_usd"]].sum()
-print("\n5. ESTIMATE, evening (19:00+) dessert attach rise; one dessert per extra basket at the branch's dessert GP/unit:")
+print("\n5. ESTIMATE, evening (18:00+) dessert attach rise; one dessert per extra basket at the branch's dessert GP/unit:")
 print(ev.round(3).to_string(index=False))
 print(ev_tot.round(1))
 save_table(ev.round(4), "daypart_evening_dessert_estimate.csv", index=False)

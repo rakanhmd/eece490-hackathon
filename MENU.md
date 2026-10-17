@@ -122,16 +122,16 @@ Garden's margins use recorded unit costs that are about 1.43× Harbour's on ever
 ## One menu decision and its test
 **Decision:** whether to raise the price of the four frequent, below-median-margin items (Iced Matcha, Strawberry Matcha, Cinnamon Roll, Chocolate Croissant) by 5%. The estimate above is +$881 per six months at elasticity −1 and breaks even near −1.8, but elasticity is not measured.
 
-**Test:**
-- **Design.** A chain-wide week-level switchback on those four items only: all branches raise the four prices in treated weeks on an ABBA schedule for 20–26 weeks (`EXPERIMENTS.md` pilot 6). It is chain-wide because 93.8% of identified customers use several branches.
-- **Primary metric:** gross profit per week of transactions that contain any of the four items, own plus accompanying items. That way, a customer who drops the pastry but keeps the drink, or switches to another drink, is counted.
-- **Secondary metrics:** units of the four items, and units of their closest substitutes (other matcha drinks, other bakery items).
-- **Decision rule:** keep the rise only if the lower 95% bound of the primary metric's change is above 0, judged at a critical value calibrated on Stories' history (2.19 at 26 weeks).
-- **Simulated (`EXPERIMENTS.md` pilot 6, `results/experiment_power_results.csv`):**
-  - **Central effect:** +2.35% of those transactions' gross profit, the +$881 estimate. It is detected 10% of the time at 26 weeks and 19% at 52, so 80% power is not reachable at a practical length.
-  - **What 26 weeks can detect:** the smallest effect with 80% power is 9.5% of their gross profit.
-  - **False positives:** 6.2% at 26 weeks.
-  - **Reading:** the test works as a safety check; a rise that loses 2.5% is kept only 0.4% of the time. It cannot confirm the expected gain, so the decision rests on cost and price positioning, with the test guarding against a loss.
+**Test** (`EXPERIMENTS.md` pilot 6):
+- **Design.** A chain-wide week-level switchback on those four items only: all branches raise the four prices in treated weeks on an ABBA schedule for 26 weeks. It is chain-wide because 93.8% of identified customers use several branches.
+- **Primary metric:** total chain weekly gross profit, so customers who swap to another item or skip the item are counted wherever they spend.
+- **Secondary metrics:** units of the four items, units of their closest substitutes (other matcha drinks, other bakery items), and gross profit of the transactions that contain the four items.
+- **Rule (the one rule):** keep the rise only if the lower 95% bound of the chain gross-profit effect is above 0, at a critical value calibrated on Stories' history (2.28 at 26 weeks); otherwise revert.
+- **Simulated:**
+  - **Central effect:** the +$880.80 estimate is +0.49% of six-month chain gross profit. It is detected 7% of the time at 26 weeks, no more often than no effect (6.0%).
+  - **What 26 weeks can detect:** the smallest effect with 80% power is 6.9% of chain gross profit.
+  - **Rule behaviour:** the rule keeps a rise that loses 1% only 0.8% of the time.
+- **Reading:** the test guards against a loss but cannot show the expected gain, so the decision rests on cost and price positioning.
 
 ## Reproduce
 ```bash

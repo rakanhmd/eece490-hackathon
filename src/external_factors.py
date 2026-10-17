@@ -537,7 +537,8 @@ summary = pd.DataFrame([
      "not supported by our test"],
     ["Jan to Jun growth", "Open-Meteo",
      "Weather effect estimated within month, applied to the Jan-Jun change in weather",
-     f"weather predicts {g.growth_implied_by_weather_pct:+.1f}% of the observed {g['jun_vs_jan_growth_pct_weekday_adjusted']:+.1f}%",
+     f"the Jan-Jun weather change implies a {g.growth_implied_by_weather_pct:+.2f}% change in transactions "
+     f"({100 * g.share_of_growth_implied_by_weather:+.2f}% of the log growth); observed growth {g['jun_vs_jan_growth_pct_weekday_adjusted']:+.1f}%",
      "not supported by our test"],
     ["Public holidays", "holidaydb.com, calendarlabs.com",
      "Holiday day vs same weekday 1-3 weeks before and after",

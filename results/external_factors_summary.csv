@@ -2,7 +2,7 @@ factor,dataset,test,result,verdict
 Temperature,"Open-Meteo daily max temperature, Beirut",Add to weekday + log-trend model; permutation within month,"-0.21% transactions per degC [-0.64, +0.21], p = 0.29",not supported by our test
 Rain,Open-Meteo daily precipitation (rain day = 1 mm or more),Same model,"-0.9% on rain days [-3.6, +1.9], p = 0.54; R2 gain from both 0.00018, p = 0.56",not supported by our test
 Hot days and cold drinks,Open-Meteo max temperature,"Cold-drink share of items vs temperature, month and weekday fixed effects","+0.08 pts per degC [-0.06, +0.22], p = 0.31; share 24.4% in Jan vs 25.0% in Jun",not supported by our test
-Jan to Jun growth,Open-Meteo,"Weather effect estimated within month, applied to the Jan-Jun change in weather",weather predicts -0.7% of the observed +52.6%,not supported by our test
+Jan to Jun growth,Open-Meteo,"Weather effect estimated within month, applied to the Jan-Jun change in weather",the Jan-Jun weather change implies a -0.75% change in transactions (-1.78% of the log growth); observed growth +52.6%,not supported by our test
 Public holidays,"holidaydb.com, calendarlabs.com",Holiday day vs same weekday 1-3 weeks before and after,"mean ratio 0.995 [0.961, 1.030] over 26 days",not supported by our test
 Ramadan,L'Orient Today (dates),"Share of transactions at 18:00 or later, Ramadan vs 3 weeks before and after","+0.4 pts [-1.4, +2.2] vs before; -1.6 pts [-3.6, +0.4] vs after",not supported by our test
 Security escalation from Mar 2,"Al-Monitor, LBC (dates)",Actual vs Jan-Feb weekday + trend model; placebo on Feb,"Mar +2.4% [-2.6, +6.8], Apr +0.8% [-2.2, +5.3]; placebo Feb +5.7%",not supported by our test

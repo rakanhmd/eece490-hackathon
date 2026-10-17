@@ -1,87 +1,116 @@
 design,rule,weeks,true_effect,share_of_pilots_triggering_rule
-"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is >= 1 point,12,0,0.002
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is >= 1 point,12,0,0.004
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is > 0,12,0,0.03
 "D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is >= 1 point,12,1,0.018
-"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is >= 1 point,12,2.5,0.284
-"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is >= 1 point,12,5,0.95
-"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is >= 1 point,16,0,0.002
-"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is >= 1 point,16,1,0.016
-"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is >= 1 point,16,2.5,0.394
-"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is >= 1 point,16,5,0.986
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is > 0,12,1,0.112
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is >= 1 point,12,2.5,0.302
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is > 0,12,2.5,0.67
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is >= 1 point,12,5,0.91
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is > 0,12,5,0.984
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is >= 1 point,16,0,0.0
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is > 0,16,0,0.016
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is >= 1 point,16,1,0.024
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is > 0,16,1,0.138
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is >= 1 point,16,2.5,0.364
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is > 0,16,2.5,0.758
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is >= 1 point,16,5,0.976
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is > 0,16,5,1.0
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is >= 1 point,20,0,0.002
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is > 0,20,0,0.026
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is >= 1 point,20,1,0.032
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is > 0,20,1,0.244
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is >= 1 point,20,2.5,0.402
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is > 0,20,2.5,0.84
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is >= 1 point,20,5,0.998
+"D1 food prompt (attach, points)",roll out if the lower 95% bound of the gain is > 0,20,5,1.0
 D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is >= 1 point,12,0,0.0
-D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is >= 1 point,12,1,0.034
-D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is >= 1 point,12,2.5,0.3
-D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is >= 1 point,12,5,0.954
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is > 0,12,0,0.022
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is >= 1 point,12,1,0.018
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is > 0,12,1,0.146
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is >= 1 point,12,2.5,0.28
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is > 0,12,2.5,0.616
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is >= 1 point,12,5,0.974
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is > 0,12,5,0.998
 D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is >= 1 point,16,0,0.0
-D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is >= 1 point,16,1,0.026
-D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is >= 1 point,16,2.5,0.416
-D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is >= 1 point,16,5,0.992
-D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,12,units -3.3% (GP +8.0%),0.654
-D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),12,units -3.3% (GP +8.0%),0.6
-D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,12,units -6.4% (GP +4.5%),0.33
-D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),12,units -6.4% (GP +4.5%),0.26
-D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,12,units -9.0% (GP +1.6%),0.064
-D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),12,units -9.0% (GP +1.6%),0.068
-D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,12,units -10.5% (GP +0.0%),0.012
-D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),12,units -10.5% (GP +0.0%),0.006
-D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,12,units -12.4% (GP -2.2%),0.002
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is > 0,16,0,0.034
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is >= 1 point,16,1,0.012
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is > 0,16,1,0.208
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is >= 1 point,16,2.5,0.324
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is > 0,16,2.5,0.746
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is >= 1 point,16,5,0.986
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is > 0,16,5,1.0
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is >= 1 point,20,0,0.0
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is > 0,20,0,0.026
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is >= 1 point,20,1,0.032
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is > 0,20,1,0.262
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is >= 1 point,20,2.5,0.518
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is > 0,20,2.5,0.9
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is >= 1 point,20,5,1.0
+D2 evening dessert upsell (points),roll out if the lower 95% bound of the gain is > 0,20,5,1.0
+D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,12,units -3.3% (GP +8.0%),0.626
+D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),12,units -3.3% (GP +8.0%),0.572
+D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,12,units -6.4% (GP +4.5%),0.334
+D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),12,units -6.4% (GP +4.5%),0.244
+D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,12,units -9.0% (GP +1.6%),0.08
+D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),12,units -9.0% (GP +1.6%),0.036
+D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,12,units -10.5% (GP +0.0%),0.024
+D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),12,units -10.5% (GP +0.0%),0.02
+D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,12,units -12.4% (GP -2.2%),0.004
 D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),12,units -12.4% (GP -2.2%),0.002
-D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,16,units -3.3% (GP +8.0%),0.762
-D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),16,units -3.3% (GP +8.0%),0.724
-D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,16,units -6.4% (GP +4.5%),0.416
-D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),16,units -6.4% (GP +4.5%),0.298
-D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,16,units -9.0% (GP +1.6%),0.126
-D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),16,units -9.0% (GP +1.6%),0.044
-D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,16,units -10.5% (GP +0.0%),0.026
-D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),16,units -10.5% (GP +0.0%),0.016
-D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,16,units -12.4% (GP -2.2%),0.004
-D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),16,units -12.4% (GP -2.2%),0.002
-D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,20,units -3.3% (GP +8.0%),0.838
-D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),20,units -3.3% (GP +8.0%),0.816
-D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,20,units -6.4% (GP +4.5%),0.474
-D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),20,units -6.4% (GP +4.5%),0.332
-D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,20,units -9.0% (GP +1.6%),0.122
-D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),20,units -9.0% (GP +1.6%),0.078
+D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,16,units -3.3% (GP +8.0%),0.736
+D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),16,units -3.3% (GP +8.0%),0.696
+D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,16,units -6.4% (GP +4.5%),0.422
+D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),16,units -6.4% (GP +4.5%),0.254
+D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,16,units -9.0% (GP +1.6%),0.112
+D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),16,units -9.0% (GP +1.6%),0.054
+D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,16,units -10.5% (GP +0.0%),0.038
+D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),16,units -10.5% (GP +0.0%),0.02
+D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,16,units -12.4% (GP -2.2%),0.002
+D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),16,units -12.4% (GP -2.2%),0.0
+D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,20,units -3.3% (GP +8.0%),0.812
+D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),20,units -3.3% (GP +8.0%),0.838
+D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,20,units -6.4% (GP +4.5%),0.456
+D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),20,units -6.4% (GP +4.5%),0.366
+D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,20,units -9.0% (GP +1.6%),0.084
+D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),20,units -9.0% (GP +1.6%),0.056
 D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,20,units -10.5% (GP +0.0%),0.024
-D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),20,units -10.5% (GP +0.0%),0.014
-D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,20,units -12.4% (GP -2.2%),0.004
+D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),20,units -10.5% (GP +0.0%),0.018
+D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,20,units -12.4% (GP -2.2%),0.002
 D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),20,units -12.4% (GP -2.2%),0.002
-D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,26,units -3.3% (GP +8.0%),0.92
-D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),26,units -3.3% (GP +8.0%),0.92
-D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,26,units -6.4% (GP +4.5%),0.508
-D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),26,units -6.4% (GP +4.5%),0.444
-D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,26,units -9.0% (GP +1.6%),0.124
-D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),26,units -9.0% (GP +1.6%),0.062
-D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,26,units -10.5% (GP +0.0%),0.028
-D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),26,units -10.5% (GP +0.0%),0.012
-D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,26,units -12.4% (GP -2.2%),0.0
+D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,26,units -3.3% (GP +8.0%),0.918
+D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),26,units -3.3% (GP +8.0%),0.93
+D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,26,units -6.4% (GP +4.5%),0.552
+D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),26,units -6.4% (GP +4.5%),0.404
+D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,26,units -9.0% (GP +1.6%),0.128
+D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),26,units -9.0% (GP +1.6%),0.072
+D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,26,units -10.5% (GP +0.0%),0.046
+D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),26,units -10.5% (GP +0.0%),0.018
+D3 price test,A: roll out if the lower 95% bound of the chain GP effect is > 0,26,units -12.4% (GP -2.2%),0.002
 D3 price test,B: roll out if the lower 95% bound of the visit effect is > -10.5% (break-even units change),26,units -12.4% (GP -2.2%),0.0
-D4 discount removal,revert if the upper 95% bound of the chain GP effect is < 0,12,GP +0.99%,0.006
-D4 discount removal,revert if the upper 95% bound of the chain GP effect is < 0,12,GP +0.00%,0.028
-D4 discount removal,revert if the upper 95% bound of the chain GP effect is < 0,12,GP -2.50%,0.182
-D4 discount removal,revert if the upper 95% bound of the chain GP effect is < 0,12,GP -5.00%,0.434
-D4 discount removal,revert if the upper 95% bound of the chain GP effect is < 0,12,GP -7.50%,0.676
-D4 discount removal,revert if the upper 95% bound of the chain GP effect is < 0,20,GP +0.99%,0.006
-D4 discount removal,revert if the upper 95% bound of the chain GP effect is < 0,20,GP +0.00%,0.016
-D4 discount removal,revert if the upper 95% bound of the chain GP effect is < 0,20,GP -2.50%,0.18
-D4 discount removal,revert if the upper 95% bound of the chain GP effect is < 0,20,GP -5.00%,0.544
-D4 discount removal,revert if the upper 95% bound of the chain GP effect is < 0,20,GP -7.50%,0.804
-D4 discount removal,revert if the upper 95% bound of the chain GP effect is < 0,26,GP +0.99%,0.006
-D4 discount removal,revert if the upper 95% bound of the chain GP effect is < 0,26,GP +0.00%,0.02
-D4 discount removal,revert if the upper 95% bound of the chain GP effect is < 0,26,GP -2.50%,0.204
-D4 discount removal,revert if the upper 95% bound of the chain GP effect is < 0,26,GP -5.00%,0.63
-D4 discount removal,revert if the upper 95% bound of the chain GP effect is < 0,26,GP -7.50%,0.886
-D6 menu price test,keep the rise if the lower 95% bound of the effect on their transactions' GP is > 0,12,GP of their transactions +0.00%,0.026
-D6 menu price test,keep the rise if the lower 95% bound of the effect on their transactions' GP is > 0,12,GP of their transactions +2.35%,0.074
-D6 menu price test,keep the rise if the lower 95% bound of the effect on their transactions' GP is > 0,12,GP of their transactions +5.00%,0.204
-D6 menu price test,keep the rise if the lower 95% bound of the effect on their transactions' GP is > 0,12,GP of their transactions +10.00%,0.484
-D6 menu price test,keep the rise if the lower 95% bound of the effect on their transactions' GP is > 0,12,GP of their transactions -2.50%,0.0
-D6 menu price test,keep the rise if the lower 95% bound of the effect on their transactions' GP is > 0,20,GP of their transactions +0.00%,0.024
-D6 menu price test,keep the rise if the lower 95% bound of the effect on their transactions' GP is > 0,20,GP of their transactions +2.35%,0.102
-D6 menu price test,keep the rise if the lower 95% bound of the effect on their transactions' GP is > 0,20,GP of their transactions +5.00%,0.302
-D6 menu price test,keep the rise if the lower 95% bound of the effect on their transactions' GP is > 0,20,GP of their transactions +10.00%,0.756
-D6 menu price test,keep the rise if the lower 95% bound of the effect on their transactions' GP is > 0,20,GP of their transactions -2.50%,0.002
-D6 menu price test,keep the rise if the lower 95% bound of the effect on their transactions' GP is > 0,26,GP of their transactions +0.00%,0.024
-D6 menu price test,keep the rise if the lower 95% bound of the effect on their transactions' GP is > 0,26,GP of their transactions +2.35%,0.154
-D6 menu price test,keep the rise if the lower 95% bound of the effect on their transactions' GP is > 0,26,GP of their transactions +5.00%,0.344
-D6 menu price test,keep the rise if the lower 95% bound of the effect on their transactions' GP is > 0,26,GP of their transactions +10.00%,0.868
-D6 menu price test,keep the rise if the lower 95% bound of the effect on their transactions' GP is > 0,26,GP of their transactions -2.50%,0.004
+D4 discount removal,remove only if the lower 95% bound of the chain GP effect is > -margin (margin 8.88% at 12 weeks); else keep,12,GP +0.99%,0.8
+D4 discount removal,remove only if the lower 95% bound of the chain GP effect is > -margin (margin 8.88% at 12 weeks); else keep,12,GP +0.00%,0.735
+D4 discount removal,remove only if the lower 95% bound of the chain GP effect is > -margin (margin 8.88% at 12 weeks); else keep,12,GP -2.50%,0.523
+D4 discount removal,remove only if the lower 95% bound of the chain GP effect is > -margin (margin 8.88% at 12 weeks); else keep,12,GP -5.00%,0.267
+D4 discount removal,remove only if the lower 95% bound of the chain GP effect is > -margin (margin 6.52% at 20 weeks); else keep,20,GP +0.99%,0.8
+D4 discount removal,remove only if the lower 95% bound of the chain GP effect is > -margin (margin 6.52% at 20 weeks); else keep,20,GP +0.00%,0.694
+D4 discount removal,remove only if the lower 95% bound of the chain GP effect is > -margin (margin 6.52% at 20 weeks); else keep,20,GP -2.50%,0.374
+D4 discount removal,remove only if the lower 95% bound of the chain GP effect is > -margin (margin 6.52% at 20 weeks); else keep,20,GP -5.00%,0.087
+D4 discount removal,remove only if the lower 95% bound of the chain GP effect is > -margin (margin 5.64% at 26 weeks); else keep,26,GP +0.99%,0.8
+D4 discount removal,remove only if the lower 95% bound of the chain GP effect is > -margin (margin 5.64% at 26 weeks); else keep,26,GP +0.00%,0.681
+D4 discount removal,remove only if the lower 95% bound of the chain GP effect is > -margin (margin 5.64% at 26 weeks); else keep,26,GP -2.50%,0.295
+D4 discount removal,remove only if the lower 95% bound of the chain GP effect is > -margin (margin 5.64% at 26 weeks); else keep,26,GP -5.00%,0.034
+D6 menu price test,keep the rise if the lower 95% bound of the chain GP effect is > 0,12,chain GP +0.00%,0.034
+D6 menu price test,keep the rise if the lower 95% bound of the chain GP effect is > 0,12,chain GP +0.49%,0.042
+D6 menu price test,keep the rise if the lower 95% bound of the chain GP effect is > 0,12,chain GP +2.50%,0.16
+D6 menu price test,keep the rise if the lower 95% bound of the chain GP effect is > 0,12,chain GP +5.00%,0.414
+D6 menu price test,keep the rise if the lower 95% bound of the chain GP effect is > 0,12,chain GP -1.00%,0.016
+D6 menu price test,keep the rise if the lower 95% bound of the chain GP effect is > 0,20,chain GP +0.00%,0.016
+D6 menu price test,keep the rise if the lower 95% bound of the chain GP effect is > 0,20,chain GP +0.49%,0.03
+D6 menu price test,keep the rise if the lower 95% bound of the chain GP effect is > 0,20,chain GP +2.50%,0.176
+D6 menu price test,keep the rise if the lower 95% bound of the chain GP effect is > 0,20,chain GP +5.00%,0.496
+D6 menu price test,keep the rise if the lower 95% bound of the chain GP effect is > 0,20,chain GP -1.00%,0.008
+D6 menu price test,keep the rise if the lower 95% bound of the chain GP effect is > 0,26,chain GP +0.00%,0.04
+D6 menu price test,keep the rise if the lower 95% bound of the chain GP effect is > 0,26,chain GP +0.49%,0.068
+D6 menu price test,keep the rise if the lower 95% bound of the chain GP effect is > 0,26,chain GP +2.50%,0.272
+D6 menu price test,keep the rise if the lower 95% bound of the chain GP effect is > 0,26,chain GP +5.00%,0.62
+D6 menu price test,keep the rise if the lower 95% bound of the chain GP effect is > 0,26,chain GP -1.00%,0.008

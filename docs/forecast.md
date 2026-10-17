@@ -6,7 +6,7 @@ Code: `src/forecast.py`. Tables: `results/forecast_rolling_mae.csv`, `results/fo
 - **Target:** transactions per branch per day.
 - **Rolling origin, fixed 7-day horizon.** For each origin date t from 1 March to 23 June (115 origins × 3 branches), every candidate is fit on data up to and including t and predicts t + 7. Targets run from 8 March to 30 June.
 - **No look-ahead.** Every feature is computed relative to the origin, never the target date. The seasonal naive baseline is the count observed at t (same weekday, one week before the target).
-- **Candidates frozen before evaluation, all reported:**
+- **Candidates (a retrospective backtest with controlled information access: each forecast uses only data up to its origin; all candidates are reported):**
   - dummy (mean of all data up to t);
   - seasonal naive;
   - weekday + trend and weekday + log trend (least squares per branch on all data up to t);

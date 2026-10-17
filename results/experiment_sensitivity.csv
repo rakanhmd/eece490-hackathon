@@ -1,47 +1,47 @@
 design,weeks,effect,carryover,spillover,detection_rate,mean_estimate
-"D1 food prompt (attach, points)",12,0.0,0.0,0.0,0.036,0.0852
-"D1 food prompt (attach, points)",12,0.0,0.5,0.0,0.074,0.0291
-"D1 food prompt (attach, points)",12,0.0,0.0,0.25,0.05,-0.0513
-"D1 food prompt (attach, points)",12,0.0,0.0,0.5,0.06,-0.031
-"D1 food prompt (attach, points)",12,0.0,0.5,0.25,0.052,-0.0349
-"D1 food prompt (attach, points)",12,2.5,0.0,0.0,0.614,2.5277
-"D1 food prompt (attach, points)",12,2.5,0.5,0.0,0.334,1.696
-"D1 food prompt (attach, points)",12,2.5,0.0,0.25,0.42,1.8662
-"D1 food prompt (attach, points)",12,2.5,0.0,0.5,0.218,1.207
-"D1 food prompt (attach, points)",12,2.5,0.5,0.25,0.246,1.3895
-"D1 food prompt (attach, points)",12,5.0,0.0,0.0,1.0,4.9844
-"D1 food prompt (attach, points)",12,5.0,0.5,0.0,0.826,3.2762
-"D1 food prompt (attach, points)",12,5.0,0.0,0.25,0.932,3.7165
-"D1 food prompt (attach, points)",12,5.0,0.0,0.5,0.636,2.5033
-"D1 food prompt (attach, points)",12,5.0,0.5,0.25,0.728,2.8903
-D2 evening dessert upsell (points),12,0.0,0.0,0.0,0.076,0.0069
-D2 evening dessert upsell (points),12,0.0,0.5,0.0,0.06,-0.0327
-D2 evening dessert upsell (points),12,0.0,0.0,0.25,0.08,-0.0632
-D2 evening dessert upsell (points),12,0.0,0.0,0.5,0.058,0.0032
-D2 evening dessert upsell (points),12,0.0,0.5,0.25,0.056,-0.0851
-D2 evening dessert upsell (points),12,2.5,0.0,0.0,0.666,2.4442
-D2 evening dessert upsell (points),12,2.5,0.5,0.0,0.35,1.6417
-D2 evening dessert upsell (points),12,2.5,0.0,0.25,0.442,1.8766
-D2 evening dessert upsell (points),12,2.5,0.0,0.5,0.256,1.2969
-D2 evening dessert upsell (points),12,2.5,0.5,0.25,0.284,1.5354
-D2 evening dessert upsell (points),12,5.0,0.0,0.0,0.998,4.9494
-D2 evening dessert upsell (points),12,5.0,0.5,0.0,0.86,3.3206
-D2 evening dessert upsell (points),12,5.0,0.0,0.25,0.942,3.7519
-D2 evening dessert upsell (points),12,5.0,0.0,0.5,0.666,2.5724
-D2 evening dessert upsell (points),12,5.0,0.5,0.25,0.756,2.9183
-"D3 price test (chain GP, %)",20,0.0,0.0,,0.046,-0.0275
-"D3 price test (chain GP, %)",20,0.0,0.5,,0.044,0.1158
-"D3 price test (chain GP, %)",20,0.0,-0.5,,0.042,-0.0849
-"D3 price test (chain GP, %)",20,4.5,0.0,,0.428,4.4233
-"D3 price test (chain GP, %)",20,4.5,0.5,,0.28,3.3201
-"D3 price test (chain GP, %)",20,4.5,-0.5,,0.566,5.5334
-"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",8,0.0,0.0,,0.1,0.0582
-"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",8,4.5,0.0,,0.324,4.2208
-"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",12,0.0,0.0,,0.124,0.0768
-"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",12,4.5,0.0,,0.418,4.7353
-"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",16,0.0,0.0,,0.112,-0.0685
-"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",16,4.5,0.0,,0.474,4.3567
-"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",20,0.0,0.0,,0.07,-0.2014
-"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",20,4.5,0.0,,0.518,4.2904
-"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",26,0.0,0.0,,0.116,0.05
-"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",26,4.5,0.0,,0.564,4.4376
+"D1 food prompt (attach, points)",12,0.0,0.0,0.0,0.042,-0.0435
+"D1 food prompt (attach, points)",12,0.0,0.5,0.0,0.06,-0.0833
+"D1 food prompt (attach, points)",12,0.0,0.0,0.25,0.064,-0.034
+"D1 food prompt (attach, points)",12,0.0,0.0,0.5,0.058,0.0154
+"D1 food prompt (attach, points)",12,0.0,0.5,0.25,0.07,-0.0831
+"D1 food prompt (attach, points)",12,2.5,0.0,0.0,0.668,2.4624
+"D1 food prompt (attach, points)",12,2.5,0.5,0.0,0.336,1.7028
+"D1 food prompt (attach, points)",12,2.5,0.0,0.25,0.386,1.7882
+"D1 food prompt (attach, points)",12,2.5,0.0,0.5,0.208,1.1799
+"D1 food prompt (attach, points)",12,2.5,0.5,0.25,0.28,1.4437
+"D1 food prompt (attach, points)",12,5.0,0.0,0.0,0.988,4.9586
+"D1 food prompt (attach, points)",12,5.0,0.5,0.0,0.856,3.3304
+"D1 food prompt (attach, points)",12,5.0,0.0,0.25,0.932,3.6849
+"D1 food prompt (attach, points)",12,5.0,0.0,0.5,0.632,2.4772
+"D1 food prompt (attach, points)",12,5.0,0.5,0.25,0.75,2.9214
+D2 evening dessert upsell (points),12,0.0,0.0,0.0,0.05,-0.046
+D2 evening dessert upsell (points),12,0.0,0.5,0.0,0.05,-0.0072
+D2 evening dessert upsell (points),12,0.0,0.0,0.25,0.07,0.0138
+D2 evening dessert upsell (points),12,0.0,0.0,0.5,0.06,-0.0364
+D2 evening dessert upsell (points),12,0.0,0.5,0.25,0.058,0.0257
+D2 evening dessert upsell (points),12,2.5,0.0,0.0,0.69,2.5004
+D2 evening dessert upsell (points),12,2.5,0.5,0.0,0.384,1.6834
+D2 evening dessert upsell (points),12,2.5,0.0,0.25,0.472,1.9378
+D2 evening dessert upsell (points),12,2.5,0.0,0.5,0.24,1.2731
+D2 evening dessert upsell (points),12,2.5,0.5,0.25,0.296,1.4965
+D2 evening dessert upsell (points),12,5.0,0.0,0.0,0.998,5.0406
+D2 evening dessert upsell (points),12,5.0,0.5,0.0,0.846,3.2954
+D2 evening dessert upsell (points),12,5.0,0.0,0.25,0.946,3.719
+D2 evening dessert upsell (points),12,5.0,0.0,0.5,0.654,2.5513
+D2 evening dessert upsell (points),12,5.0,0.5,0.25,0.764,2.9172
+"D3 price test (chain GP, %)",20,0.0,0.0,,0.046,0.2595
+"D3 price test (chain GP, %)",20,0.0,0.5,,0.036,-0.0825
+"D3 price test (chain GP, %)",20,0.0,-0.5,,0.034,-0.0647
+"D3 price test (chain GP, %)",20,4.5,0.0,,0.424,4.5075
+"D3 price test (chain GP, %)",20,4.5,0.5,,0.266,3.3314
+"D3 price test (chain GP, %)",20,4.5,-0.5,,0.576,5.5196
+"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",8,0.0,0.0,,0.09,0.291
+"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",8,4.5,0.0,,0.332,4.3501
+"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",12,0.0,0.0,,0.104,0.129
+"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",12,4.5,0.0,,0.42,4.2329
+"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",16,0.0,0.0,,0.118,-0.007
+"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",16,4.5,0.0,,0.476,4.5103
+"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",20,0.0,0.0,,0.106,-0.0146
+"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",20,4.5,0.0,,0.498,4.4152
+"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",26,0.0,0.0,,0.098,-0.0727
+"D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS",26,4.5,0.0,,0.556,4.3646
