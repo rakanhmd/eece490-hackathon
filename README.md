@@ -10,17 +10,17 @@ EECE 490 (Introduction to Machine Learning), American University of Beirut · Ha
 
 Other measured facts: no price changed from January to June while Lebanese consumer prices rose 17.25% a year, and the 10% discount cost $1,706 with no evidence that it raises basket size beyond what random assignment would produce.
 
-**Decision table.** Each threshold holds the other assumptions fixed and excludes implementation costs (`results/decision_thresholds.csv`). Six-month figures; per year = six months × 2.
+**Decision table.** Each threshold holds the other assumptions fixed and excludes implementation costs (`results/decision_thresholds.csv`). The last column, from [`EXPERIMENTS.md`](EXPERIMENTS.md), says whether a pilot can confirm the gain or only guard against a loss. Six-month figures; per year = six months × 2.
 
-| Area | Observed evidence | Decision now | What would change the order |
-|---|---|---|---|
-| Garden costs | About 1.43× Harbour's recorded cost on every product, unchanged for six months | Audit invoices and cost allocations for 5–10 products before any other cost action | The cost fix is worth more than price Option A only if more than 51.0% of the $15,888 gap is real, avoidable cash, and more than Option B only above 27.1% |
-| Prices | 0 price changes on 135 price lists; Lebanon CPI +17.25% a year | Choose Option A or Option B (below) and test it with a chain-wide week switchback before a permanent change | Option A loses gross profit at elasticities beyond −1.67 (a 10.5% fall in units) |
-| Tuesday and Saturday | Tuesday 1.52–1.56× at every branch, in all 25 full weeks; not a discount day | Check Stories' campaign, social-post and app/loyalty logs for Tuesdays; staff Tuesdays from the weekday forecast; copy the driver to Saturday only once it is found | A Saturday gain of 25% of Tuesday's lift ($3,468 before shifting) falls below the food prompt if more than 37.4% of the extra visits are shifted from other days |
-| Food with drinks | 59% of drink orders carry no food; the attach rate runs from 38.1% to 43.0% by drink | Test a till prompt, without a discount, switched on and off by branch-week on a balanced schedule (20 weeks for 80% power at +2.5 points) | The prompt is worth less than stopping the 10% discount if it raises the attach rate by less than 1.96 points |
-| 10% discount | Costs $1,706; no evidence it raises basket size | Pilot stopping it at one branch for four weeks | Any lost visits reduce the saving; their effect is untested |
-| Harbour's 15% promo | $470 of discounts; the rise in promoted categories grew after it ended | Do not extend it without a proper test | — |
-| Win-back campaigns | Selected churn model PR-AUC 0.0995 on held-out customers vs 0.0877 for the baseline | Do not target win-back offers with a model | A model that clearly beats the baseline on new data |
+| Area | Observed evidence | Decision now | What would change the order | Test can confirm gain? |
+|---|---|---|---|---|
+| Garden costs | About 1.43× Harbour's recorded cost on every product, unchanged for six months | Audit invoices and cost allocations for 5–10 products before any other cost action | The cost fix is worth more than price Option A only if more than 51.0% of the $15,888 gap is real, avoidable cash, and more than Option B only above 27.1% | No pilot; the invoice audit decides |
+| Prices | 0 price changes on 135 price lists; Lebanon CPI +17.25% a year | Choose Option A or Option B (below) and test it with a chain-wide week switchback before a permanent change | Option A loses gross profit at elasticities beyond −1.67 (a 10.5% fall in units) | Visits only, 26 wk |
+| Tuesday and Saturday | Tuesday 1.52–1.56× at every branch, in all 25 full weeks; not a discount day | Check Stories' campaign, social-post and app/loyalty logs for Tuesdays; staff Tuesdays from the weekday forecast; copy the driver to Saturday only once it is found | A Saturday gain of 25% of Tuesday's lift ($3,468 before shifting) falls below the food prompt if more than 37.4% of the extra visits are shifted from other days | Safety check only |
+| Food with drinks | 59% of drink orders carry no food; the attach rate runs from 38.1% to 43.0% by drink | Test a till prompt, without a discount, switched on and off by branch-week on a balanced schedule (20 weeks for 80% power at +2.5 points) | The prompt is worth less than stopping the 10% discount if it raises the attach rate by less than 1.96 points | Yes, 20 wk |
+| 10% discount | Costs $1,706; no evidence it raises basket size | Stop it in a chain-wide week switchback (20–26 weeks) that guards against a loss | Any lost visits reduce the saving; their effect is untested | Safety check only |
+| Harbour's 15% promo | $470 of discounts; the rise in promoted categories grew after it ended | Do not extend it without a proper test | — | — |
+| Win-back campaigns | Selected churn model PR-AUC 0.0995 on held-out customers vs 0.0877 for the baseline | Do not target win-back offers with a model | A model that clearly beats the baseline on new data | — |
 
 **Price options (alternatives; do not add them).**
 - **Option A, all branches +6.86%** (inflation-matched): +$8,096 at an assumed elasticity of −1, meaning customers cut purchases 1% for every 1% price rise. The range is −$3,907 at elasticity −2 to +$20,922 at 0. It breaks even at −1.67.
@@ -54,7 +54,7 @@ All figures are computed from the data after removing 132 exact duplicate rows. 
    |---|---|---|---|---|---|---|
    | 178.0 | 284.5 | 186.2 | 180.0 | 197.5 | 128.7 | 155.7 |
 
-   - **Every week.** Tuesday is the busiest day in all 25 full weeks, with weekly ratios of 1.32–1.69. On the same base Saturday is 0.69× and the weekend 0.767 [0.745, 0.790] (`results/tuesday_weekday_ratios.csv`).
+   - **Every week.** Tuesday is the busiest day in all 25 full weeks, with weekly ratios of 1.32–1.69. On the same base the weekend is 0.767 [0.745, 0.790] (`results/tuesday_weekday_ratios.csv`).
    - **No sign of a recording error in our tests.** No other day is depleted, there are no copied records, it is not a few event days, and the hours and baskets are unchanged (permutation p = 0.75).
    - **Not a discount day.** 10.1% of Tuesday transactions carry a discount, against 9.4% on other days. The identified-customer share is 64.2% against 63.4%.
    - **What the excess is made of** ([`TUESDAY_DECOMP.md`](TUESDAY_DECOMP.md)). About 95.4 extra transactions a week: 65.3% more distinct customer IDs [62.0%, 68.8%], 0.6% more trips per ID [−0.1%, 1.2%], 34.2% with no Customer ID. 99.1% of Tuesday customers also buy on other days.
@@ -62,7 +62,7 @@ All figures are computed from the data after removing 132 exact duplicate rows. 
    - **When customers come.** Dine-in is about 46% of transactions every hour until 17:00, then jumps to 69.9% at 18:00 at all three branches; 44.2% of traffic comes after 19:00. The step is so sharp and uniform that it may be a till default rather than customer behaviour ([`FINDING_weekend.md`](FINDING_weekend.md)), so check it against receipts from 17:30–18:30 before changing seating or staffing.
    - Source: `src/tuesday_check.py`, `src/tuesday_decompose.py`, `src/daypart_analysis.py`, `results/tuesday_*.csv`, `results/daypart_*.csv`.
 
-5. **A weekday + log-trend forecast beats the seasonal naive baseline 7 days ahead, most of all on Tuesdays.** Rolling origin: for each day from 1 March to 23 June, every candidate is fit on data up to that day and predicts 7 days later, with all features computed at the origin. The candidates were fixed in advance and all are reported ([`docs/forecast.md`](docs/forecast.md)). Staffing from this forecast needs only the Tuesday pattern to persist, not its cause.
+5. **A weekday + log-trend forecast beats the seasonal naive baseline 7 days ahead, most of all on Tuesdays.** Rolling origin: for each day from 1 March to 23 June, every candidate is fit on data up to that day and predicts 7 days later, with all features computed at the origin. The candidates were fixed in advance and all are reported ([`docs/forecast.md`](docs/forecast.md)).
 
    | MAE, transactions per branch per day | All | Tuesdays | Other days |
    |---|---|---|---|
@@ -82,7 +82,7 @@ All figures are computed from the data after removing 132 exact duplicate rows. 
 8. **59% of drink orders carry no food; of the variables we measured, only drink category was linked to the food-with-drink rate.** The attach rate is 40.8% overall, with no detectable difference across branches, hours, weekdays and months. It runs from 38.1% for Cold Coffee to 43.0% for Matcha & Tea (p < 0.0001). Detail in [`FINDING_8.md`](FINDING_8.md). Source: `src/basket_analysis.py`, `results/basket_*.csv`.
 
 ## Did outside factors cause this?
-We tested public data against the Tuesday surge, daily demand, growth and Garden's 1.43×, and compared our data with real shops. All branches are treated as being in Greater Beirut, because branch addresses are not in the data. Real-shop values are references, not causes. Brackets are 95% intervals. Weather terms use standard errors clustered by date and a week-block bootstrap. We ran about 14 tests without a multiple-testing correction. Full detail is in [`docs/outside_factors.md`](docs/outside_factors.md); sources are in [`data/README.md`](data/README.md).
+All branches are treated as being in Greater Beirut, because branch addresses are not in the data. Real-shop values are references, not causes. Brackets are 95% intervals. Weather terms use standard errors clustered by date and a week-block bootstrap. We ran about 14 tests without a multiple-testing correction. Full detail is in [`docs/outside_factors.md`](docs/outside_factors.md); sources are in [`data/README.md`](data/README.md).
 
 ![Real shops vs Stories](figures/outside_factors_summary.png)
 
@@ -140,9 +140,12 @@ Estimates, kept separate from the measured facts. Six-month figures; per year = 
 ## Data and reproduction
 Data, column schema, quality checks, external sources and licenses are in [`data/README.md`](data/README.md).
 
+Tested with Python 3.14.8; exact package versions are in `requirements-lock.txt`.
+
 ```bash
 pip install -r requirements.txt
 # place stories_transactions.csv in data/ (see data/README.md)
+python run_all.py                # runs all in this order, stops on the first failure
 cd src
 python margin_analysis.py        # Garden margin and unit costs
 python pricing_analysis.py       # prices, structure, Option B
@@ -155,11 +158,11 @@ python promo_analysis.py         # Harbour 15% promo
 python discount_analysis.py      # 10% discount
 python basket_analysis.py        # food with drinks
 python external_factors.py       # weather, calendar, school, cost checks
-python benchmarks.py             # published coffee-chain benchmarks (after external_factors.py)
+python benchmarks.py             # published coffee-chain benchmarks
 python garden_cost_cause.py      # Garden cost-cause tests (GARDEN_CAUSE.md)
 python reference_compare.py      # public shop datasets: needs the Kaggle API, see below
-python weather_power.py          # power simulation with the bakery's effects (after reference_compare.py)
-python outside_summary.py        # outside-factors figure (after the scripts above)
+python weather_power.py          # power simulation with the bakery's effects
+python outside_summary.py        # outside-factors figure
 python opportunity_estimates.py  # Saturday, Option A, decision thresholds
 python daypart_analysis.py       # weekday vs weekend, dayparts
 python customer_model.py         # churn, two origins, segments (CUSTOMERS.md)
@@ -168,4 +171,4 @@ python menu_profit.py            # menu profit and contribution (MENU.md)
 python experiment_power.py       # pilot simulations (EXPERIMENTS.md)
 ```
 
-`reference_compare.py` needs the Kaggle API with a `kaggle.json` token (download commands in `data/README.md`); `weather_power.py` and `outside_summary.py` read its outputs. Every other script needs only the transaction file and the committed files in `data/external/`.
+`reference_compare.py` needs the Kaggle downloads in `data/README.md`; without them `run_all.py` skips it and uses the committed `results/reference_*.csv`.
