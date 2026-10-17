@@ -126,7 +126,11 @@ save_table(res, "promo_did.csv", index=False)
 hp = d[(d.Branch == "Harbour") & d.target & (d.date >= PROMO_START) & (d.date <= PROMO_END)]
 disc_cost = promo_lines["discount_usd"].sum()
 units_promo = hp["Quantity"].sum()
-gp_per_unit = hp[GP].sum() / units_promo
+# Net effect = actual GP - counterfactual GP without the promo.
+# Counterfactual: (units - incremental) sold at FULL-price gross profit per unit.
+# Actual GP is already net of the discount, so: net = incremental x full-price GP/unit - total discount.
+# (Using the after-discount GP/unit here would subtract part of the discount twice.)
+gp_per_unit = (hp[GP].sum() + disc_cost) / units_promo   # full-price gross profit per unit
 eff = rows[0]["promo_effect_pct"] / 100
 lo_eff, hi_eff = rows[0]["promo_ci_low_pct"] / 100, rows[0]["promo_ci_high_pct"] / 100
 
@@ -148,7 +152,7 @@ break_even_pct = 100 * (units_promo / (units_promo - break_even_units) - 1)
 money = money.round(1)
 save_table(money, "promo_value.csv", index=False)
 print(f"\nMEASURED: discount given on 15% lines = ${disc_cost:,.0f}; Harbour target units in window = {units_promo:,}; "
-      f"gross profit per unit = ${gp_per_unit:.2f}")
+      f"full-price gross profit per unit = ${gp_per_unit:.2f}")
 print(f"ESTIMATE: break-even uplift = {break_even_pct:.1f}% more target units")
 print(money.to_string(index=False))
 

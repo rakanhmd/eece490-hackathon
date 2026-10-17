@@ -4,19 +4,20 @@
 EECE 490 (Introduction to Machine Learning), American University of Beirut · Hackathon, October 17, 2026
 
 ## Conclusion
-Garden is Stories' biggest profit leak. On every one of its 45 products, Garden's recorded unit cost is 1.43 times Harbour's. Yet its price list is a flat 95% of Harbour's, so it keeps 47% of sales as gross profit against Harbour's 65%. We recommend two steps. First, audit where Garden's extra cost comes from: suppliers, delivery, or how costs are booked. Second, move a random half of Garden's products to Harbour's prices for four weeks and compare them with the other half. If the costs are real and Garden can buy at Harbour's prices, our estimate is about $17,600 more gross profit per six months, roughly $35,600 a year. This assumes customers cut purchases 1% for every 1% price rise, and the range is $14,600–$20,900. About 90% of that gain comes from the cost fix. The main assumption is that the unit-cost column records money Stories really pays. If Garden's cost includes overheads that other branches book elsewhere, most of the saving disappears, which is why the audit comes first. Separately, Tuesday brings about 1.5 times a normal weekday's transactions at every branch, every week. A simple forecast cuts the Tuesday planning error from 15.2 to 9.0 transactions a day compared with "same weekday last week". Neither discount we examined shows evidence of paying for itself.
+Garden is Stories' biggest profit leak. On every one of its 45 products, Garden's recorded unit cost is 1.43 times Harbour's. Yet its price list is a flat 95% of Harbour's, so it keeps 47% of sales as gross profit against Harbour's 65%. We recommend two steps. First, audit where Garden's extra cost comes from: suppliers, delivery, or how costs are booked. Second, move a random half of Garden's products to Harbour's prices for four weeks and compare them with the other half. If the costs are real and Garden can buy at Harbour's prices, our estimate is about $17,600 more gross profit per six months, roughly $35,600 a year. This assumes customers cut purchases 1% for every 1% price rise, and the range is $14,600–$20,900. About 90% of that gain comes from the cost fix. The main assumption is that the unit-cost column records money Stories really pays. If Garden's cost includes overheads that other branches book elsewhere, most of the saving disappears, which is why the audit comes first. Separately, Tuesday brings about 1.5 times a normal weekday's transactions at every branch, every week. A simple forecast cuts the Tuesday planning error from 15.2 to 9.0 transactions a day compared with "same weekday last week". 59% of drink orders carry no food. A counter prompt, not a discount, could add an estimated $640 to $4,340 per six months if it lifts the food-with-drink rate by 1 to 5 points. Neither discount we examined shows evidence of paying for itself.
 
 | Rank | Finding and action | Value over 6 months (Jan–Jun) | Measured or estimated |
 |---|---|---|---|
 | 1 | Garden: bring unit costs to Harbour's level and prices to Harbour's list | +$17,647 at elasticity −1 (range $14,585 to $20,863); about $35,600 a year | Estimated. The cost and price gaps themselves are measured |
 | 1a | Of which, cost fix alone | +$15,888 | Estimated. Part of row 1, do not add |
 | 1b | Of which, price fix alone | +$2,516 at elasticity −1 (range $174 to $4,975) | Estimated. Part of row 1, do not add |
-| 2 | Uptown: move prices to Harbour's list | +$1,782 at elasticity −1 (range −$1,357 to +$5,216) | Estimated. Can lose money if customers are price-sensitive |
-| 3 | Stop or restrict the 10% discount | $1,696 given away; saving up to that if no sales are lost | Cost measured, saving estimated |
-| 4 | Harbour 15% promo: do not extend it without a proper test | $470 of discounts given; net +$543 only if the promo caused the rise (range −$308 to +$1,349) | Cost measured, net estimated; causation not shown |
-| 5 | Plan Tuesday staffing and stock with the weekday forecast | No dollar figure, because labour costs are not in the data. Tuesday error 9.0 vs 15.2 transactions a day | Measured on June, held-out data |
+| 2 | Prompt food with drinks, especially Cold Drinks and Matcha & Tea, with no discount | +$644 to +$4,341; +$2,037 if every drink type reached the best attach rate | Estimated. The 40.8% attach rate and the drink-type gap are measured; the effect of a prompt is not |
+| 3 | Uptown: move prices to Harbour's list | +$1,782 at elasticity −1 (range −$1,357 to +$5,216) | Estimated. Can lose money if customers are price-sensitive |
+| 4 | Stop or restrict the 10% discount | $1,706 given away; saving up to that if no sales are lost | Cost measured, saving estimated |
+| 5 | Harbour 15% promo: do not extend it without a proper test | $470 of discounts given; net +$599 only if the promo caused the rise (range −$299 to +$1,451) | Cost measured, net estimated; causation not shown |
+| 6 | Plan Tuesday staffing and stock with the weekday forecast | No dollar figure, because labour costs are not in the data. Tuesday error 9.0 vs 15.2 transactions a day | Measured on June, held-out data |
 
-Rows 1 and 2 concern different branches, so they do not overlap. Removing the 10% discount at Garden or Uptown would slightly raise the price-row gains, which already include discounts as observed.
+Rows are ranked by their central estimate. Rows 1 and 3 concern different branches, so they do not overlap. Row 2 is priced at today's food margins, so it does not overlap with row 1. If Garden's costs fall, each extra Garden food basket earns more, which makes adding rows 1 and 2 slightly *understate* the total. A Garden price rise that loses customers would trim row 2 slightly. Removing the 10% discount at Garden or Uptown would slightly raise the price-row gains, which already include discounts as observed.
 
 ## The business problem
 Stories already knows what each branch sells. We looked instead at decisions where the data points to money left on the table:
@@ -37,9 +38,9 @@ Facts computed directly from the data (after removing 132 duplicate rows). Each 
    | Uptown | 55,554 | 34,795 | 62.6% |
    | Garden | 99,531 | 46,696 | 46.9% |
 
-   The gap is the same every month (Garden 46.7–47.2%), so it is structural, not a one-off.
+   The gap is the same every month (Garden 46.7–47.2%), so it is stable over time, not a one-off.
 
-2. **The gap comes from unit cost, not price.** For every one of the 45 products, Garden's recorded unit cost is 1.43× Harbour's (range 1.426–1.439). Garden's prices are about 5% *lower* than Harbour's (Uptown's about 9% lower). A uniform 43% markup on every product points to a branch-level cause, such as supplier terms, delivery costs or how costs are allocated to Garden, rather than recipes or waste on specific items.
+2. **The gap comes from unit cost, not price.** For every one of the 45 products, Garden's recorded unit cost is 1.43× Harbour's (range 1.426–1.439). Garden's prices are about 5% *lower* than Harbour's (Uptown's about 9% lower). A uniform 43% markup on every product is consistent with a branch-level cause, such as supplier terms, delivery costs or how costs are allocated to Garden, rather than recipes or waste on specific items. The data cannot tell whether Garden *pays* more or only *books* more.
 
 3. **Each branch has one fixed price list, set as a flat percentage of Harbour's prices, whatever the branch's costs.** All 135 product-branch pairs have exactly one price and one unit cost over the six months. Every Uptown price is 91.2–91.6% of Harbour's and every Garden price is 95.1–95.3% of Harbour's. So Garden, the branch whose costs are 43% higher, charges *less* than Harbour. At list prices, before any discount, the share of revenue kept as gross profit is:
 
@@ -87,9 +88,20 @@ Facts computed directly from the data (after removing 132 duplicate rows). Each 
    | Placebo: Cold Drinks, weather-sensitive, never discounted | −1.3% [−16.1, +15.8] | −5.1% [−24.3, +13.4] |
    | Placebo: fake promo window, Feb 1 to Mar 11 | −1.6% [−15.2, +13.0] | n/a |
 
-   The placebos are flat, and there was no clear pre-promo trend: −0.28 to +0.62 points per week over 10 weeks. But the gain is *larger after the discount stopped*, Harbour only pulls away about five weeks into the promo, and the size depends on which branch is the control. A discount effect would end when the discount ends. So we do not credit the promo with the rise. Source: `src/promo_analysis.py`, `results/promo_*.csv`, `figures/promo_weekly.png`.
+   The placebo on categories not on promo is flat with a tight interval. The Cold Drinks and fake-window placebos are also near zero, but their intervals are too wide to rule out an effect of this size. The pre-promo trend test is inconclusive: −0.28 to +0.62 points per week over only 10 weeks cannot rule out a Harbour-specific trend. Moreover, the gain is *larger after the discount stopped*, Harbour only pulls away about five weeks into the promo, and the size depends on which branch is the control. A discount effect would end when the discount ends. So we do not credit the promo with the rise. Any effect would also come from an offer that reached under a quarter of eligible purchases, and nothing in the data says who got it or why. Source: `src/promo_analysis.py`, `results/promo_*.csv`, `figures/promo_weekly.png`.
 
-7. **The 10% discount buys nothing measurable.** It appears on 5.5–5.8% of lines at every branch, 5.4–5.9% in every month and 5.3–6.2% on every weekday. Known customers get it at the same rate as everyone else, 63.2% vs 63.6% of transactions. Discounted transactions look bigger, with 0.23 more items. But shuffling the discount at random across lines produces the same gap, 0.23, because the discount is applied per line and bigger baskets have more lines to land on. For the same product at the same branch, a discounted line has the same quantity as a full-price one, a difference of +0.0004 units. Discounts given, January to June: **$1,696**. Source: `src/discount_analysis.py`, `results/discount_*.csv`.
+7. **The 10% discount does not lead to bigger baskets.** It appears on 5.5–5.8% of lines at every branch, 5.4–5.9% in every month and 5.3–6.2% on every weekday. Known customers get it at the same rate as everyone else, 63.2% vs 63.6% of transactions. Discounted transactions look bigger, with 0.23 more items. But shuffling the discount at random across lines produces the same gap, 0.23, because the discount is applied per line and bigger baskets have more lines to land on. For the same product at the same branch, a discounted line has the same quantity as a full-price one, a difference of +0.0004 units. The basket comparison leaves out the 458 transactions that also contain a 15% promo line. This test covers basket size only. It cannot show whether the discount changes who visits or how often. Discounts given on all 10% lines, January to June: **$1,706**. Source: `src/discount_analysis.py`, `results/discount_*.csv`.
+
+8. **59% of drink orders carry no food, and how often food is added depends only on the drink type.** Drinks are Hot Coffee, Cold Coffee, Cold Drinks and Matcha & Tea. Everything else is food. The "attach rate" is the share of transactions with a drink that also have food, and it is 40.8% overall. 13,865 of 23,428 drink transactions have no food. The attach rate is the same across branches, hours, weekdays and months. It varies only with the most expensive drink in the basket:
+
+   | Segment | Attach rate | Real difference? |
+   |---|---|---|
+   | Branch: Garden / Harbour / Uptown | 41.8% / 40.2% / 40.9% | No, p = 0.10 |
+   | Hour, 17 hours | 39.4% to 43.1% | No, p = 0.89 |
+   | Weekday / month | 39.8% to 41.9% / 40.2% to 41.5% | No, p = 0.39 / 0.82 |
+   | Drink: Cold Coffee / Cold Drinks / Hot Coffee / Matcha & Tea | **38.1%** / 40.7% / 41.1% / **43.0%** | Yes, p < 0.0001, also after adjusting for branch, hour, day and month |
+
+   The drink-type gap appears inside every branch. Some drink and food pairs sell less often together than item popularity predicts. To test this, we reshuffled items 2,000 times, keeping each basket's size and branch fixed. Cold Drinks + Bakery comes out at 0.63 of the expected count, 605 baskets against 958 expected. It stays at 0.62 when the comparison is limited to baskets that already hold both a drink and food. Matcha & Tea + Meals and + Sandwiches also stay under-sold, at 0.64 and 0.70, under that stricter test. Item-level pairs rest on small counts, so we treat them as pointers only. Food gross profit per drink-and-food basket averages $3.70: $4.22 at Harbour, $4.00 at Uptown and $2.77 at Garden. Garden's figure is lower because of its higher costs. Full write-up: [`FINDING_8.md`](FINDING_8.md). Source: `src/basket_analysis.py`, `results/basket_*.csv`, `figures/basket_attach_by_category.png`, `figures/basket_pair_ratio.png`.
 
 ## Estimated business value
 Estimates, kept separate from the measured facts above.
@@ -114,8 +126,18 @@ Estimates, kept separate from the measured facts above.
   | 0 | $15,888 | $4,975 | $20,863 | $20,863 |
   | −1.0 | $15,888 | $2,516 | $17,647 | $18,404 |
   | −2.0 | $15,888 | $174 | $14,585 | $16,062 |
-- **Harbour 15% promo.** If all of the measured rise were caused by the promo, the extra gross profit would be about $1,013 against $470 of discounts, a net +$543. The 95% range is −$308 to +$1,349, over the ten-week window. The promo breaks even at a 5.9% uplift. Because we do not credit the promo with the rise, the true net is probably lower. Source: `results/promo_value.csv`.
-- **Stopping the 10% discount.** This would save up to $1,696 per six months, about $3,420 a year, if no sales are lost. We found no sign that it brings extra items, but we cannot see whether it keeps customers coming back.
+- **Harbour 15% promo.** If all of the measured rise were caused by the promo, the extra units at full-price gross profit would be worth about $1,070 against $470 of discounts, a net +$599. The 95% range is −$299 to +$1,451, over the ten-week window. The promo breaks even at a 5.6% uplift. Because we do not credit the promo with the rise, the true net is probably lower. Source: `results/promo_value.csv`.
+- **Stopping the 10% discount.** This would save up to $1,706 per six months, about $3,440 a year, if no sales are lost. Both discounts are small in dollars. The 10% discount is 0.56% of six-month revenue, which was $305,184. We found no sign that it brings extra items, but we cannot see whether it keeps customers coming back.
+- **Selling food with more drink orders, finding 8.** The data does not show how much a counter prompt would move the attach rate, so we use scenarios. Each extra basket is priced at the branch's average food gross profit, or at 0.74 of it, which is Bakery's margin. From `results/basket_value_scenarios.csv`, six months:
+
+  | Attach rate rise (assumed) | Bakery-margin add-on | Average food margin |
+  |---|---|---|
+  | +1 point | +$644 | +$868 |
+  | +2.5 points | +$1,611 | +$2,171 |
+  | +5 points | +$3,222 | +$4,341 |
+  | Every drink type reaches Matcha & Tea's 43.0% | | +$2,037 |
+
+  That is about $1,300 to $8,800 a year. **A pairing discount would lose money.** Ten percent off food bought with a drink would also go to the 9,563 baskets that already carry food. The attach rate would need to rise by 9.4 points just to break even (`results/basket_discount_breakeven.csv`). The recommendation is a prompt or menu placement, not a discount.
 - **Cross-branch effect, not in the numbers above.** 94% of known customers already buy at more than one branch. If a Garden price rise moves some customers to Harbour, the chain still keeps 65% gross margin on those sales instead of 47%. Treating lost Garden units as lost to the chain therefore understates the Garden gain. For Uptown, the two margins are close, so moved customers change little.
 
 ## Assumptions and what would change the recommendation
@@ -126,18 +148,23 @@ Estimates, kept separate from the measured facts above.
 | Price elasticity is between 0 and −2, and the same for every product | Sets the size of the pricing gain | Above about 2.1 in absolute value, raising Garden's prices loses gross profit; for Uptown the limit is about 1.6 |
 | Lower prices at Garden and Uptown are not a deliberate response to local competitors | A competitor next door could make customers more price-sensitive than the range we assume | The price rise could lose more customers than estimated; the pilot below would show this |
 | The Tuesday surge reflects real customer visits | Staffing and stock plans would follow it | If it comes from how the data was produced or exported, Tuesday staffing should not change until Stories checks its till and footfall records |
+| An extra food basket earns the branch's average food gross profit, or 0.74 of it, and does not replace a second drink | Sets the size of the cross-sell gain | If customers swap a drink for a pastry, or prep and waste costs rise, the gain falls; we have no data on either |
+| The 132 exact duplicate rows are recording errors, not real repeat purchases | We removed them before all analysis | If they were real, revenue rises by $741, which is 0.24%; no margin or finding changes. Source: `results/duplicates_summary.csv` |
 | Garden could buy at Harbour's unit costs | Sets the size of the cost fix, the largest row | If part of the gap is unavoidable, such as a remote location, the gain scales down roughly in proportion |
 
 ## A practical test Stories could run
 - **Garden costs.** Audit how Garden's costs are recorded. Then run a one-month pilot buying Garden's top 10 products through Harbour's supplier, comparing cost per unit and sales against the previous month and against the other branches.
 - **Garden prices.** For four weeks, move a random half of Garden's products to Harbour's price and keep the other half unchanged. Compare units sold between the two halves, with Harbour as a second control. This measures Garden's real price sensitivity before changing the whole list. Garden sold between 2,410 and 3,556 units a month from January to June.
+- **Food with drinks.** Add a till prompt suggesting a bakery item with Cold Drinks and a savoury item with Matcha & Tea. Use Harbour as the test branch, with Garden and Uptown as controls. Compare the change in attach rate before and after, and track drinks per transaction to catch swapping. At June volumes, a 5-point rise needs about 22 days to detect and a 3-point rise about 62 days (`results/basket_pilot_power.csv`). Agree the roll-out threshold before starting.
 - **Tuesday.** Compare the Tuesday surge with till-session counts, door counters or staff rosters for a few weeks. If it is confirmed, plan Tuesday staffing and stock at about 1.5 times a normal weekday.
 
 ## Weak areas and uncertainty
 - Only six months of data (January–June), so there is no yearly seasonality.
+- Yearly figures multiply the six-month value by 365/181. June revenue was 1.49 times January's at Garden, 1.57 at Harbour and 1.46 at Uptown (`results/revenue_by_month.csv`). If that growth continues, the yearly figures are too low. If it is seasonal, they may be too high. We cannot tell which with six months.
 - 36.5% of lines have no Customer ID, and 94% of known customers appear at several branches, so customer-level conclusions are uncertain.
 - Prices never change in the data, so price sensitivity is an assumption, not a measurement. The pricing estimates are only as good as the elasticity range.
 - We could not find the cause of the Tuesday surge in the data. We can only rule out the recording errors we tested.
+- The cross-sell data shows how baskets look today, not how a prompt would change them. We do not know what cashiers say now, where the bakery case sits, or which items were out of stock. Any of these could explain the Cold Drinks + Bakery gap.
 - The promo analysis compares Harbour with only two control branches, and the result changes with the choice of control.
 - The forecast was tested on one month. June continued the January-to-June growth, so a log trend fit well. A change in trend, for example in summer, would hurt it.
 
@@ -146,6 +173,8 @@ Estimates, kept separate from the measured facts above.
 - **Estimating price sensitivity from the 10% discount.** Discounted lines have the same quantity as full-price lines. But the discount seems to be applied at the till, so customers do not see it when choosing, and it says little about how they react to a posted price.
 - **Customer retention or churn models.** 94% of known customer IDs buy at more than one branch, so we do not trust the IDs to track individuals.
 - **More complex forecast models.** There are only 151 training days per branch, and a weekday-plus-trend regression already beats the baseline at every branch. We kept the model we can explain.
+- **Plain market-basket "lift" for cross-sell.** Most baskets have one or two lines, which distorts lift. A reshuffle that keeps each basket's size fixed avoids this.
+- **A model predicting whether a basket takes food.** Branch, hour, day and month carry no signal, and drink type alone explains the 5-point range. A model would add complexity without supporting a decision.
 - **Adding the Garden cost and price gains.** They interact, so we computed them together.
 
 ## Data quality
@@ -160,7 +189,8 @@ python margin_analysis.py     # Garden margin and unit costs
 python pricing_analysis.py    # branch price lists and pricing scenarios
 python tuesday_check.py       # Tuesday surge artifact tests
 python forecast.py            # June forecast vs same-weekday-last-week baseline
-python promo_analysis.py      # Harbour 15% promo, about 40 seconds
+python promo_analysis.py      # Harbour 15% promo, 30 seconds to about 2 minutes depending on the machine
 python discount_analysis.py   # 10% discount
+python basket_analysis.py     # drink + food cross-sell, about 15 seconds
 ```
 Summary tables are saved in `results/`, figures in `figures/`.

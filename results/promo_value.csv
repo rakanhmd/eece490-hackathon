@@ -1,4 +1,4 @@
 scenario,uplift_pct,incremental_units,incremental_gross_profit_usd,discount_cost_usd,net_usd
-point estimate,13.7,279.2,1012.7,470.1,542.6
-CI low,2.0,44.8,162.4,470.1,-307.7
-CI high,27.7,501.5,1819.1,470.1,1349.0
+point estimate,13.7,279.2,1069.5,470.1,599.4
+CI low,2.0,44.8,171.5,470.1,-298.6
+CI high,27.7,501.5,1921.2,470.1,1451.1

@@ -114,7 +114,8 @@ print(f"\nKnown customers: {len(per_c):,}; share with any 10% line: {(per_c > 0)
       f"{k[k['Discount Rate']==0.10]['Customer ID'].value_counts().pipe(lambda v: v.head(int(len(per_c)*0.05)).sum()/v.sum()):.1%}")
 
 # 4. cost
-cost = d10.loc[d10["Discount Rate"] == 0.10, "discount_usd"].sum()
+# cost over ALL 10% lines, including the few inside transactions that also had a 15% line
+cost = d.loc[d["Discount Rate"] == 0.10, "discount_usd"].sum()
 days = (d.date.max() - d.date.min()).days + 1
 print(f"\nMEASURED: 10% discounts given Jan-Jun = ${cost:,.0f} over {days} days")
 print(f"ESTIMATE: annualised at the same rate = ${cost * 365 / days:,.0f}")

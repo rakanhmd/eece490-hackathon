@@ -17,6 +17,10 @@ m = d.groupby(["month", "Branch"])[[REV, GP]].sum()
 m = (m[GP] / m[REV]).unstack().round(4)
 print("\nGross margin by month:\n", m)
 save_table(m, "margin_by_month.csv")
+rm = d.groupby(["month", "Branch"])[REV].sum().unstack().round(2)
+print("\nRevenue by month:\n", rm)
+print("June / January revenue:\n", (rm.loc[6] / rm.loc[1]).round(3))
+save_table(rm, "revenue_by_month.csv")
 
 # 3. unit cost and price per product per branch (median, robust to rounding)
 p = d.groupby(["Product", "Branch"])[["Unit Cost (USD)", "Unit Price (USD)"]].median().unstack()
@@ -38,8 +42,17 @@ print(f"\nProducts compared: {len(out)}")
 for c in [c for c in out.columns if "ratio" in c]:
     print(f"{c}: min {out[c].min():.3f}  median {out[c].median():.3f}  max {out[c].max():.3f}")
 
-# 4. estimated value: Garden at Harbour's / Uptown's margin, same revenue (an ESTIMATE)
-g_rev = b.loc["Garden", REV]
-for ref in ["Harbour", "Uptown"]:
-    gain = g_rev * (b.loc[ref, "gross_margin"] - b.loc["Garden", "gross_margin"])
-    print(f"ESTIMATE: Garden at {ref} margin -> +${gain:,.0f} gross profit over 6 months")
+# 4. estimated value (an ESTIMATE): Garden pays Harbour's unit cost per product, same prices and quantities
+gd = d[d.Branch == "Garden"]
+saving = (gd["Quantity"] * (gd["Unit Cost (USD)"] - gd["Product"].map(out.cost_harbour))).sum()
+print(f"ESTIMATE: Garden at Harbour unit costs -> +${saving:,.0f} gross profit over 6 months")
+
+# 5. the removed duplicates: how much revenue they carry (for the assumptions table)
+import pandas as pd
+from load import DATA
+raw = pd.read_csv(DATA)
+dups = raw[raw.duplicated()]
+dq = pd.DataFrame({"duplicate_rows": [len(dups)], "duplicate_revenue_usd": [round(dups[REV].sum(), 2)],
+                   "share_of_revenue": [round(dups[REV].sum() / raw[REV].sum(), 4)]})
+print("\nRemoved duplicates:\n", dq.to_string(index=False))
+save_table(dq, "duplicates_summary.csv", index=False)
