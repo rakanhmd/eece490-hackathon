@@ -47,19 +47,19 @@ Average Tuesday excess: **95.4 transactions per week** across the three branches
 ## In plain words
 Is the surge more people, more trips from the same people, or not attributable?
 - **More distinct IDs on the day** explains about two thirds of it, and **more trips per ID within the day** explains almost none (0.6%). In ID terms it is "more people", not "the same people coming twice".
-- **But "more people" is a statement about IDs, and IDs are weak evidence about people.** The extra IDs are the same ones that shop on other days, few are first-time IDs after the first two months, and they do not form a Tuesday-only group. Within one ID, Tuesday visits and other-day visits are independent. This looks like one pool of customers who each come a bit more often on Tuesday, not like extra customers who arrive only then. We cannot tell whether that pool is real people (a recurring habit) or an artefact of how IDs were assigned (Finding 1 already found that 94% of known customers appear at several branches).
+- **"More people" is a statement about identified customers.** The data is real Stories data with anonymized IDs; 36.5% of lines have no Customer ID, so customer results cover identified customers only. 94% of identified customers use more than one branch. The extra IDs are the same ones that shop on other days, few are first-time IDs after the first two months, and they do not form a Tuesday-only group. Within one ID, Tuesday visits and other-day visits are independent. This looks like one pool of customers who each come a bit more often on Tuesday, not like extra customers who arrive only then.
 - **A third is not attributable** because it has no Customer ID.
 - So our overall verdict is: **mostly extra identified customers, but not attributable to a distinct kind of customer with the IDs available.** We have no evidence of a group, a promotion or a routine behind it.
 
 ## What the data cannot show
 - **Promotions, app pushes, e-mails or social posts:** there is no campaign calendar, send log or redemption field except the discount rate on the line.
 - **Staffing, opening hours, local events, weather, school or work schedules, competitor closures:** none of these are in the file.
-- **Whether an ID is one person:** IDs repeat across branches at a rate that does not look like real customers.
+- **Anonymous customers:** The data is real Stories data with anonymized IDs; 36.5% of lines have no Customer ID, so customer results cover identified customers only. 94% of identified customers use more than one branch.
 - **Why Tuesday:** the decomposition says what the surge is made of, not what caused it. All reasons below are hypotheses until checked.
 
 ## The Stories records that would settle it
 1. **A promotion and campaign calendar for Tuesdays** (offers, loyalty-app pushes, e-mails with send time and number of recipients, delivery-app deals) for Jan–Jun. If a campaign hits every Tuesday, the surge is its response; the per-week excess should line up with campaign size.
-2. **Till or card-settlement data with a payment token or loyalty tap for every sale** (including the anonymous third), so distinct people can be counted without the unreliable IDs.
+2. **Till or card-settlement data with a payment token or loyalty tap for every sale** (including the anonymous third), so distinct people can be counted, including the anonymous sales.
 3. **Daily till (Z-report) or bank totals by branch** to confirm the Tuesday peak is real in money received (the check proposed in `FINDING_weekend.md`).
 4. **Staff rosters by day**, to see whether Tuesday is staffed up because it is busy or is busy for another reason.
 

@@ -5,7 +5,7 @@ Code: [`src/customer_model.py`](src/customer_model.py) (about 30 seconds, seeded
 ## Short answer
 **We could not predict who will stop buying.** On the held-out test customers no model beats the no-skill baseline, so we do not recommend a model-targeted win-back campaign. The customers split into two groups (regulars and occasional), but their lapse rates are the same. With realistic assumptions a win-back offer loses money, because only 8.7% of customers lapse and an offer costs about as much per customer as a lapsed customer is worth.
 
-Only customers with an ID are used (3,494 IDs, 63% of lines). Finding 1 already warned that IDs are unreliable: 94% of known customers appear at several branches. "Churn" below means "this ID stopped appearing", which may not be one real person.
+Only customers with an ID are used (3,494 IDs, 63% of lines). The data is real Stories data with anonymized IDs; 36.5% of lines have no Customer ID, so customer results cover identified customers only. 94% of identified customers use more than one branch. "Churn" below means "this ID stopped appearing".
 
 ## Setup
 - **Features from Jan–Apr only** (before 2026-05-01), 31 per customer: visits, active days, recency, tenure, days since first visit, total spend, average basket, units per visit, gross profit, visits in April and April's share, mean gap between visits, share of discounted visits, dine-in, weekend, evening and morning shares, number of branches and branch shares, number of categories and category spend shares.
@@ -95,10 +95,10 @@ An offer costs about $0.39 per contacted customer in the middle case. It breaks 
 - **Outcome:** purchase within 8 weeks; secondary: gross profit per customer after offer cost.
 - **Size** (`customer_ab_test_size.csv`; 80% power, 5% test level, baseline lapse 8.7%): to detect a fall in the lapse rate of 3 points, 1,158 customers per arm (2,315 total); 2 points, 2,776 per arm (5,551 total); 1 point, 11,774 per arm (23,548 total). We have 3,414 active customers, so only a 3-point effect can be tested with today's base. Smaller effects need a longer enrolment period.
 - **Decision rule set beforehand:** continue only if the gross profit per customer, after offer cost, is higher in the offer arm and the lower end of its 95% interval is positive.
-- **Risk to watch:** IDs may be shared or reused, so one person can fall into both arms. Randomise on ID, and check whether the same person appears under several IDs at the till.
+- **Risk to watch:** a customer who holds more than one ID could fall into both arms. Randomise on ID, and check at the till for customers with several IDs.
 
 ## Weak areas
-- Everything depends on customer IDs that may not map to one person each; the whole analysis could be about ID noise.
+- The data is real Stories data with anonymized IDs; 36.5% of lines have no Customer ID, so customer results cover identified customers only. 94% of identified customers use more than one branch.
 - Only six months, four of them for features; no yearly cycle. Sales grew 28% per day between the two windows.
 - 45 lapsers in the test set is few: the intervals are wide, so a modest real signal could be missed. The model-selection results (validation, cross-validation, the test) all point the same way, which is why we call it "no signal found" and not "no signal exists".
 - The cost and benefit figures use our assumptions, not measured offer responses. The segments' differences in value (per head) are real; their churn difference is not.
