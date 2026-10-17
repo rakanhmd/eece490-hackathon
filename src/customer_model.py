@@ -4,8 +4,8 @@ Setup: features come ONLY from transactions before 2026-05-01 (Jan-Apr). Label =
 May-Jun. Customers are split 70/15/15 (stratified on the label, SEED) before any fitting; imputers/scalers live inside
 Pipelines; models and the threshold are chosen on validation; the test set is scored once, for the chosen model
 and the dummy baseline only.
-Caveat from Finding 1: customer IDs are unreliable (94% of known customers appear at several branches), so "churn" here is
-"this ID stopped appearing", which may not be one real person.
+The data is real Stories data with anonymized IDs; 36.5% of lines have no Customer ID, so customer results cover
+identified customers only. 94% of identified customers use more than one branch. "Churn" here is "this ID stopped appearing".
 """
 import warnings
 
@@ -102,7 +102,8 @@ def gb(depth, lrate, iters):
 
 def poisson_gap_score(Xf):
     """Rule, not a fitted model: if purchases arrive at a steady rate, P(no purchase in 61 days) = exp(-rate*61*growth).
-    rate = Jan-Apr visits per day; growth = ratio of May-Jun to Jan-Apr daily transactions (all branches)."""
+    rate = Jan-Apr visits per day; growth = ratio of May-Jun to Jan-Apr daily transactions (all branches).
+    It uses May-Jun growth, so it is a retrospective reference, not a forecast available at the April cutoff."""
     return np.exp(-(Xf.visits / 120.0) * 61 * GROWTH)
 
 

@@ -22,7 +22,7 @@ Validation (prevalence 8.59%; a no-skill PR-AUC equals the prevalence). From `cu
 | Dummy (always the base rate) | 0.086 | 0.500 | 0.500 |
 | Logistic regression C = 0.01 / 0.1 / 1 / 10 | 0.121 / **0.138** / 0.133 / 0.131 | 0.496 / 0.489 / 0.479 / 0.478 | 0.465 / 0.469 / 0.479 / 0.481 |
 | Gradient boosting, best of 8 settings (depth 3, rate 0.03, 200 iterations) | 0.122 | 0.569 | 0.444 |
-| Steady-rate rule (no fitting; retrospective, see below) | 0.116 | 0.561 | n/a |
+| Steady-rate rule (no fitting; retrospective reference using May–Jun growth, see below) | 0.116 | 0.561 | n/a |
 
 - Chosen on validation PR-AUC: **logistic regression, C = 0.1**. Its validation ROC-AUC is 0.489, so it ranks customers no better than a coin.
 - **Random scores reach the same level.** On a validation set this size, random scores give PR-AUC of 0.096 on average and 0.126 at the 95th percentile; their ROC-AUC spans 0.41 to 0.59. Every model above is inside that noise (the best, 0.138, is only just above the 95th percentile, and it is the maximum of 12 fitted models). Cross-validated ROC-AUC on the training folds is *below* 0.5 for every fitted model.
@@ -48,7 +48,7 @@ Confusion matrix at the threshold (rows = truth, columns = prediction):
 
 **Verdict: no.** The lower ends of both intervals (PR-AUC 0.069 vs 0.088 prevalence; ROC-AUC 0.447 vs 0.5) do not clear our rule. On validation the threshold gave precision 0.16 at recall 0.41 (`results/results.csv`), which looked better; that is the threshold being tuned to validation noise, and it did not carry over to the test set.
 
-**Why there is nothing to find (measured, retrospective):** if every customer kept buying at their own Jan–Apr rate, with volume growth (×1.28 transactions per day) taken into account, we would expect about **14.8%** of them to have a gap of two months. We see **8.7%** (`customer_churn_vs_steady_rate.csv`). So lapses are not more common than ordinary gaps between purchases would produce. This is a chance-gap reference, not proof that nobody leaves. It is **retrospective**: the growth factor (×1.28) is measured inside May–Jun, so it is not known at the cut-off and cannot be used as a forecast. A customer who stops buying looks very much like one who has a long gap.
+**Why there may be little to find (a model-based reference, not a measurement):** assuming each customer's purchases arrive at a steady (Poisson) rate, if every customer kept buying at their own Jan–Apr rate, with volume growth (×1.28 transactions per day) taken into account, we would expect about **14.8%** of them to have a gap of two months. We see **8.7%** (`customer_churn_vs_steady_rate.csv`). So lapses are not more common than ordinary gaps between purchases would produce. This reference uses the May–Jun growth, so it is a retrospective comparison, not a forecast available at the April cutoff. It is not proof that nobody leaves. A customer who stops buying looks very much like one who has a long gap.
 
 ## 2. Segments
 RFM = recency, frequency, monetary value from Jan–Apr, with frequency and spend log-transformed and all three scaled. KMeans for k = 2 to 8; silhouette: 0.44 (k = 2), 0.36, 0.32, 0.34, 0.30, 0.31, 0.29 (k = 8). So **k = 2** (`customer_segments_silhouette.csv`). The PCA plot shows no gap between the two groups: it is one cloud cut along "how often and how recently", not two kinds of customer. The segments were built without the churn label.

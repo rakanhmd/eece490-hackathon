@@ -128,3 +128,40 @@ for e in [0.0, -1.0, -2.0]:
 ov = pd.DataFrame(ov_rows)
 print("\nGarden cost fix + all-branch price review, overlap (ESTIMATE):\n", ov.round(0).to_string(index=False))
 save_table(ov.round(2), "opportunity_cost_price_overlap.csv", index=False)
+
+# ---------------- d) decision thresholds (ESTIMATES; holding other assumptions fixed, excluding implementation costs) --
+# Where would the order of the actions change? Built from committed results tables written by earlier scripts.
+R = os.path.join(ROOT, "results")
+comb = pd.read_csv(os.path.join(R, "garden_cost_price_combined.csv")).set_index("elasticity")
+psc = pd.read_csv(os.path.join(R, "pricing_scenarios.csv"))
+psc = psc[(psc.scenario == "full: match Harbour") & psc.note.isna()].set_index(["branch", "elasticity"]).gp_change_6mo_usd
+bv = pd.read_csv(os.path.join(R, "basket_value_scenarios.csv")).set_index("scenario").extra_gp_H1_usd
+disc = pd.read_csv(os.path.join(R, "discount_cost.csv"))
+cost_fix = float(comb.loc[-1.0, "cost_only_6mo_usd"])
+opt_a = float(infl.set_index("elasticity").loc[-1.0, "gp_change_6mo_usd_all"])
+opt_b = float(psc.loc[("Garden", -1.0)] + psc.loc[("Uptown", -1.0)])
+sat25 = float(tot.loc["Saturday gains 25% of Tuesday's lift", "extra_gross_profit_6mo_usd"])
+food_central = float(bv.loc["+2.5 pp attach, average food margin"])
+food_per_pp = float(bv.loc["+1 pp attach, average food margin"])
+disc_usd = float(disc.discount_usd_jan_jun.iloc[0])
+th = pd.DataFrame([
+    {"decision": "Garden cost fix vs price Option A (all branches +6.86%, elasticity -1)",
+     "threshold": opt_a / cost_fix, "unit": "share of Garden's recorded cost gap that is real, avoidable cash",
+     "reading": f"cost fix is worth more than Option A if more than this share of the ${cost_fix:,.0f} gap can be recovered"},
+    {"decision": "Garden cost fix vs price Option B (Garden and Uptown matched to Harbour, elasticity -1)",
+     "threshold": opt_b / cost_fix, "unit": "share of Garden's recorded cost gap that is real, avoidable cash",
+     "reading": f"Option B is worth ${opt_b:,.0f}; cost fix is worth more above this share"},
+    {"decision": "Saturday test (25% of Tuesday's lift) vs food prompt (+2.5 pp, average margin)",
+     "threshold": 1 - food_central / sat25, "unit": "share of extra Saturday visits shifted from other days",
+     "reading": f"Saturday (${sat25:,.0f} before shifting) falls below the food prompt (${food_central:,.0f}) above this share"},
+    {"decision": "Food prompt vs stopping the 10% discount (no visits lost)",
+     "threshold": disc_usd / food_per_pp, "unit": "percentage-point rise in the attach rate (average food margin)",
+     "reading": f"the food prompt is worth less than the ${disc_usd:,.0f} discount saving below this rise"},
+    {"decision": "Price Option A break-even",
+     "threshold": be, "unit": "price elasticity", "reading": "Option A loses gross profit at elasticities beyond this"},
+])
+th["basis"] = "holding other assumptions fixed, excluding implementation costs"
+th["option_a_6mo_usd"], th["option_b_6mo_usd"], th["garden_cost_fix_6mo_usd"] = opt_a, opt_b, cost_fix
+print("\nDecision thresholds (ESTIMATE; holding other assumptions fixed, excluding implementation costs):")
+print(th[["decision", "threshold", "unit"]].round(4).to_string(index=False))
+save_table(th.round(4), "decision_thresholds.csv", index=False)

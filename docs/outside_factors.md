@@ -1,6 +1,6 @@
 # Outside factors: full detail
 
-This is the long version of the README section "Did outside factors cause this?". The README keeps the summary table, the figure and one paragraph per factor.
+This is the long version of the README section "Did outside factors cause this?". The README keeps the figure and one merged table of patterns, tests, verdicts, remaining explanations and next tests.
 
 We tested whether public data explains the two biggest patterns, the Tuesday surge and Garden's 1.43× unit cost. We also compared our data with real shops. **Assumption:** Stories is a Lebanese chain, and branch addresses are not in the data, so all three branches are treated as being in Greater Beirut (lat 33.89, lon 35.50). Brackets are 95% intervals. Real-shop values are references, not causes. All datasets, URLs, licenses and download dates are in [`data/README.md`](../data/README.md).
 
@@ -19,7 +19,7 @@ We tested whether public data explains the two biggest patterns, the Tuesday sur
 | A local cause near one branch | Transactions | — | Tuesday ratio Garden 1.56 [1.49, 1.66], Harbour 1.56 [1.47, 1.65], Uptown 1.53 [1.42, 1.67] | Not supported by our test |
 | Tuesday peak itself | Kaggle shop data; Placer.ai; Square UK | Bakery 0.97, vending machine 1.08, Maven (fictitious) 0.98. Starbucks and UK coffee buyers peak on Saturday, 1.49× the average weekday | 1.53; Saturday is our quietest day, 0.69× (both against the Mon, Wed, Thu, Fri average) | Ours is unusual |
 | Day-to-day variation | Kaggle shop data | Bakery 8.45, vending machine 1.84, Maven (fictitious) 4.76 | 0.98, inside the pure-chance range 0.88–1.14 | Not supported by our test. Ours is much steadier; habitual demand from regulars is our hypothesis |
-| Growth, weather and inflation | Open-Meteo; Lebanon CPI (Central Administration of Statistics) | Consumer prices +17.25% a year (June 2026) | +52.6% transactions, January to June; weather predicts −0.7% of it; no price changed in six months | Not supported by our test. Growth is volume, not price; prices did not change |
+| Growth, weather and inflation | Open-Meteo; Lebanon CPI (Central Administration of Statistics) | Consumer prices +17.25% a year (June 2026) | +52.6% transactions, January to June; the weather change implies a −0.75% change in transactions (−1.78% of the log growth); no price changed in six months | Not supported by our test. Growth is volume, not price; prices did not change |
 | Fuel and Garden's costs | FRED Brent crude ([`GARDEN_CAUSE.md`](../GARDEN_CAUSE.md)) | Brent weekly mean $62.93 to $124.61 | Garden's mix-neutral cost ratio moved by 0.0001 | Not supported by our test |
 | World coffee price and costs | IMF arabica price via FRED | Arabica −15.4%, January to June | All 135 product-branch unit costs unchanged | Not supported by our test. Unit costs are consistent with standard recipe costs in the till system |
 | Location of Garden | Transactions ([`GARDEN_CAUSE.md`](../GARDEN_CAUSE.md)) | — | Garden's hours, basket size and customers match the other branches (hour-profile p = 0.81) | Not supported by our test, but rent and delivery cannot be tested without addresses |

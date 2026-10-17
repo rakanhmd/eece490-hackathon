@@ -39,7 +39,7 @@ Brent crude for Jan–Jun 2026: 124 daily prices from $61.08 to $138.21. Weekly 
 | Average cost per unit sold, Garden ÷ others | 1.464 (0.036) | −0.03 | −0.42 to +0.37 | 0.89 | −0.01 (0.97) |
 | Cost of sales as a share of revenue, Garden ÷ others | 1.488 (0.020) | −0.25 | −0.59 to +0.16 | 0.22 | −0.18 (0.41) |
 
-- The one "significant" row is not a fuel effect. The mix-neutral ratio varies by only ±0.0001 across the half year (from which products were sold that week); across the whole Brent range the fitted change is +0.0001 on a ratio of 1.43. Its week-to-week changes do not follow Brent at all (r = −0.04). With a 101% rise in Brent, a transport-cost pass-through would have moved the ratio by far more than 0.0001.
+- The one "significant" row is not a fuel effect. The mix-neutral ratio varies by only ±0.0001 across the half year (from which products were sold that week); across the whole Brent range the fitted change is +0.0001 on a ratio of 1.43. Its week-to-week changes do not follow Brent at all (r = −0.04).
 - The other two series are mix-driven and show no relation (r near zero or negative; intervals include zero). With 25 weeks we cannot rule out a moderate correlation in these two, so we rely more on the structural fact in Test 1: **the recorded cost never changes, so no fuel price could have flowed into it.** Brent doubling should have shown up in real delivery costs; it did not show up in this field.
 - **Verdict: fuel or transport is not supported by our tests**, and this field cannot tell us about transport cost either way, because it is not updated over time.
 
@@ -83,7 +83,7 @@ Evidence for it: (1) one fixed cost per product per branch for six months; (2) s
 2. How overhead (rent, delivery, labour) is allocated to unit cost, and whether Garden is loaded with a different percentage. Whether Harbour and Uptown carry similar loadings.
 3. Whether the cost field is updated monthly. If it is a fixed standard cost, say so, because then Finding 1 measures the standard, not what was paid.
 
-**What it changes:** if the gap is allocation, the estimated gain of about $15,888 per six months is a bookkeeping difference and no cash would be saved by renegotiating suppliers. If it is a real supplier surcharge, the estimate stands and the action is to renegotiate or source Garden's top items through Harbour's supplier.
+**What it changes:** if the gap is allocation, the estimated gain of about $15,888 per six months is a bookkeeping difference and no cash would be saved by renegotiating suppliers. If it is a real supplier surcharge, the $15,888 is an upper bound: a real surcharge is not necessarily avoidable. The action is then to try to renegotiate or source Garden's top items through Harbour's supplier.
 
 ## Weak spots
 - Test 2 has 25 weekly points, so only large correlations can be excluded; the argument rests on the cost not changing over time.

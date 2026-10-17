@@ -88,7 +88,7 @@ Why these numbers: +1 pp is a change too small to notice; +5 pp is about the siz
 Question: does a counter prompt raise the share of drink orders that include a food item, and does it pay?
 - **Offer (no discount):** the cashier or POS prompt suggests a bakery item with Cold Drinks, and a savoury item or bowl with Matcha & Tea, because those are the under-sold pairs.
 - **Design: switchback by branch-week.** Each week, each branch is randomly switched on (prompt) or off, for about 8 weeks, so every branch spends time in both arms. With one treated branch, any change at that branch (staff, stock, a local event) would be mixed up with the prompt; rotating the treatment spreads those changes across both arms. Compare attach rates in on-weeks and off-weeks within each branch.
-- **How long.** We have not computed the detectable effect for the switchback design. For reference, `basket_pilot_power.csv` (80% power, 5% test level, June volumes, a day-to-day noise factor we measured at 1.07–1.13) gives the days needed for designs with one treated branch: a 5-point gain needs about 59 days with Garden against Uptown and 22 days with Harbour against Garden and Uptown. Those designs rest on one treated branch, so the figures are only a rough guide; small effects (2–3 points) would need months under any design.
+- **How long.** We have not computed the detectable effect for the switchback design. For reference, `basket_pilot_power.csv` (80% power, 5% test level, June volumes, a day-to-day noise factor we measured at 1.07–1.13) gives the days needed for designs with one treated branch: a 5-point gain needs about 59 days with Garden against Uptown and 22 days with Harbour against Garden and Uptown. Those designs rest on one treated branch, so the figures are only a rough guide. Under those two designs, a 2–3 point effect needs 62–366 days.
 - **What to record:** attach rate on drink transactions (main measure); food gross profit per drink transaction; drinks per transaction and average ticket (to catch swapping); weekly numbers, so a trend at one branch is visible.
 - **Decision rule, set before the test:** roll out only if the lower end of the 95% interval for the attach-rate change is above the level needed to cover the extra staff time and waste. Stories has to supply those costs, because we do not have them.
 
@@ -97,11 +97,11 @@ Question: does a counter prompt raise the share of drink orders that include a f
 - Six months only; no yearly seasonality, and sales grew through the period.
 - Item-level pairs rest on small counts; the category-level pattern is the reliable part.
 - We do not know what a cashier says today, whether a bakery case is next to the register, or which items were out of stock. Any of these could explain the Cold Drinks + Bakery gap better than customer taste.
-- A transaction with two drinks counts once, under its most expensive drink. Using another rule moves category rates by a fraction of a point at most (not retested).
+- A transaction with two drinks counts once, under its most expensive drink. We did not test another rule.
 
 ## Approaches we did not use
 - **Market-basket "lift" or association rules on all baskets.** Most baskets have one or two lines, so plain lift is distorted by basket size (in a quick exploratory check, not in the script, average lift came out well below 1, which cannot be right for unrelated items). The shuffle that keeps each basket's shape fixes this.
-- **A recommender or classifier for "will this basket take food".** Branch, hour, day and month carry no signal, and the drink type alone gives a 5-point range. A model would add complexity without a decision to support.
+- **A recommender or classifier for "will this basket take food".** Among the variables we tested, branch, hour, day and month showed no detectable association with taking food, and the drink type alone gives a 5-point range. A model would add complexity without a decision to support.
 - **Customer-level cross-sell** (who buys what over time): not attempted in the time we had. The data is real Stories data with anonymized IDs; 36.5% of lines have no Customer ID, so customer results cover identified customers only. 94% of identified customers use more than one branch.
 
 ## Reproduce
