@@ -387,77 +387,69 @@ save_table(ab, "customer_ab_test_size.csv", index=False)
 print("\nESTIMATE: A/B sample size (80%% power, 5%% level, baseline lapse rate %.1f%%)\n" % (100 * y.mean()), ab.to_string(index=False))
 
 # =====================================================================
-# 4. Second-period validation: features Jan-Mar, label = no purchase in Apr-May (June not used)
-# Same recipe as above (same features, split seed, model grid, validation choices, one test scoring), so the two periods can be
-# compared. The two label windows are both 61 days long. Period 1 above is features Jan-Apr / label May-Jun.
+# 4. Sensitivity across prediction origins (NOT an independent replication: the May label month is shared)
+#   origin A: features Jan-Mar (3 months) -> label = no purchase in Apr-May (61 days)
+#   origin B: features Feb-Apr (3 months) -> label = no purchase in May-Jun (61 days)
+# Equal-length feature windows, the same feature function, the same candidate grid and selection rule (validation
+# PR-AUC, threshold by max F1 on validation, test scored once), and the SAME customer partition: every identified
+# customer is assigned once to train/val/test (70/15/15, SEED), and keeps that role at both origins.
 # =====================================================================
-CUT2, LABEL_END2 = pd.Timestamp("2026-04-01"), pd.Timestamp("2026-05-31")
-rng2 = np.random.default_rng(SEED + 1)          # own generator, so nothing above changes
-hist2 = k[k.date < CUT2]
-lab_win2 = k[(k.date >= CUT2) & (k.date <= LABEL_END2)]
-X2 = build_features(hist2, CUT2)
-y2 = pd.Series((~X2.index.isin(lab_win2["Customer ID"].unique())).astype(int), index=X2.index, name="churned")
-assert build_features(d[d.date < CUT2].dropna(subset=["Customer ID"]), CUT2).equals(X2)
-print(f"\nPERIOD 2: features before {CUT2.date()} ({X2.shape[1]} features, {len(X2):,} customers); label = no purchase "
-      f"{CUT2.date()} to {LABEL_END2.date()}; churned {y2.sum()} = {y2.mean():.1%}")
-print("leakage check: features rebuilt from data with everything on/after the cut-off removed are identical")
-a_tr, a_va, a_te, b_tr, b_va, b_te = split_train_val_test(X2, y2)
-print(f"split train/val/test = {len(a_tr)}/{len(a_va)}/{len(a_te)}; churn {b_tr.mean():.3f}/{b_va.mean():.3f}/{b_te.mean():.3f}")
-fitted2, vrows = {}, []
-for name, m in cands.items():
-    from sklearn.base import clone
-    m2 = clone(m).fit(a_tr, b_tr)
-    fitted2[name] = m2
-    p = m2.predict_proba(a_va)[:, 1]
-    vrows.append({"model": name, "val_pr_auc": average_precision_score(b_va, p), "val_roc_auc": roc_auc_score(b_va, p)})
-val2 = pd.DataFrame(vrows).round(4).set_index("model")
-save_table(val2, "customer_churn_validation_period2.csv")
-best2 = max([n for n in val2.index if not n.startswith("dummy")], key=lambda n: val2.loc[n, "val_pr_auc"])
-print(f"\nPERIOD 2 VALIDATION (prevalence {b_va.mean():.4f}); best model on validation PR-AUC: {best2}")
-print(val2.to_string())
-mod2 = fitted2[best2]
-pv2 = mod2.predict_proba(a_va)[:, 1]
-thr2 = choose_threshold(b_va, pv2, goal="f1")
-pt2 = mod2.predict_proba(a_te)[:, 1]
-st2 = scores_at(b_te, pt2, thr2)
-cm2 = confusion_matrix(b_te, (pt2 >= thr2).astype(int))
-boots2 = []
-for _ in range(2000):
-    i = rng2.integers(0, len(b_te), len(b_te))
-    if b_te.values[i].sum() == 0:
-        continue
-    boots2.append([average_precision_score(b_te.values[i], pt2[i]), roc_auc_score(b_te.values[i], pt2[i])])
-ci2 = np.percentile(boots2, [2.5, 97.5], axis=0)
-sv2 = scores_at(b_va, pv2, thr2)
-log_result("churn_p2_dummy_prior", "val", {"pr_auc": round(b_va.mean(), 4), "roc_auc": 0.5}, "period 2 (Jan-Mar features, Apr-May label); no skill")
-log_result(f"churn_p2_{best2}", "val", {k_: round(v, 4) for k_, v in sv2.items()}, f"period 2; threshold {thr2:.4f} chosen on val (max F1)")
-log_result(f"churn_p2_{best2}", "test", {k_: round(v, 4) for k_, v in st2.items()}, f"period 2; threshold {thr2:.4f}; test scored once")
-log_result("churn_p2_dummy_prior", "test", {"pr_auc": round(b_te.mean(), 4), "roc_auc": 0.5}, "period 2; no skill")
-print(f"\nPERIOD 2 TEST (scored once; {len(b_te)} customers, {b_te.sum()} churners, prevalence {b_te.mean():.4f}) model {best2}, threshold {thr2:.4f}")
-print(f"  PR-AUC {st2['pr_auc']:.4f} (95% bootstrap CI {ci2[0, 0]:.3f}-{ci2[1, 0]:.3f}) vs no-skill {b_te.mean():.4f}")
-print(f"  ROC-AUC {st2['roc_auc']:.4f} (95% bootstrap CI {ci2[0, 1]:.3f}-{ci2[1, 1]:.3f}) vs 0.5")
-print(f"  precision {st2['precision']:.3f}, recall {st2['recall']:.3f}, flagged {st2['flag_rate']:.3f}; confusion [[TN FP],[FN TP]]:\n{cm2}")
-beats2 = ci2[0, 0] > b_te.mean() and ci2[0, 1] > 0.5
-print(f"  clearly beats baseline (same rule as period 1)? {'yes' if beats2 else 'NO'}")
-# noise reference on this validation set, as for period 1
-noise2 = np.array([average_precision_score(b_va, rng2.random(len(b_va))) for _ in range(2000)])
-print(f"  noise reference on validation: random scores give PR-AUC mean {noise2.mean():.4f}, 95th percentile {np.percentile(noise2, 95):.4f}")
-# steady-rate reference for period 2. RETROSPECTIVE: it uses the growth of daily transactions inside the label window, which is
-# not known at the cut-off, so it explains the label after the fact and is not a usable forecast.
-g2 = tx_day[(tx_day.index >= CUT2) & (tx_day.index <= LABEL_END2)].mean() / tx_day[tx_day.index < CUT2].mean()
-exp2 = np.exp(-(X2.visits / ((CUT2 - d.date.min()).days)) * 61 * g2)
-print(f"  steady-rate reference (RETROSPECTIVE: uses growth x{g2:.2f} measured inside the label window): expected churn {exp2.mean():.1%}, observed {y2.mean():.1%}")
+from sklearn.base import clone
 
-per = pd.DataFrame([
-    {"period": "1: features Jan-Apr, label May-Jun", "customers": len(X), "churn_rate": y.mean(), "test_customers": len(y_te), "test_churners": int(y_te.sum()),
-     "model": best, "val_pr_auc": val.loc[best, "val_pr_auc"], "test_pr_auc": st["pr_auc"], "test_pr_auc_ci_low": ci[0, 0], "test_pr_auc_ci_high": ci[1, 0],
-     "no_skill_pr_auc": y_te.mean(), "test_roc_auc": st["roc_auc"], "test_roc_ci_low": ci[0, 1], "test_roc_ci_high": ci[1, 1],
-     "precision": st["precision"], "recall": st["recall"], "flag_rate": st["flag_rate"], "clearly_beats_baseline": bool(beats),
-     "steady_rate_expected_churn_retrospective": exp_churn.mean()},
-    {"period": "2: features Jan-Mar, label Apr-May", "customers": len(X2), "churn_rate": y2.mean(), "test_customers": len(b_te), "test_churners": int(b_te.sum()),
-     "model": best2, "val_pr_auc": val2.loc[best2, "val_pr_auc"], "test_pr_auc": st2["pr_auc"], "test_pr_auc_ci_low": ci2[0, 0], "test_pr_auc_ci_high": ci2[1, 0],
-     "no_skill_pr_auc": b_te.mean(), "test_roc_auc": st2["roc_auc"], "test_roc_ci_low": ci2[0, 1], "test_roc_ci_high": ci2[1, 1],
-     "precision": st2["precision"], "recall": st2["recall"], "flag_rate": st2["flag_rate"], "clearly_beats_baseline": bool(beats2),
-     "steady_rate_expected_churn_retrospective": exp2.mean()}]).round(4)
-save_table(per, "customer_churn_periods.csv", index=False)
-print("\nPERIOD COMPARISON\n", per.T.to_string(header=False))
+rng2 = np.random.default_rng(SEED + 1)          # own generator, so nothing above changes
+all_ids = np.array(sorted(k["Customer ID"].unique()))
+perm = np.random.default_rng(SEED).permutation(len(all_ids))
+n_tr, n_va = int(0.70 * len(all_ids)), int(0.15 * len(all_ids))
+ROLE = pd.Series("test", index=all_ids)
+ROLE.iloc[perm[:n_tr]] = "train"
+ROLE.iloc[perm[n_tr:n_tr + n_va]] = "val"
+ORIGINS = {"A": ("2026-01-01", "2026-04-01", "2026-05-31", "features Jan-Mar, label Apr-May"),
+           "B": ("2026-02-01", "2026-05-01", "2026-06-30", "features Feb-Apr, label May-Jun")}
+orow = []
+for oname, (f0, c0, l1, label) in ORIGINS.items():
+    F0, C0, L1 = pd.Timestamp(f0), pd.Timestamp(c0), pd.Timestamp(l1)
+    h_o = k[(k.date >= F0) & (k.date < C0)]
+    Xo = build_features(h_o, C0)
+    lab = k[(k.date >= C0) & (k.date <= L1)]
+    yo = pd.Series((~Xo.index.isin(lab["Customer ID"].unique())).astype(int), index=Xo.index, name="churned")
+    r_ = ROLE.loc[Xo.index]
+    tr_, va_, te_ = (r_ == "train").values, (r_ == "val").values, (r_ == "test").values
+    vrows, fit_o = [], {}
+    for name, m in cands.items():
+        mo = clone(m).fit(Xo[tr_], yo[tr_])
+        fit_o[name] = mo
+        pv = mo.predict_proba(Xo[va_])[:, 1]
+        vrows.append({"origin": oname, "model": name, "val_pr_auc": average_precision_score(yo[va_], pv),
+                      "val_roc_auc": roc_auc_score(yo[va_], pv)})
+    vdf = pd.DataFrame(vrows).set_index("model")
+    best_o = max([n for n in vdf.index if not n.startswith("dummy")], key=lambda n: vdf.loc[n, "val_pr_auc"])
+    pv = fit_o[best_o].predict_proba(Xo[va_])[:, 1]
+    thr_o = choose_threshold(yo[va_], pv, goal="f1")
+    pt = fit_o[best_o].predict_proba(Xo[te_])[:, 1]
+    yt = yo[te_].values
+    st_o = scores_at(yt, pt, thr_o)
+    bt = []
+    for _ in range(2000):
+        ii = rng2.integers(0, len(yt), len(yt))
+        if yt[ii].sum() == 0:
+            continue
+        bt.append([average_precision_score(yt[ii], pt[ii]), roc_auc_score(yt[ii], pt[ii])])
+    ci_o = np.percentile(bt, [2.5, 97.5], axis=0)
+    log_result(f"churn_origin{oname}_dummy_prior", "test", {"pr_auc": round(yt.mean(), 4), "roc_auc": 0.5},
+               f"origin {oname} ({label}); no skill")
+    log_result(f"churn_origin{oname}_{best_o}", "test", {k_: round(v, 4) for k_, v in st_o.items()},
+               f"origin {oname} ({label}); chosen on val; threshold {thr_o:.4f}; test scored once")
+    orow.append({"origin": oname, "design": label, "customers": len(Xo), "churn_rate": yo.mean(),
+                 "train_val_test": f"{tr_.sum()}/{va_.sum()}/{te_.sum()}", "test_churners": int(yt.sum()),
+                 "model": best_o, "val_pr_auc": vdf.loc[best_o, "val_pr_auc"], "test_pr_auc": st_o["pr_auc"],
+                 "test_pr_auc_ci_low": ci_o[0, 0], "test_pr_auc_ci_high": ci_o[1, 0], "no_skill_pr_auc": yt.mean(),
+                 "test_roc_auc": st_o["roc_auc"], "test_roc_ci_low": ci_o[0, 1], "test_roc_ci_high": ci_o[1, 1],
+                 "precision": st_o["precision"], "recall": st_o["recall"], "flag_rate": st_o["flag_rate"],
+                 "clearly_beats_baseline": bool(ci_o[0, 0] > yt.mean() and ci_o[0, 1] > 0.5)})
+    save_table(vdf.round(4), f"customer_churn_validation_origin{oname}.csv")
+both = sorted(set(ROLE.index[(ROLE == "test")]) & set(build_features(k[(k.date >= "2026-01-01") & (k.date < "2026-04-01")], pd.Timestamp("2026-04-01")).index)
+              & set(build_features(k[(k.date >= "2026-02-01") & (k.date < "2026-05-01")], pd.Timestamp("2026-05-01")).index))
+orig = pd.DataFrame(orow).round(4)
+save_table(orig, "customer_churn_origins.csv", index=False)
+print("\nSENSITIVITY ACROSS PREDICTION ORIGINS (same partition and settings; May is in both label windows, so this is not "
+      f"an independent replication); {len(both)} test customers appear at both origins\n", orig.T.to_string(header=False))

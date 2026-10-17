@@ -3,7 +3,7 @@
 Code: [`src/customer_model.py`](src/customer_model.py) (about 30 seconds, seeded; a second run from scratch printed identical output and tables). Tables: `results/customer_*.csv`; model rows are logged in `results/results.csv` (names start with `churn_`). Figures: `figures/customer_churn_pr_curve.png`, `customer_segments_pca.png`, `customer_segment_churn.png`.
 
 ## Short answer
-**We could not predict who will stop buying.** On the held-out test customers the selected model scored a PR-AUC of 0.0995 against 0.0877 for the no-skill baseline: a small gain, not clearly significant, and not usable for targeting. A second period with different dates (features Jan–Mar, label Apr–May; section 4) gives the same answer: the PR-AUC interval includes the no-skill value and ROC-AUC is 0.48. We do not recommend a model-targeted win-back campaign. The customers split into two groups (regulars and occasional), but their lapse rates are the same. With realistic assumptions a win-back offer loses money, because only 8.7% of customers lapse and an offer costs about as much per customer as a lapsed customer is worth.
+**We could not predict who will stop buying.** On the held-out test customers the selected model scored a PR-AUC of 0.0995 against 0.0877 for the no-skill baseline: a small gain, not clearly significant, and not usable for targeting. Repeating it at two prediction origins with equal three-month feature windows (Jan–Mar → Apr–May, Feb–Apr → May–Jun; section 4) gives the same answer: neither origin clearly beats the no-skill baseline. This is a sensitivity check, not an independent replication, because May is in both label windows. We do not recommend a model-targeted win-back campaign. The customers split into two groups (regulars and occasional), but their lapse rates are the same. With realistic assumptions a win-back offer loses money, because only 8.7% of customers lapse and an offer costs about as much per customer as a lapsed customer is worth.
 
 Only customers with an ID are used (3,494 IDs, 63% of lines). The data is real Stories data with anonymized IDs; 36.5% of lines have no Customer ID, so customer results cover identified customers only. 94% of identified customers use more than one branch. "Churn" below means "this ID stopped appearing".
 
@@ -21,7 +21,7 @@ Validation (prevalence 8.59%; a no-skill PR-AUC equals the prevalence). From `cu
 |---|---|---|---|
 | Dummy (always the base rate) | 0.086 | 0.500 | 0.500 |
 | Logistic regression C = 0.01 / 0.1 / 1 / 10 | 0.121 / **0.138** / 0.133 / 0.131 | 0.496 / 0.489 / 0.479 / 0.478 | 0.465 / 0.469 / 0.479 / 0.481 |
-| Gradient boosting, best of 8 settings (depth 3, rate 0.03, 200 iterations) | 0.122 | 0.569 | 0.444 |
+| Gradient boosting, best of 8 settings (depth 3, rate 0.03, 200 iterations) | 0.118 | 0.568 | 0.434 |
 | Steady-rate rule (no fitting; retrospective reference using May–Jun growth, see below) | 0.116 | 0.561 | n/a |
 
 - Chosen on validation PR-AUC: **logistic regression, C = 0.1**. Its validation ROC-AUC is 0.489, so it ranks customers no better than a coin.
@@ -90,30 +90,39 @@ An offer costs about $0.39 per contacted customer in the middle case. It breaks 
 
 **Recommendation.** Do not launch a model-targeted, discount-based win-back. If Stories wants to try one anyway, use a cheap, no-discount reminder (a message with no coupon) aimed at regulars, who earn the most per person, and measure it with the test below before spending more.
 
-## 4. Second-period validation (features Jan–Mar, label Apr–May)
-The same recipe on a different time window, to see whether the first result was a one-period accident: same 31 features (built from rows before 2026-04-01 only; a check that they are identical when rebuilt without later data passes), same 70/15/15 customer split and seed, same model grid, model and threshold chosen on validation, test scored once. Both label windows are 61 days long. June is not used. Tables: `customer_churn_validation_period2.csv`, `customer_churn_periods.csv`; rows `churn_p2_*` in `results/results.csv`.
+## 4. Sensitivity across prediction origins (not an independent replication)
+To see whether the first result depends on where the cut-off falls, we repeated the recipe at two prediction origins with **equal-length three-month feature windows**:
+- **Origin A:** features Jan–Mar, label Apr–May.
+- **Origin B:** features Feb–Apr, label May–Jun.
 
-| | Period 1: features Jan–Apr, label May–Jun | Period 2: features Jan–Mar, label Apr–May |
+**Same settings at both origins:**
+- the same 31-feature function, built only from rows inside the window;
+- the same candidate grid;
+- the model chosen on validation PR-AUC and the threshold chosen on validation;
+- the test scored once.
+
+**Same partition.** Every identified customer is assigned once to train, validation or test (70/15/15, seed 42) and keeps that role at both origins. **May is inside both label windows**, so the two origins share data and this is a sensitivity check, not an independent replication. Tables: `customer_churn_origins.csv`, `customer_churn_validation_originA.csv`, `customer_churn_validation_originB.csv`; rows `churn_originA_*` and `churn_originB_*` in `results/results.csv`.
+
+| | Origin A: features Jan–Mar, label Apr–May | Origin B: features Feb–Apr, label May–Jun |
 |---|---|---|
-| Customers active in the feature window | 3,414 | 3,255 |
-| Lapsed (no purchase in the label window) | 296 (8.7%) | 351 (10.8%) |
-| Test customers / lapsers | 513 / 45 | 489 / 53 |
-| Model chosen on validation | Logistic regression, C = 0.1 | Gradient boosting, depth 3, rate 0.1, 200 iterations |
-| Validation PR-AUC (no-skill = prevalence) | 0.138 (0.086) | 0.126 (0.107) |
-| **Test PR-AUC** (95% bootstrap CI) | **0.0995** (0.069–0.150) | **0.159** (0.095–0.256) |
-| No-skill PR-AUC on test | 0.0877 | 0.1084 |
-| **Test ROC-AUC** (95% CI) | **0.541** (0.447–0.627) | **0.485** (0.396–0.574) |
-| Precision / recall at the validation threshold | 0.090 / 0.244 | 0.104 / 0.377 |
-| Share of customers flagged | 23.8% | 39.3% |
+| Customers active in the feature window | 3,255 | 3,302 |
+| Lapsed (no purchase in the label window) | 10.8% | 8.7% |
+| Train / validation / test customers | 2,273 / 495 / 487 | 2,311 / 503 / 488 |
+| Test lapsers | 57 | 39 |
+| Model chosen on validation | Gradient boosting, depth 2, rate 0.1, 200 iterations | Gradient boosting, depth 2, rate 0.03, 100 iterations |
+| **Test PR-AUC** (95% bootstrap CI) | **0.146** (0.101–0.230) | **0.076** (0.053–0.119) |
+| No-skill PR-AUC on test | 0.117 | 0.080 |
+| **Test ROC-AUC** (95% CI) | **0.531** (0.449–0.612) | **0.462** (0.363–0.558) |
+| Precision / recall at the validation threshold | 0.119 / 0.561 | 0.075 / 0.590 |
+| Share of customers flagged | 55.2% | 62.5% |
 | Clearly beats the baseline (same rule)? | **No** | **No** |
 
-Period 2 confusion matrix at its threshold (rows = truth, columns = prediction): 264 stay and are predicted to stay, 172 stay but are flagged, 33 lapse and are missed, 20 lapse and are caught.
+- **Same answer at both origins.** Neither PR-AUC interval stays above its no-skill value, and both ROC-AUC intervals include 0.5. At origin B the point estimate is below no-skill.
+- **At the chosen thresholds the flagged group is barely different from everyone else.** Origin A: 11.9% of flagged customers lapse, against 11.7% of test customers. Origin B: 7.5% against 8.0%.
+- **The chosen model changes with the origin**, which is what choosing the best of 12 noisy fits looks like.
+- **Conclusion unchanged:** no usable lapse model, so no model-targeted win-back campaign. These are two overlapping origins, not a proof that no signal exists; the A/B test below stays the way to find out.
 
-- **Same answer in both periods.** Neither PR-AUC interval stays above its no-skill value (period 2's lower end, 0.095, is below its no-skill 0.108), and ROC-AUC is 0.54 in one period and 0.48 in the other, with both intervals including 0.5. The point estimates of PR-AUC are above no-skill in both periods (0.0995 vs 0.0877; 0.159 vs 0.108), but with 45 to 53 lapsers in a test set that gap is within what the bootstrap interval allows.
-- **At the chosen thresholds the flagged group is no better than anyone else.** Period 2 flags 39% of customers, and 10.4% of those flagged lapse, against 10.8% of all customers. In period 1 the figures were 9.0% against 8.8%.
-- **The chosen model changes between periods** (logistic regression, then gradient boosting), and the validation PR-AUC of the best model (0.126) sits within the range of random scores on that validation set (95th percentile 0.151). That is what choosing the best of 12 noisy fits looks like.
-- The **steady-rate reference**, labelled retrospective because its growth factor (×1.22 in this window) is measured inside the label window, expects 16.6% to lapse against 10.8% observed.
-- **Conclusion unchanged:** no usable lapse model, so no model-targeted win-back campaign. The result is two periods, not a proof that no signal exists; the A/B test described below stays the way to find out.
+**Reproducibility note.** The gradient-boosting validation scores differ in the third decimal between our two machines; for example, the best main-analysis setting scores a validation PR-AUC of 0.118 here and 0.122 on the first run. This is probably floating-point and thread differences, since the seed is fixed. The chosen main model, logistic regression, and every test result are identical. The tables in `results/` are from the latest run.
 
 ## A test to confirm
 - **Design:** randomise customer IDs (not visits) to "reminder" or "hold-out", stratified by segment, with the hold-out receiving nothing. Include model-flagged and unflagged customers in both arms so we can also check whether the model's flag matters (it should not, if our result holds).
@@ -125,7 +134,7 @@ Period 2 confusion matrix at its threshold (rows = truth, columns = prediction):
 ## Weak areas
 - The data is real Stories data with anonymized IDs; 36.5% of lines have no Customer ID, so customer results cover identified customers only. 94% of identified customers use more than one branch.
 - Only six months, three or four of them for features; no yearly cycle. Sales grew 28% per day between the two windows.
-- 45 lapsers in the test set (53 in period 2) is few: the intervals are wide, so a modest real signal could be missed. The model-selection results (validation, cross-validation, the test, and the second period) all point the same way, which is why we call it "no signal found" and not "no signal exists".
+- 45 lapsers in the test set (57 and 39 at the two origins) is few: the intervals are wide, so a modest real signal could be missed. The model-selection results (validation, cross-validation, the test, and both origins) all point the same way, which is why we call it "no signal found" and not "no signal exists".
 - The cost and benefit figures use our assumptions, not measured offer responses. The segments' differences in value (per head) are real; their churn difference is not.
 - We tried only logistic regression and gradient boosting on 31 features. Features we do not have (visit reason, price sensitivity, store events, demographics) could carry the signal.
 

@@ -1,0 +1,10 @@
+break_share,effective_tx_per_paid_staff_hour,min_staff,plan,staff_hours_needed,staff_hours_planned,share_of_branch_hours_understaffed
+0.0,8.0,1,forecast (model),1739.0,1717.0,0.054
+0.0,8.0,1,same hour last week,1739.0,1740.0,0.069
+0.0,8.0,1,flat: always the minimum,1739.0,1530.0,0.126
+0.062,7.5,1,forecast (model),1805.0,1741.0,0.079
+0.062,7.5,1,same hour last week,1805.0,1799.0,0.086
+0.062,7.5,1,flat: always the minimum,1805.0,1530.0,0.164
+0.125,7.0,1,forecast (model),1814.0,1783.0,0.073
+0.125,7.0,1,same hour last week,1814.0,1806.0,0.088
+0.125,7.0,1,flat: always the minimum,1814.0,1530.0,0.164

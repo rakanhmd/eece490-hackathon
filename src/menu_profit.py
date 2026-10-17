@@ -6,8 +6,8 @@ item along more or less than the average drink). Garden is shown separately beca
 (Finding 1), so its margins are not comparable with the other branches'.
 FLAGS (rules written below, applied to the chain table and again to Garden's own table):
   low-profit low-volume : bottom quartile of units AND bottom quartile of gross profit (both within the branch's own menu)
-  low-margin basket driver: top quartile of share of transactions containing the item, AND margin below the menu's median
-ESTIMATES (labelled; every assumption is stated in the table or in MENU.md): a price rise on the flagged basket drivers, and what
+  frequent, below-median-margin item: top quartile of share of transactions containing the item, AND margin below the menu's median
+ESTIMATES (labelled; every assumption is stated in the table or in MENU.md): a price rise on the the frequent, below-median-margin items, and what
 dropping the flagged items could cost. Prices never change in the data, so price sensitivity is assumed, not measured.
 Associations only: nothing here shows what happens if a product is repriced or removed.
 """
@@ -72,7 +72,7 @@ for p in P.columns:
     if p in drink_items:
         k = int(has_food[inb].sum())
         lo, hi = wilson(k, n)
-        role = "pulls food (attach above the drink average)" if lo > attach_avg else \
+        role = "carries food more often than the average drink" if lo > attach_avg else \
                "tends to be bought alone (attach below the drink average)" if hi < attach_avg else "neutral"
         role_rows.append({"Product": p, "transactions": n, "role_rate": k / n, "role_ci_low": lo, "role_ci_high": hi,
                           "role_basis": "share of its transactions that also carry food", "average_for_group": attach_avg, "attach_role": role})
@@ -86,6 +86,22 @@ for p in P.columns:
 roles = pd.DataFrame(role_rows)
 chain = chain.merge(roles, on="Product")
 
+# ---------- own vs accompanying-item contribution (measured association, NOT a causal effect) ----------
+# own = gross profit of the product's own lines; accompanying = gross profit of the OTHER lines in the transactions that
+# contain the product. Removing a product would not remove the accompanying profit if customers buy the other items anyway
+# or substitute another product, so the accompanying figure is an upper bound on what is at stake, not a loss estimate.
+TID = "Transaction ID"
+tx_gp = d.groupby(TID)[GP].sum()
+p_tx = d.groupby(["Product", TID])[GP].sum().reset_index()
+p_tx["accompanying_gp"] = p_tx[TID].map(tx_gp).values - p_tx[GP].values
+contrib = p_tx.groupby("Product").agg(transactions=(TID, "size"), own_gp=(GP, "sum"), accompanying_gp=("accompanying_gp", "sum"),
+                                     alone_transactions=("accompanying_gp", lambda s: int((s == 0).sum())))
+contrib["accompanying_gp_per_transaction"] = contrib.accompanying_gp / contrib.transactions
+contrib["share_of_transactions_with_other_items"] = 1 - contrib.alone_transactions / contrib.transactions
+contrib = contrib.sort_values("own_gp", ascending=False)
+save_table(contrib.round(3), "menu_contribution.csv")
+print("\nOwn vs accompanying-item gross profit (association, not caused by the item):\n", contrib.round(2).head(10).to_string())
+
 
 # ---------- flags ----------
 def flag(tab):
@@ -93,7 +109,7 @@ def flag(tab):
     q_u, q_g = tab.units.quantile(0.25), tab.gross_profit.quantile(0.25)
     q_b, med_m = tab.basket_share_pct.quantile(0.75), tab.margin_pct.median()
     tab["low_profit_low_volume"] = (tab.units <= q_u) & (tab.gross_profit <= q_g)
-    tab["low_margin_basket_driver"] = (tab.basket_share_pct >= q_b) & (tab.margin_pct < med_m)
+    tab["frequent_below_median_margin"] = (tab.basket_share_pct >= q_b) & (tab.margin_pct < med_m)
     tab.attrs.update(q_units=q_u, q_gp=q_g, q_basket=q_b, median_margin=med_m)
     return tab
 
@@ -101,7 +117,7 @@ def flag(tab):
 chain = flag(chain).sort_values("gross_profit", ascending=False).reset_index(drop=True)
 chain["cum_profit_share_pct"] = chain.profit_share_pct.cumsum()
 cols = ["Category", "Product", "units", "revenue", "gross_profit", "margin_pct", "gp_per_unit", "units_share_pct", "profit_share_pct",
-        "cum_profit_share_pct", "basket_share_pct", "attach_role", "role_rate", "low_profit_low_volume", "low_margin_basket_driver"]
+        "cum_profit_share_pct", "basket_share_pct", "attach_role", "role_rate", "low_profit_low_volume", "frequent_below_median_margin"]
 save_table(chain[cols].round(3), "menu_products.csv", index=False)
 print(f"\nMEASURED: {len(chain)} products; total revenue ${TOTAL_REV:,.0f}, gross profit ${TOTAL_GP:,.0f}, margin {100 * TOTAL_GP / TOTAL_REV:.1f}%")
 print(chain[["Product", "Category", "units", "revenue", "gross_profit", "margin_pct", "profit_share_pct", "basket_share_pct", "attach_role"]]
@@ -117,12 +133,12 @@ cat["gp_per_unit"] = cat.gross_profit / cat.units
 save_table(cat.round(3).sort_values("gross_profit", ascending=False), "menu_category_summary.csv")
 print("\nMEASURED: by category\n", cat.round(2).sort_values("gross_profit", ascending=False).to_string())
 
-fl = chain[chain.low_profit_low_volume | chain.low_margin_basket_driver]
+fl = chain[chain.low_profit_low_volume | chain.frequent_below_median_margin]
 print(f"\nFLAG RULES (chain): low-profit low-volume = units <= {chain.attrs['q_units']:.0f} and gross profit <= ${chain.attrs['q_gp']:,.0f} (bottom quartiles); "
-      f"low-margin basket driver = in >= {chain.attrs['q_basket']:.1f}% of transactions and margin < {chain.attrs['median_margin']:.1f}% (menu median)")
+      f"frequent, below-median-margin item = in >= {chain.attrs['q_basket']:.1f}% of transactions and margin < {chain.attrs['median_margin']:.1f}% (menu median)")
 print("low-profit low-volume items:\n", chain[chain.low_profit_low_volume][["Product", "Category", "units", "gross_profit", "margin_pct", "profit_share_pct"]].round(1).to_string(index=False))
-print("low-margin basket drivers:\n", chain[chain.low_margin_basket_driver][["Product", "Category", "basket_share_pct", "margin_pct", "gross_profit", "attach_role"]].round(1).to_string(index=False))
-save_table(fl[["Product", "Category", "low_profit_low_volume", "low_margin_basket_driver", "units", "gross_profit", "margin_pct", "basket_share_pct"]].round(3),
+print("frequent, below-median-margin items:\n", chain[chain.frequent_below_median_margin][["Product", "Category", "basket_share_pct", "margin_pct", "gross_profit", "attach_role"]].round(1).to_string(index=False))
+save_table(fl[["Product", "Category", "low_profit_low_volume", "frequent_below_median_margin", "units", "gross_profit", "margin_pct", "basket_share_pct"]].round(3),
            "menu_flags_chain.csv", index=False)
 
 # ---------- branches; Garden separately ----------
@@ -130,7 +146,7 @@ by_b = {b: flag(build(d[d.Branch == b], b)) for b in BRANCHES}
 allb = pd.concat(by_b.values(), ignore_index=True)
 allb = allb.merge(roles[["Product", "attach_role"]], on="Product")
 save_table(allb[["branch", "Category", "Product", "units", "revenue", "gross_profit", "margin_pct", "gp_per_unit", "profit_share_pct", "basket_share_pct",
-                 "low_profit_low_volume", "low_margin_basket_driver"]].round(3), "menu_products_by_branch.csv", index=False)
+                 "low_profit_low_volume", "frequent_below_median_margin"]].round(3), "menu_products_by_branch.csv", index=False)
 g_ = by_b["Garden"].sort_values("margin_pct")
 h_ = by_b["Harbour"].set_index("Product")
 u_ = by_b["Uptown"].set_index("Product")
@@ -150,7 +166,7 @@ gc = by_b["Garden"]
 print("Garden flags (own quartiles: units <= %.0f and GP <= $%.0f; basket >= %.1f%% and margin < %.1f%%):" %
       (gc.attrs["q_units"], gc.attrs["q_gp"], gc.attrs["q_basket"], gc.attrs["median_margin"]))
 print(" low-profit low-volume:", gc[gc.low_profit_low_volume].Product.tolist())
-print(" low-margin basket drivers:", gc[gc.low_margin_basket_driver].Product.tolist())
+print(" frequent, below-median-margin items:", gc[gc.frequent_below_median_margin].Product.tolist())
 print("chain flags that are also flagged at Garden (low-profit low-volume):", sorted(set(chain[chain.low_profit_low_volume].Product) & set(gc[gc.low_profit_low_volume].Product)))
 print("rank correlation of product margin, Garden vs Harbour:", round(cmp_[["garden_margin_pct", "harbour_margin_pct"]].corr(method="spearman").iloc[0, 1], 3))
 
@@ -164,22 +180,22 @@ save_table(gain.round(2), "menu_garden_cost_gap_by_product.csv", index=False)
 print(f"\nESTIMATE (assumes Garden could buy at Harbour's unit costs): gross profit gain ${gain.gain_if_harbour_cost.sum():,.0f} over six months; "
       f"top 5 products give {gain.share_of_total_gain_pct.head(5).sum():.1f}% of it:\n", gain.head(5).round(0).to_string(index=False))
 
-# ---------- ESTIMATES: price rise on flagged basket drivers ----------
-drivers = chain[chain.low_margin_basket_driver].Product.tolist()
+# ---------- ESTIMATES: price rise on the frequent, below-median-margin items ----------
+frequent = chain[chain.frequent_below_median_margin].Product.tolist()
 RISE = 0.05                                                  # assumption: +5% on the flagged items only
 rows = []
-sub = d[d.Product.isin(drivers)]
+sub = d[d.Product.isin(frequent)]
 unit_net = sub.groupby("Product").apply(lambda g: pd.Series({"units": g.Quantity.sum(), "revenue": g[REV].sum(), "cost": g.cost.sum()}), include_groups=False)
 for e in [0.0, -1.0, -2.0]:
     new_units = unit_net.units * (1 + RISE) ** e
     new_gp = new_units * ((unit_net.revenue / unit_net.units) * (1 + RISE) - unit_net.cost / unit_net.units)
     old_gp = unit_net.revenue - unit_net.cost
-    rows.append({"items": ", ".join(drivers), "price_rise_pct": 100 * RISE, "elasticity_assumed": e, "units_change_pct": 100 * ((1 + RISE) ** e - 1),
+    rows.append({"items": ", ".join(frequent), "price_rise_pct": 100 * RISE, "elasticity_assumed": e, "units_change_pct": 100 * ((1 + RISE) ** e - 1),
                  "gp_change_6mo_usd": (new_gp - old_gp).sum(), "gp_change_per_year_usd_x2": 2 * (new_gp - old_gp).sum(),
                  "ignores": "customers who skip the basket or the drink-and-food pairing; no price variation exists in the data to measure elasticity"})
 ps = pd.DataFrame(rows).round(1)
 save_table(ps, "menu_price_scenarios.csv", index=False)
-print(f"\nESTIMATE: +{100 * RISE:.0f}% on the {len(drivers)} low-margin basket drivers ({', '.join(drivers)}), gross profit change over six months:")
+print(f"\nESTIMATE: +{100 * RISE:.0f}% on the {len(frequent)} frequent, below-median-margin items ({', '.join(frequent)}), gross profit change over six months:")
 print(ps[["elasticity_assumed", "units_change_pct", "gp_change_6mo_usd", "gp_change_per_year_usd_x2"]].to_string(index=False))
 
 # ---------- ESTIMATES: dropping the low-profit low-volume items ----------
@@ -200,7 +216,7 @@ colors = dict(zip(sorted(chain.Category.unique()), plt.cm.tab10.colors))
 fig, ax = plt.subplots(figsize=(9.5, 6))
 for c, g in chain.groupby("Category"):
     ax.scatter(g.units, g.margin_pct, s=g.gross_profit / 25, color=colors[c], alpha=0.75, label=c, edgecolor="white")
-for _, r in chain[chain.low_profit_low_volume | chain.low_margin_basket_driver].iterrows():
+for _, r in chain[chain.low_profit_low_volume | chain.frequent_below_median_margin].iterrows():
     ax.annotate(r.Product, (r.units, r.margin_pct), fontsize=7, xytext=(4, 3), textcoords="offset points")
 ax.axhline(chain.attrs["median_margin"], color="grey", ls=":", lw=1)
 ax.set_xscale("log")

@@ -8,10 +8,16 @@ Designs (all on the Jan-Jun 2026 transaction file; effects are INJECTED, nothing
   D5 Saturday offer    chain-wide week switchback (ABBA), outcome = chain gross profit per WEEK (Mon-Sun, so shifted
                        visits from other days count against the offer)
 How one simulated experiment is built
-  * Historical week-by-branch-by-weekday cells (25 full weeks) are detrended by the chain's fitted weekly growth, whole weeks
-    are resampled with replacement (the same historical week for all three branches, which keeps week shocks shared),
-    and the growth trend is put back over the pilot's weeks. So noise = week-to-week and day-to-day variation, and the
-    pilot sees growth like the real data.
+  * Historical week-by-branch-by-weekday cells (25 full weeks) are detrended by the chain's fitted weekly growth, then
+    resampled in BLOCKS OF 4 CONTIGUOUS WEEKS (circular block bootstrap; the same historical weeks for all three branches).
+    This keeps shocks shared by the branches, each branch's own level and weekday pattern, the calendar (holidays,
+    Ramadan, school terms stay in their weeks) and week-to-week dependence within a block. The growth trend is put back
+    over the pilot's weeks.
+  * Eligible populations and denominators: D1 = every transaction with at least one drink line, any hour (outcome: it
+    also has a food line); D2 = every transaction from 18:00, with or without a drink (outcome: it has a dessert line).
+  * Sensitivity (results/experiment_sensitivity.csv): carryover (a share of the effect persists in the week after a
+    treated week) and, for D1/D2, cross-branch spillover (control branches get a share of the effect in weeks when another
+    branch is treated). The analysis model is unchanged, so these show the bias and power loss of the planned method.
   * Treatment is assigned by the balanced schedule written to results/experiment_schedules.csv (random start / branch labels).
   * Washout: D1/D2 drop the Monday of any branch-week whose treatment differs from the previous week; D3/D4 analyse
     Tuesday-Sunday totals of every week (Monday is the washout day after a switch).
@@ -23,6 +29,7 @@ How one simulated experiment is built
     critical values. D3-D5: one observation per week (the unit of randomisation), OLS with a linear trend, t(weeks-3). 500 simulated pilots per cell;
     the effect-0 rows give the false-positive rate, which should be near 5%.
 """
+import os
 import textwrap
 
 import numpy as np
@@ -32,7 +39,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-from common import SEED, save_fig
+from common import ROOT, SEED, save_fig
 from load import GP, load_clean, save_table
 
 import sys
@@ -76,9 +83,14 @@ print(f"historical full weeks: {H}; chain transactions grow {100 * (np.exp(slope
 detr = np.exp(-slope * (np.arange(H) - (H - 1) / 2))[:, None, None]       # divide out the growth
 
 
+BLOCK = 4
+
+
 def synth_weeks(W):
-    """Resampled historical weeks (same week for all branches), detrended, with growth re-applied over W weeks."""
-    pick = rng.integers(0, H, W)
+    """Circular block bootstrap of contiguous historical weeks (same weeks for all branches), detrended, with growth
+    re-applied over W weeks."""
+    starts = rng.integers(0, H, int(np.ceil(W / BLOCK)))
+    pick = np.concatenate([(s0 + np.arange(BLOCK)) % H for s0 in starts])[:W]
     level = np.exp(slope * (np.arange(W) - (W - 1) / 2))[:, None, None]
     return pick, (detr[pick] * level)[:, :, :, None].squeeze(-1), level
 
@@ -144,6 +156,21 @@ def ols_t(X, y):
     return beta[0], np.sqrt(s2 * A[0, 0]), df
 
 
+def ols_hac(X, y, lag=3):
+    """OLS with Newey-West (HAC, Bartlett) standard errors; coefficient on column 0, its SE and df."""
+    A = np.linalg.pinv(X.T @ X)
+    beta = A @ (X.T @ y)
+    u = y - X @ beta
+    Xu = X * u[:, None]
+    S = Xu.T @ Xu
+    for L in range(1, lag + 1):
+        G = Xu[L:].T @ Xu[:-L]
+        S += (1 - L / (lag + 1)) * (G + G.T)
+    n, k = len(y), np.linalg.matrix_rank(X)
+    V = A @ S @ A * n / (n - k)
+    return beta[0], np.sqrt(V[0, 0]), n - k
+
+
 def design_bw(treat, keep):
     """Design matrix for branch-day rows: treat, branch FE, week FE, weekday FE."""
     W = treat.shape[0]
@@ -156,7 +183,17 @@ def design_bw(treat, keep):
     return np.column_stack(cols)[kp], w_i[kp], (w_i, b_i, d_i, kp)
 
 
-def sim_rate_design(W, delta_pts, tot, succ, base):
+def exposure_bw(treat, carry=0.0, spill=0.0):
+    """Share of the full effect each branch-week receives: 1 if treated; `carry` in a control week that follows a
+    treated week at that branch; `spill` in a control week when another branch is treated that week (the larger applies)."""
+    W = treat.shape[0]
+    prev = np.vstack([np.zeros((1, 3), int), treat[:-1]])
+    other = (treat.sum(axis=1, keepdims=True) - treat) > 0
+    ctrl = treat == 0
+    return np.where(treat == 1, 1.0, np.maximum(carry * (ctrl & (prev == 1)), spill * (ctrl & other)))
+
+
+def sim_rate_design(W, delta_pts, tot, succ, base, carry=0.0, spill=0.0):
     """One simulated pilot for D1/D2; returns (estimate in points, se, df)."""
     treat = schedule_bw(W)
     keep = keep_mask_bw(treat)
@@ -165,22 +202,22 @@ def sim_rate_design(W, delta_pts, tot, succ, base):
     t_ = np.rint(tot[pick] * scale).astype(int)
     s_ = np.minimum(np.rint(succ[pick] * scale).astype(int), t_)
     if delta_pts > 0:
-        p = min(1.0, delta_pts / 100 / (1 - base))
-        extra = rng.binomial(t_ - s_, p)
-        s_ = s_ + extra * treat[:, :, None]
+        p = np.minimum(1.0, exposure_bw(treat, carry, spill) * delta_pts / 100 / (1 - base))
+        s_ = s_ + rng.binomial(t_ - s_, np.broadcast_to(p[:, :, None], t_.shape))
     n = t_[w_i, b_i, d_i][kp].astype(float)
     y = (s_[w_i, b_i, d_i][kp] / np.maximum(n, 1))
     ok = n > 0
     return wls_cluster(X[ok], y[ok], n[ok], cl[ok])
 
 
-def sim_chain_weekly(W, e_pct):
+def sim_chain_weekly(W, e_pct, carry=0.0):
     """D3/D4: chain-wide ABBA. Outcome = chain gross profit Tuesday-Sunday of each week (the Monday after a switch is the
     washout day; dropping every Monday keeps weeks comparable). Model: weekly GP ~ treat + linear trend (OLS, t with W-3 df)."""
     treat = schedule_chain(W)
     pick, scale, _ = synth_weeks(W)
     gp = (GPc[pick] * scale).sum(axis=1)[:, 1:]                   # W x 6 (Tue..Sun)
-    y = gp.sum(axis=1) * (1 + e_pct / 100 * treat)
+    prev = np.r_[0, treat[:-1]]
+    y = gp.sum(axis=1) * (1 + e_pct / 100 * np.where(treat == 1, 1.0, carry * (prev == 1)))
     X = np.column_stack([treat.astype(float), np.ones(W), np.arange(W, dtype=float)])
     est, se, df = ols_t(X, y)
     return 100 * est / y.mean(), 100 * se / y.mean(), df          # percent of mean weekly gross profit
@@ -313,9 +350,59 @@ save_table(mde, "experiment_mde.csv", index=False)
 print("\nSMALLEST EFFECT DETECTED WITH 80% POWER (blank = not reached within the simulated effects)\n",
       mde.pivot_table(index="design", columns="weeks", values="effect_for_80pct_power", dropna=False).to_string())
 
+# ---------------- sensitivity: carryover and cross-branch spillover (planned analysis unchanged) ----------------
+sens = []
+for name, (tot, succ, base) in RATES.items():
+    for e in [0, 2.5, 5]:
+        for carry, spill in [(0, 0), (0.5, 0), (0, 0.25), (0, 0.5), (0.5, 0.25)]:
+            out = [sim_rate_design(12, e, tot, succ, base, carry, spill) for _ in range(N_SIM)]
+            est = np.array([100 * o[0] for o in out])
+            hit = [abs(o[0] / o[1]) > stats.t.ppf(0.975, o[2]) and (e == 0 or o[0] > 0) for o in out]
+            sens.append({"design": name, "weeks": 12, "effect": e, "carryover": carry, "spillover": spill,
+                         "detection_rate": np.mean(hit), "mean_estimate": est.mean()})
+for e in [0, 4.5]:
+    for carry in [0, 0.5, -0.5]:
+        out = [sim_chain_weekly(20, e, carry) for _ in range(N_SIM)]
+        hit = [abs(o[0] / o[1]) > stats.t.ppf(0.975, o[2]) and (e == 0 or o[0] > 0) for o in out]
+        sens.append({"design": "D3 price test (chain GP, %)", "weeks": 20, "effect": e, "carryover": carry, "spillover": np.nan,
+                     "detection_rate": np.mean(hit), "mean_estimate": np.mean([o[0] for o in out])})
+# Same chain-wide pilots analysed with Newey-West SEs instead of classical OLS (a proposed fix for week-to-week dependence)
+def sim_chain_hac(W, e_pct):
+    treat = schedule_chain(W)
+    pick, scale, _ = synth_weeks(W)
+    y = (GPc[pick] * scale).sum(axis=1)[:, 1:].sum(axis=1) * (1 + e_pct / 100 * treat)
+    est, se, df = ols_hac(np.column_stack([treat.astype(float), np.ones(W), np.arange(W, dtype=float)]), y)
+    return 100 * est / y.mean(), 100 * se / y.mean(), df
+
+
+for W in DUR_CH:
+    for e in [0, 4.5]:
+        out = [sim_chain_hac(W, e) for _ in range(N_SIM)]
+        hit = [abs(o[0] / o[1]) > stats.t.ppf(0.975, o[2]) and (e == 0 or o[0] > 0) for o in out]
+        sens.append({"design": "D3/D4 chain GP, Newey-West SEs (lag 3) instead of OLS", "weeks": W, "effect": e,
+                     "carryover": 0.0, "spillover": np.nan, "detection_rate": np.mean(hit), "mean_estimate": np.mean([o[0] for o in out])})
+# Calibrated critical value: the 95th percentile of |t| for the planned OLS analysis when NO effect is injected, from
+# 1,000 simulated null pilots per length; then power for the central +4.5% at that critical value.
+calib = []
+for W in DUR_CH:
+    t0 = np.array([abs(o[0] / o[1]) for o in (sim_chain_weekly(W, 0) for _ in range(2 * N_SIM))])
+    crit = np.percentile(t0, 95)
+    t45 = [(o[0] / o[1]) for o in (sim_chain_weekly(W, 4.5) for _ in range(N_SIM))]
+    calib.append({"design": "D3/D4 chain GP, planned OLS", "weeks": W, "nominal_t_crit": stats.t.ppf(0.975, W - 3),
+                  "calibrated_t_crit": crit, "power_4p5_nominal": np.mean([t > stats.t.ppf(0.975, W - 3) for t in t45]),
+                  "power_4p5_calibrated": np.mean([t > crit for t in t45])})
+calib = pd.DataFrame(calib).round(3)
+save_table(calib, "experiment_calibrated_critical.csv", index=False)
+print("\nCALIBRATED CRITICAL VALUES for the chain-wide weekly analysis (null pilots built from Stories' history):")
+print(calib.to_string(index=False))
+sens = pd.DataFrame(sens).round(4)
+save_table(sens, "experiment_sensitivity.csv", index=False)
+print("\nSENSITIVITY to carryover and spillover (planned analysis unchanged; D1/D2 at 12 weeks, D3 at 20 weeks):")
+print(sens.to_string(index=False))
+
 # ---------------- rollout rules, simulated ----------------
 # How often would each decision rule say "roll out" (or "revert") for a given TRUE effect? Same simulated pilots as above.
-meta = pd.read_csv("results/opportunity_inflation_meta.csv").iloc[0]      # price rise tested and break-even units change (team file)
+meta = pd.read_csv(os.path.join(ROOT, "results", "opportunity_inflation_meta.csv")).iloc[0]      # price rise tested and break-even units change (team file)
 P_RISE, U_STAR = float(meta.price_rise_tested), float(meta.units_change_at_break_even)
 R_, C_ = d["Line Revenue (USD)"].sum(), d["cost"].sum()
 GP0 = R_ - C_

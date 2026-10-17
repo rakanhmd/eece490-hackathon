@@ -1,4 +1,4 @@
-branch,Category,Product,units,revenue,gross_profit,margin_pct,gp_per_unit,profit_share_pct,basket_share_pct,low_profit_low_volume,low_margin_basket_driver
+branch,Category,Product,units,revenue,gross_profit,margin_pct,gp_per_unit,profit_share_pct,basket_share_pct,low_profit_low_volume,frequent_below_median_margin
 Garden,Bakery,Almond Croissant,376,1813.32,786.84,43.392,2.093,1.685,3.207,False,False
 Garden,Bakery,Banana Bread,416,1839.51,903.51,49.117,2.172,1.935,3.503,False,False
 Garden,Bakery,Blueberry Muffin,319,1253.79,657.26,52.422,2.06,1.408,2.634,True,False

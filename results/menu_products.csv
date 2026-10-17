@@ -1,4 +1,4 @@
-Category,Product,units,revenue,gross_profit,margin_pct,gp_per_unit,units_share_pct,profit_share_pct,cum_profit_share_pct,basket_share_pct,attach_role,role_rate,low_profit_low_volume,low_margin_basket_driver
+Category,Product,units,revenue,gross_profit,margin_pct,gp_per_unit,units_share_pct,profit_share_pct,cum_profit_share_pct,basket_share_pct,attach_role,role_rate,low_profit_low_volume,frequent_below_median_margin
 Matcha & Tea,Iced Matcha,2314,16017.88,9426.94,58.853,4.074,4.289,5.267,5.267,6.445,neutral,0.401,False,True
 Cold Coffee,Iced Latte,2617,14067.95,9179.05,65.248,3.507,4.85,5.128,10.395,7.212,tends to be bought alone (attach below the drink average),0.351,False,False
 Matcha & Tea,Classic Matcha,1956,12758.68,7712.79,60.451,3.943,3.625,4.309,14.704,5.524,neutral,0.419,False,False

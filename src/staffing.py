@@ -5,8 +5,9 @@ Split:   train Jan-Apr, choose among models on May (validation), refit the chose
 Baseline (the brief's): same branch, same hour, same weekday last week = the count 7 days earlier. It uses the actual
          previous week, so it is a 1-week-ahead forecast; the fitted models use nothing from the forecast month (1 to 5 weeks ahead).
          A second reference, the mean of the same hour over the last four same weekdays, is shown for context.
-Staffing conversion (ASSUMPTIONS, not measured): one staff member serves CAP transactions per hour, and at least MIN_STAFF
-         people are on duty in every open hour. Neither figure is in the data; sensitivity is shown.
+Staffing conversion (a SCENARIO under assumptions, not measured): one staff member serves CAP transactions per hour,
+         at least MIN_STAFF people are on duty in every open hour, and breaks are covered inside the hour or by an
+         overlapping shift (break share 0). None of these is in the data; sensitivity to all three is shown.
 Note on the 18:00 step: dine-in/takeaway shares jump at 18:00 (FINDING_weekend.md), possibly a till default. This script
 forecasts transaction counts, which do not depend on order type; if table service needs more labour than counter service,
 the order-type record must be checked before it is used for staffing.
@@ -214,6 +215,23 @@ print("\nESTIMATE sensitivity: understaffed share of branch-hours, plan = foreca
 sens = st[st.plan.isin(["forecast (model)", "same hour last week", "forecast, 80% cover"])].pivot_table(
     index=["cap_tx_per_staff_hour", "min_staff"], columns="plan", values="share_of_branch_hours_understaffed")
 print(sens.round(3).to_string())
+# Breaks (ASSUMPTION): the main case assumes breaks are covered inside the hour or by an overlapping shift (break share 0).
+# Sensitivity: a share of each paid staff-hour is lost to breaks, so effective capacity = 8 x (1 - break share).
+# 1/16 = a 30-minute break per 8-hour shift; 1/8 = 30 minutes per 4 hours.
+brk = []
+for b_share in (0.0, 1 / 16, 1 / 8):
+    cap_eff = 8 * (1 - b_share)
+    need_b = staff(te.n.values, cap_eff, 1)
+    for name, plan in {"forecast (model)": staff(te.pred.values, cap_eff, 1),
+                       "same hour last week": staff(np.nan_to_num(te.base.values, nan=te.n.mean()), cap_eff, 1),
+                       "flat: always the minimum": np.full(len(te), 1.0)}.items():
+        short = np.maximum(need_b - plan, 0)
+        brk.append({"break_share": b_share, "effective_tx_per_paid_staff_hour": cap_eff, "min_staff": 1, "plan": name,
+                    "staff_hours_needed": need_b.sum(), "staff_hours_planned": plan.sum(),
+                    "share_of_branch_hours_understaffed": float((short > 0).mean())})
+brk = pd.DataFrame(brk).round(3)
+save_table(brk, "staffing_break_sensitivity.csv", index=False)
+print("\nESTIMATE sensitivity to breaks (8 transactions per staff-hour before breaks, at least 1 staff):\n", brk.to_string(index=False))
 need8 = staff(te.n.values, 8, 1)
 print(f"main case: share of June branch-hours that need 2 or more staff: {(need8 >= 2).mean():.1%}; 3 or more: {(need8 >= 3).mean():.2%}")
 byb = te.assign(need=need8, plan=staff(te.pred.values, 8, 1)).groupby("branch")[["need", "plan"]].sum()

@@ -1,0 +1,14 @@
+model,origin,val_pr_auc,val_roc_auc
+dummy_prior,A,0.1051,0.5
+logreg_C0.01,A,0.1145,0.5428
+logreg_C0.1,A,0.1141,0.5498
+logreg_C1,A,0.116,0.5529
+logreg_C10,A,0.1186,0.5517
+gboost_d2_lr0.03_it100,A,0.1321,0.5916
+gboost_d2_lr0.03_it200,A,0.1338,0.5853
+gboost_d2_lr0.1_it100,A,0.1329,0.5788
+gboost_d2_lr0.1_it200,A,0.1364,0.555
+gboost_d3_lr0.03_it100,A,0.1177,0.545
+gboost_d3_lr0.03_it200,A,0.1138,0.536
+gboost_d3_lr0.1_it100,A,0.1061,0.5013
+gboost_d3_lr0.1_it200,A,0.1219,0.5224

@@ -1,4 +1,4 @@
-Product,Category,low_profit_low_volume,low_margin_basket_driver,units,gross_profit,margin_pct,basket_share_pct
+Product,Category,low_profit_low_volume,frequent_below_median_margin,units,gross_profit,margin_pct,basket_share_pct
 Iced Matcha,Matcha & Tea,False,True,2314,9426.94,58.853,6.445
 Strawberry Matcha,Matcha & Tea,False,True,1481,6128.09,53.492,4.12
 Cinnamon Roll,Bakery,False,True,1511,4083.97,51.813,4.22

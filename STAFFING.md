@@ -3,7 +3,7 @@
 Code: [`src/staffing.py`](src/staffing.py) (about 4 seconds, seeded; two runs from scratch gave identical output and tables). Tables: `results/staffing_*.csv`; model rows are logged in `results/results.csv` (names start with `hourly_`, splits `val_may_hourly` and `test_june_hourly`). Figures: `figures/staffing_mae_by_hour.png`, `figures/staffing_forecast_heatmap.png`.
 
 ## Short answer
-A model that knows the branch, weekday and hour (plus the growth trend) forecasts June's hourly transactions with an error of **1.62 transactions per branch-hour, against 2.24 for the usual baseline (same hour last week)**. It is better in all 17 hours and at all three branches. The error is already at the level that random variation in such small counts would leave (about 1.63 even for a perfect forecast), so a better model would not help. The staffing conversion depends on two assumptions that are not in the data (how many transactions one person serves an hour, and the minimum crew), and with Stories' volumes most hours need only one or two people, so the gain from demand-led rosters is real but modest: fewer short-staffed hours than a flat roster (5.4% vs 12.6% of branch-hours at one person minimum), without paying for two people all day (1,717 vs 3,060 staff-hours in June).
+**Measured (forecast vs baseline):** a model that knows the branch, weekday and hour (plus the growth trend) forecasts June's hourly transactions with an error of **1.62 transactions per branch-hour, against 2.24 for the usual baseline (same hour last week)**. It is better in all 17 hours and at all three branches. The error is already at the level that random variation in such small counts would leave (about 1.63 even for a perfect forecast), so a better model would not help. **Scenario (not measured):** the staffing conversion depends on three assumptions that are not in the data: how many transactions one person serves an hour, how breaks are covered, and the minimum crew. With Stories' volumes most hours need only one or two people, so the gain from demand-led rosters is real but modest: fewer short-staffed hours than a flat roster (5.4% vs 12.6% of branch-hours at one person minimum), without paying for two people all day (1,717 vs 3,060 staff-hours in June).
 
 ## Setup
 - **Target:** transactions per branch per hour, 07:00 to 23:59 (the file has no sales outside these hours), zero where nobody bought. 3 branches × 181 days × 17 hours = 9,231 cells. Mean 3.7 transactions per cell, maximum 27, and 9.3% of cells are empty.
@@ -11,7 +11,7 @@ A model that knows the branch, weekday and hour (plus the growth trend) forecast
 - **Baseline (the brief's):** same branch, same hour, same weekday last week. It uses last week's actual counts, so it is a one-week-ahead forecast. The fitted models use nothing from the forecast month and forecast 1 to 5 weeks ahead, which is the harder setting. A second reference, the mean of the same hour over the four previous same weekdays, is also shown.
 - **Candidates:** dummy (each branch's mean); same hour last week; mean of last four same weekdays; *profile × trend* (branch × weekday × hour mean of detrended counts, times the branch's growth trend); *Poisson regression* (branch, weekday, hour, branch × hour, weekday × hour, branch × weekday, and a linear trend; regularisation 0.001, 0.01 or 0.1); *gradient boosting with Poisson loss* (2 settings).
 
-## Results
+## Results (measured: forecast accuracy against the baselines, June test)
 Mean absolute error (MAE) in transactions per branch-hour, with the weighted absolute percentage error (WAPE = total absolute error ÷ total transactions).
 
 | Model | May validation MAE | June test MAE | June WAPE |
@@ -45,10 +45,14 @@ Errors are largest in the busy evening hours in absolute terms but not relativel
 
 **What the forecast says about the shape of demand** (`staffing_forecast_heatmap.png`, `staffing_forecast_shape_june.csv`): at every branch demand is lowest at 07:00 and peaks at 21:00; Tuesday is the busiest day at every branch.
 
-## Converting to staff-hours (ESTIMATES: the two assumptions are not in the data)
-**Assumptions:** one staff member serves **8 transactions per hour** (CAP), and **at least 1 person** is on duty in every open hour (MIN). Staff needed in an hour = the larger of MIN and ⌈transactions ÷ CAP⌉. A "plan" is made from the forecast and checked against June's actual transactions. We chose 8 and 1 as a central case; the sensitivity below shows what changes.
+## Staffing scenario (not measured: every figure below rests on assumptions)
+**Assumptions (a scenario, not facts from the data):**
+- **Service rate:** one staff member serves **8 transactions per hour** (CAP).
+- **Breaks:** covered inside the hour or by an overlapping shift, so no capacity is lost (break share 0). The sensitivity below relaxes this.
+- **Minimum coverage:** **at least 1 person** is on duty in every open hour (MIN).
+ Staff needed in an hour = the larger of MIN and ⌈transactions ÷ CAP⌉. A "plan" is made from the forecast and checked against June's actual transactions. We chose 8 and 1 as a central case; the sensitivity below shows what changes.
 
-June, all branches, main case (`staffing_staff_hours_june.csv`):
+June, all branches, main scenario (`staffing_staff_hours_june.csv`):
 
 | Plan | Staff-hours planned (needed: 1,739) | Short staff-hours | Branch-hours understaffed | Surplus staff-hours |
 |---|---|---|---|---|
@@ -69,6 +73,16 @@ June, all branches, main case (`staffing_staff_hours_june.csv`):
   | At least 2 people | 2.2% / 2.7% | 0.7% / 0.7% | 0.1% / 0.2% |
 
   With a minimum crew of two and a capacity of 8 or more, the minimum covers nearly every hour and the forecast has almost nothing to add. The forecast matters when the minimum is one person or when one person serves fewer than about 8 transactions an hour.
+
+**Sensitivity to breaks** (`staffing_break_sensitivity.csv`; 8 transactions per staff-hour before breaks, at least 1 person). The break share is the part of each paid staff-hour lost to breaks: 1/16 is a 30-minute break per 8-hour shift, and 1/8 is 30 minutes per 4 hours.
+
+| Break share | Effective transactions per paid staff-hour | Staff-hours needed | Understaffed branch-hours: forecast plan / last-week plan / flat 1 person |
+|---|---|---|---|
+| 0 (main scenario) | 8.0 | 1,739 | 5.4% / 6.9% / 12.6% |
+| 1/16 | 7.5 | 1,805 | 7.9% / 8.6% / 16.4% |
+| 1/8 | 7.0 | 1,814 | 7.3% / 8.8% / 16.4% |
+
+Allowing for breaks adds 66–75 staff-hours in June and raises the understaffed share under every plan; the forecast plan stays the best of the three.
 
 ## What could make this wrong
 - **Capacity and minimum crew are assumptions.** Staff-hours scale with them; the best source is Stories' roster and till data (people on shift by hour, queue times).

@@ -1,0 +1,6 @@
+design,weeks,nominal_t_crit,calibrated_t_crit,power_4p5_nominal,power_4p5_calibrated
+"D3/D4 chain GP, planned OLS",8,2.571,2.428,0.22,0.26
+"D3/D4 chain GP, planned OLS",12,2.262,2.36,0.336,0.318
+"D3/D4 chain GP, planned OLS",16,2.16,2.425,0.448,0.386
+"D3/D4 chain GP, planned OLS",20,2.11,2.435,0.518,0.424
+"D3/D4 chain GP, planned OLS",26,2.069,2.373,0.656,0.558
