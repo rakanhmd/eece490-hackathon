@@ -129,7 +129,13 @@ We tested whether public data explains the two biggest patterns, the Tuesday sur
 | Location of Garden | Transactions ([`GARDEN_CAUSE.md`](GARDEN_CAUSE.md)) | — | Garden's hours, basket size and customers match the other branches (hour-profile p = 0.81) | Does not explain, but rent and delivery cannot be tested without addresses |
 | Industry cost levels | Starbucks 10-K; Zest café targets | Starbucks 31.4% cost of goods; café targets 20–25% coffee, 25–35% food | Harbour 35.0%, Uptown 37.4%, Garden 53.1% | Context: Garden is the abnormal branch |
 
-**Overall verdict.** The Tuesday surge and Garden's 1.43× are not explained by weather, calendar, conflict, school, fuel or location. Our data reacts to none of the real-world factors that move real shops, and even a fictional shop varies more. So both patterns most likely come from how the data was produced or recorded. The till-record check and the cost audit are what would confirm it.
+**Overall verdict.** Every external cause we could test is ruled out, so the Tuesday surge and Garden's 1.43× are driven by something inside Stories (supply, costing or operations), which means they can be fixed or copied.
+
+**Supporting evidence, and a limitation.**
+- **Smoother than real shops.** Our day-to-day variation, 0.98, is inside the pure-chance range of 0.88 to 1.14. A real bakery varies far more at 8.45, a real vending machine at 1.84, and even a fictitious shop at 4.76. Our data also shows none of the holiday and weather effects the real bakery shows.
+- **Support.** This is why we look inside Stories rather than outside it.
+- **Limitation.** If the smoothness comes from how the data was produced or recorded, the Tuesday surge may not reflect real visits. Garden's cost may then be a booking rule rather than money paid.
+- **What would decide it.** The till-record check and the cost audit would tell these apart. Location causes such as rent or delivery also remain untested, because branch addresses are not in the data.
 
 ### Details
 **Method.** Weather and calendar effects come from the weekday + log-trend model of finding 5, with p-values from shuffling weather across days within each month. Adding temperature and rain raises R² by only 0.00018 (p = 0.56). Source: `src/external_factors.py`, `results/external_*.csv`, `figures/weather_vs_sales.png`, `figures/tuesday_by_branch_school.png`.
