@@ -1,0 +1,4 @@
+pair,hourly_profile_corr,weekday_profile_corr
+Garden-Harbour,0.9963,0.9968
+Garden-Uptown,0.992,0.9976
+Harbour-Uptown,0.9953,0.9967

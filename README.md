@@ -21,7 +21,7 @@ How to read the table:
 - **Rows 1 and 2 overlap at Garden.** After a cost fix, each customer lost to a price rise costs more, so doing both is worth a little less than the sum. For Garden moving to Harbour's prices, the overlap is $757 at elasticity −1.
 - **Row 2 and the branch price moves.** Row 2 already covers moving Garden and Uptown to Harbour's list, worth +$2,516 and +$1,782 at elasticity −1 in the estimates below. Do not add those to row 2.
 - **Row 3** assumes extra Saturday visits are new, not moved from other days.
-- **Row 4** is priced at today's food margins.
+- **Row 4** is priced at today's food margins. The evening dessert test in finding 9 is part of it.
 
 ## The business problem
 Stories already knows what each branch sells. We looked instead at decisions where the data points to money left on the table:
@@ -108,6 +108,39 @@ Facts computed directly from the data (after removing 132 duplicate rows). Each 
    | Drink: Cold Coffee / Cold Drinks / Hot Coffee / Matcha & Tea | **38.1%** / 40.7% / 41.1% / **43.0%** | Yes, p < 0.0001, also after adjusting for branch, hour, day and month |
 
    The drink-type gap appears inside every branch. Some drink and food pairs sell less often together than item popularity predicts. To test this, we reshuffled items 2,000 times, keeping each basket's size and branch fixed. Cold Drinks + Bakery comes out at 0.63 of the expected count, 605 baskets against 958 expected. It stays at 0.62 when the comparison is limited to baskets that already hold both a drink and food. Matcha & Tea + Meals and + Sandwiches also stay under-sold, at 0.64 and 0.70, under that stricter test. Item-level pairs rest on small counts, so we treat them as pointers only. Food gross profit per drink-and-food basket averages $3.70: $4.22 at Harbour, $4.00 at Uptown and $2.77 at Garden. Garden's figure is lower because of its higher costs. Full write-up: [`FINDING_8.md`](FINDING_8.md). Source: `src/basket_analysis.py`, `results/basket_*.csv`, `figures/basket_attach_by_category.png`, `figures/basket_pair_ratio.png`.
+
+9. **Weekdays are busy and weekends quiet at every branch, and evenings are dine-in: the dine-in share jumps from about 46% to 70% at 18:00.** The daily counts are in the finding 4 table.
+   - **Weekend dip.** Weekend days average 0.767 of the Monday, Wednesday, Thursday and Friday level, with a 95% interval of 0.745 to 0.790 from a bootstrap over weeks. By branch it is Garden 0.77, Harbour 0.76 and Uptown 0.77. This fits demand driven by work or study, but it does not prove it.
+   - **Commuters.** The share of transactions between 07:00 and 09:59 is 9.78% on weekdays and 9.55% on weekends. The gap is +0.23 points [−0.54, +0.97]. If commuters drove the weekday lift, weekday mornings would be over-represented, and they are not.
+   - **Students.** We compared weekday volume when AUB students were away with in-person term, controlling for branch × weekday and a branch trend. Holidays are excluded, and intervals come from a bootstrap over weeks.
+
+     | AUB period | Weekdays | Volume vs in-person term |
+     |---|---|---|
+     | Online or hybrid | 19 | −2.9% [−8.2, +2.2] |
+     | Reading period | 3 | +3.0% [−3.4, +10.6] |
+     | Exams | 6 | −1.8% [−8.1, +13.7] |
+     | No classes | 25 | −2.7% [−10.7, +8.2] |
+
+     Every interval includes zero, so sales show no clear dip when students are away. The later periods also overlap with the trend, which widens the intervals. The week public schools closed during the escalation shows +12.2% [+5.9, +15.0], but that is only 6 weekdays.
+   - **Daypart and order type.** All branches together:
+
+     | Time slot | Share of transactions | Dine-in share | Basket value | Dessert in basket |
+     |---|---|---|---|---|
+     | 07:00–09:59 | 9.7% | 46.2% | $8.64 | 5.3% |
+     | 10:00–13:59 | 18.6% | 45.8% | $8.90 | 9.8% |
+     | 14:00–18:59 | 27.5% | 51.4% | $9.06 | 11.3% |
+     | 19:00–23:59 | 44.2% | 72.3% | $9.10 | 16.6% |
+
+     By the hour, dine-in is 46.0% at 17:00 and 69.9% at 18:00. It moves at the same hour in every branch: Garden 44.7% to 70.4%, Harbour 46.4% to 69.2%, Uptown 47.4% to 70.6%. Evening dine-in is 71.8% at Garden, 72.2% at Harbour and 73.5% at Uptown. Evening baskets carry a dessert most often at Garden, 21.4%, against 14.6% at Harbour and 13.1% at Uptown.
+   - **Branch shapes.** The three branches share the same hourly and weekday shape, with correlations of 0.992–0.996 by hour and 0.997–0.998 by weekday. Branch names are anonymized, so the data cannot tell a campus branch from an office or residential one.
+   - **Source.** `src/daypart_analysis.py`, `results/daypart_*.csv`, `figures/daypart_ordertype.png`.
+
+   ![Daypart and order type](figures/daypart_ordertype.png)
+
+   **What it means for operations.**
+   - **Daytime, 07:00–17:59.** More than half of orders are takeaway, so speed at the counter matters most.
+   - **From 18:00.** About 70% of orders are dine-in, so seating, table staff and an evening upsell test matter most.
+   - **Weekends.** This is the weakest period and the target of the Saturday test in the ranked table.
 
 ## Did outside factors cause this?
 We tested whether public data explains the two biggest patterns, the Tuesday surge and Garden's 1.43× unit cost. We also compared our data with real shops. **Assumption:** Stories is a Lebanese chain, and branch addresses are not in the data, so all three branches are treated as being in Greater Beirut (lat 33.89, lon 35.50). Brackets are 95% intervals. Real-shop values are references, not causes. All datasets, URLs, licenses and download dates are in [`data/README.md`](data/README.md).
@@ -240,6 +273,15 @@ Estimates, kept separate from the measured facts above.
   - **Break-even.** The rise breaks even at elasticity −1.67, which means a 10.5% fall in units.
   - **By branch.** At elasticity −1 the gain is Garden $3,390, Harbour $3,374 and Uptown $1,332.
   - **Overlap.** This overlaps with the branch price moves above, so do not add them.
+- **Evening dessert upsell, finding 9.** We assume more evening transactions, from 19:00, add one dessert, earning the branch's dessert gross profit per unit: Garden $2.16, Harbour $3.56, Uptown $3.23. Evening dessert attach today is 21.4% at Garden, 14.6% at Harbour and 13.1% at Uptown. From `results/daypart_evening_dessert_total.csv`, over six months:
+
+  | Evening dessert attach rise (assumed) | Extra dessert baskets | Extra gross profit, 6 months |
+  |---|---|---|
+  | +1 point | 150 | +$455 |
+  | +2.5 points | 375 | +$1,137 |
+  | +5 points | 749 | +$2,273 |
+
+  This is a narrower version of the food prompt, row 4 in the ranked table, so do not add the two.
 - **Cross-branch effect, not in the numbers above.** 94% of known customers already buy at more than one branch. If a Garden price rise moves some customers to Harbour, the chain still keeps 65% gross margin on those sales instead of 47%. Treating lost Garden units as lost to the chain therefore understates the Garden gain. For Uptown, the two margins are close, so moved customers change little.
 
 ## Assumptions and what would change the recommendation
@@ -261,6 +303,7 @@ Estimates, kept separate from the measured facts above.
 - **Garden prices.** For four weeks, move a random half of Garden's products to Harbour's price and keep the other half unchanged. Compare units sold between the two halves, with Harbour as a second control. This measures Garden's real price sensitivity before changing the whole list. Garden sold between 2,410 and 3,556 units a month from January to June.
 - **Food with drinks.** Add a till prompt suggesting a bakery item with Cold Drinks and a savoury item with Matcha & Tea. Use Harbour as the test branch, with Garden and Uptown as controls. Compare the change in attach rate before and after, and track drinks per transaction to catch swapping. At June volumes, a 5-point rise needs about 22 days to detect and a 3-point rise about 62 days (`results/basket_pilot_power.csv`). Agree the roll-out threshold before starting.
 - **Tuesday, then Saturday.** Ask marketing and operations what happens on Tuesdays, such as app pushes, loyalty offers, staffing or deliveries. Then copy the likely driver to Saturdays in an A/B test by branch-week. Each week, randomly choose which branches get it, for 6–8 weeks, and compare Saturday transactions with the untreated branch-weeks. Till-session counts would confirm that Tuesday's extra transactions are separate visits.
+- **Evening upsell.** From 18:00, suggest a dessert or a drink-and-dessert bundle at the till. Run it as an A/B test by branch-week: each week, randomly choose which branches offer it, for 6–8 weeks. Compare evening dessert attach and gross profit per evening transaction with the untreated branch-weeks.
 - **Price review.** Raise a random half of products by 6.86% for four weeks and compare their units with the other half. This measures price sensitivity directly. Roll out if units fall by less than 10.5%, the break-even point.
 
 ## Weak areas and uncertainty
@@ -277,7 +320,7 @@ Estimates, kept separate from the measured facts above.
 ## Approaches we considered and rejected
 - **Estimating price sensitivity from differences between branches.** Uptown is the cheapest branch but sells the least, so comparing branches would suggest higher prices bring more customers. Location and size drive those differences, not price, so we rejected this.
 - **Estimating price sensitivity from the 10% discount.** Discounted lines have the same quantity as full-price lines. But the discount seems to be applied at the till, so customers do not see it when choosing, and it says little about how they react to a posted price.
-- **Customer retention or churn models.** 98.5% of identified customers bought more than once in six months, so there is little churn to model in this window.
+- **A model-targeted win-back campaign.** Muche's churn model, in [`CUSTOMERS.md`](CUSTOMERS.md), labels 8.7% of identified customers as lapsed in May–June. It reports that no model beats the no-skill baseline on held-out customers, so we do not recommend targeting win-back offers with a model.
 - **More complex forecast models.** There are only 151 training days per branch, and a weekday-plus-trend regression already beats the baseline at every branch. We kept the model we can explain.
 - **Plain market-basket "lift" for cross-sell.** Most baskets have one or two lines, which distorts lift. A reshuffle that keeps each basket's size fixed avoids this.
 - **A model predicting whether a basket takes food.** Branch, hour, day and month carry no signal, and drink type alone explains the 5-point range. A model would add complexity without supporting a decision.
@@ -304,5 +347,7 @@ python garden_cost_cause.py   # Garden cost-cause checks (Brent crude, branch pr
 python reference_compare.py   # comparison with public shop datasets; first download them with the Kaggle API (see data/README.md)
 python outside_summary.py     # summary figure for the outside-factors section (run after the two scripts above)
 python opportunity_estimates.py  # Saturday and inflation price-review estimates
+python daypart_analysis.py    # weekday vs weekend, commuter and student tests, daypart x order type
+python customer_model.py      # churn model, segments, win-back estimate (see CUSTOMERS.md); appends rows to results/results.csv
 ```
 Summary tables are saved in `results/`, figures in `figures/`.

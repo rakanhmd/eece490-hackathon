@@ -1,0 +1,6 @@
+period_vs_term,bootstrap_draws_with_period,weekdays,effect_pct,ci_low_pct,ci_high_pct
+schools closed (escalation),862,6,12.176,5.89,14.965
+AUB online/hybrid,999,19,-2.864,-8.204,2.228
+AUB reading period,633,3,2.998,-3.396,10.591
+AUB exams,888,6,-1.775,-8.083,13.667
+AUB no classes,1000,25,-2.705,-10.682,8.16
