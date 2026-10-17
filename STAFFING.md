@@ -93,7 +93,7 @@ Allowing for breaks adds 66–75 staff-hours in June and raises the understaffed
 - Opening hours are taken from when sales appear (07:00 to 23:59), not from a known timetable.
 
 ## A test for Stories
-Collect two things for four weeks: staff on shift by hour (the roster) and a measure of service pressure (queue length or the time from order to hand-over, or the number of customers who leave). Then for random branch-weeks use a demand-led roster built from this forecast and compare short-staffed hours with the usual roster. We have not simulated the power of this test, so we make no claim about its length; the power calculations in `EXPERIMENTS.md` cover the five pilots there only.
+Collect two things for four weeks: staff on shift by hour (the roster) and a measure of service pressure (queue length or the time from order to hand-over, or the number of customers who leave). Then for random branch-weeks use a demand-led roster built from this forecast and compare short-staffed hours with the usual roster. We have not simulated the power of this test, so we make no claim about its length; the power calculations in `EXPERIMENTS.md` cover the six pilots there only.
 
 ## Reproduce
 ```bash

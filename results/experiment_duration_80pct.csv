@@ -1,0 +1,42 @@
+design,central_effect,weeks,t_crit_used,reuses_history,nominal_t_crit,power_at_central
+"D1 food prompt (attach, points)",2.5,8,2.5715,False,2.3646,0.41
+"D1 food prompt (attach, points)",2.5,12,2.2879,False,2.201,0.6
+"D1 food prompt (attach, points)",2.5,16,2.2262,False,2.1314,0.768
+"D1 food prompt (attach, points)",2.5,20,2.1247,False,2.093,0.862
+D2 evening dessert upsell (points),2.5,8,2.813,False,2.3646,0.328
+D2 evening dessert upsell (points),2.5,12,2.201,False,2.201,0.692
+D2 evening dessert upsell (points),2.5,16,2.2577,False,2.1314,0.776
+D2 evening dessert upsell (points),2.5,20,2.2597,False,2.093,0.852
+"D3 price test (chain GP, %)",4.5,8,2.5706,False,2.5706,0.226
+"D3 price test (chain GP, %)",4.5,12,2.4997,False,2.2622,0.304
+"D3 price test (chain GP, %)",4.5,16,2.3458,False,2.1604,0.412
+"D3 price test (chain GP, %)",4.5,20,2.4569,False,2.1098,0.422
+"D3 price test (chain GP, %)",4.5,26,2.326,False,2.0687,0.516
+"D3 price test (chain GP, %)",4.5,39,2.2615,True,2.0281,0.616
+"D3 price test (chain GP, %)",4.5,52,2.0096,True,2.0096,0.742
+"D3 price test, customer-visit metric (chain transactions, %)",-6.4,8,2.8921,False,2.5706,0.412
+"D3 price test, customer-visit metric (chain transactions, %)",-6.4,12,2.7866,False,2.2622,0.528
+"D3 price test, customer-visit metric (chain transactions, %)",-6.4,16,2.7872,False,2.1604,0.656
+"D3 price test, customer-visit metric (chain transactions, %)",-6.4,20,2.7078,False,2.1098,0.73
+"D3 price test, customer-visit metric (chain transactions, %)",-6.4,26,2.6188,False,2.0687,0.894
+"D4 discount removal (chain GP, %)",0.99,8,2.9405,False,2.5706,0.028
+"D4 discount removal (chain GP, %)",0.99,12,2.3021,False,2.2622,0.06
+"D4 discount removal (chain GP, %)",0.99,16,2.4013,False,2.1604,0.046
+"D4 discount removal (chain GP, %)",0.99,20,2.4469,False,2.1098,0.064
+"D4 discount removal (chain GP, %)",0.99,26,2.4525,False,2.0687,0.05
+"D4 discount removal (chain GP, %)",0.99,39,2.243,True,2.0281,0.084
+"D4 discount removal (chain GP, %)",0.99,52,2.0096,True,2.0096,0.068
+"D5 Saturday offer, chain-wide (weekly chain GP; Saturday lift %)",19.0,8,2.5706,False,2.5706,0.062
+"D5 Saturday offer, chain-wide (weekly chain GP; Saturday lift %)",19.0,12,2.4343,False,2.2622,0.108
+"D5 Saturday offer, chain-wide (weekly chain GP; Saturday lift %)",19.0,16,2.4421,False,2.1604,0.098
+"D5 Saturday offer, chain-wide (weekly chain GP; Saturday lift %)",19.0,20,2.3772,False,2.1098,0.106
+"D5 Saturday offer, chain-wide (weekly chain GP; Saturday lift %)",19.0,26,2.3734,False,2.0687,0.104
+"D5 Saturday offer, chain-wide (weekly chain GP; Saturday lift %)",19.0,39,2.3845,True,2.0281,0.114
+"D5 Saturday offer, chain-wide (weekly chain GP; Saturday lift %)",19.0,52,2.0096,True,2.0096,0.13
+"D6 menu price test, 4 items (GP of their transactions, %)",2.3542,8,3.3097,False,2.5706,0.052
+"D6 menu price test, 4 items (GP of their transactions, %)",2.3542,12,2.453,False,2.2622,0.058
+"D6 menu price test, 4 items (GP of their transactions, %)",2.3542,16,2.5043,False,2.1604,0.078
+"D6 menu price test, 4 items (GP of their transactions, %)",2.3542,20,2.1362,False,2.1098,0.134
+"D6 menu price test, 4 items (GP of their transactions, %)",2.3542,26,2.1879,False,2.0687,0.114
+"D6 menu price test, 4 items (GP of their transactions, %)",2.3542,39,2.0616,True,2.0281,0.146
+"D6 menu price test, 4 items (GP of their transactions, %)",2.3542,52,2.0096,True,2.0096,0.186
