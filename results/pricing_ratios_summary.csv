@@ -1,0 +1,5 @@
+,min,median,max,harbour_unit_weighted_mean
+price_garden_vs_harbour,0.9512,0.9526,0.9532,0.9524
+price_uptown_vs_harbour,0.9122,0.9141,0.9158,0.9141
+cost_garden_vs_harbour,1.4261,1.4302,1.4386,1.4299
+cost_uptown_vs_harbour,0.9524,0.9596,0.9651,0.9595
