@@ -1,0 +1,31 @@
+scope,component,share_of_tuesday_excess,ci_low,ci_high,transactions_per_week
+all branches (sum of branch-level components),d_no_id,0.3417,0.3066,0.373,32.6
+all branches (sum of branch-level components),b_more_tx_per_customer,0.0058,-0.0006,0.012,0.5504
+all branches (sum of branch-level components),a_more_identified_customers,0.6525,0.6198,0.6883,62.2496
+all branches (sum of branch-level components),c1_more_customers_seen_before,0.5264,0.4543,0.5888,50.2225
+all branches (sum of branch-level components),c2_more_customers_first_seen_this_week,0.1261,0.0597,0.2161,12.0271
+all branches (sum of branch-level components),TOTAL excess (transactions per week),1.0,,,95.4
+Garden,d_no_id,0.3455,0.288,0.3993,11.46
+Garden,b_more_tx_per_customer,0.0091,0.0005,0.0176,0.3029
+Garden,a_more_identified_customers,0.6454,0.5888,0.705,21.4071
+Garden,c1_more_customers_seen_before,0.5183,0.4391,0.593,17.1905
+Garden,c2_more_customers_first_seen_this_week,0.1271,0.0565,0.2139,4.2166
+Garden,TOTAL excess (transactions per week),1.0,,,33.17
+Harbour,d_no_id,0.3533,0.3048,0.4023,15.83
+Harbour,b_more_tx_per_customer,0.0051,-0.0045,0.0149,0.2299
+Harbour,a_more_identified_customers,0.6416,0.5906,0.6899,28.7501
+Harbour,c1_more_customers_seen_before,0.5201,0.4374,0.5947,23.3066
+Harbour,c2_more_customers_first_seen_this_week,0.1215,0.047,0.2176,5.4435
+Harbour,TOTAL excess (transactions per week),1.0,,,44.81
+Uptown,d_no_id,0.3048,0.2393,0.3837,5.31
+Uptown,b_more_tx_per_customer,0.001,-0.005,0.0067,0.0175
+Uptown,a_more_identified_customers,0.6942,0.6139,0.7604,12.0925
+Uptown,c1_more_customers_seen_before,0.5583,0.4431,0.6522,9.7255
+Uptown,c2_more_customers_first_seen_this_week,0.1359,0.0685,0.222,2.367
+Uptown,TOTAL excess (transactions per week),1.0,,,17.42
+"all branches, weeks 9-25 only (after burn-in)",d_no_id,0.3629,0.3188,0.3991,36.7941
+"all branches, weeks 9-25 only (after burn-in)",b_more_tx_per_customer,0.0048,-0.0035,0.0131,0.4916
+"all branches, weeks 9-25 only (after burn-in)",a_more_identified_customers,0.6322,0.5948,0.6777,64.0966
+"all branches, weeks 9-25 only (after burn-in)",c1_more_customers_seen_before,0.6066,0.5739,0.6427,61.5014
+"all branches, weeks 9-25 only (after burn-in)",c2_more_customers_first_seen_this_week,0.0256,0.0079,0.047,2.5952
+"all branches, weeks 9-25 only (after burn-in)",TOTAL excess (transactions per week),1.0,,,101.3824
