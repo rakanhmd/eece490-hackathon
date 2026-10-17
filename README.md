@@ -8,7 +8,7 @@ EECE 490 (Introduction to Machine Learning), American University of Beirut · Ha
 2. **Verify Tuesday against till records and campaign logs.** Tuesday brings about 1.5× the transactions of the Monday, Wednesday, Thursday and Friday average at every branch (1.52–1.56), and Saturday 0.69×. The mechanism is not identified. Daily till (Z-report) or bank totals and Stories' campaign and app logs for Tuesdays should come before copying it to Saturday; staffing from the forecast needs only the pattern to persist.
 3. **Run the food and evening dessert prompt pilots.** Two 20-week branch-week switchbacks, no discount. They are rolled out if the lower 95% bound of the gain is above 0. At +2.5 points they are worth about $2,171 and $1,295 per six months; the two overlap.
 
-No pilot of practical length can settle removing the discount, raising the four menu prices, price Option B or a Saturday offer; the cautious default is to leave them unchanged (Decisions, b).
+None of the pilot designs we simulated can settle removing the discount, raising the four menu prices, price Option B or a Saturday offer; the default is to leave them unchanged (Decisions, b).
 
 Also measured: no price changed from January to June while Lebanese consumer prices rose 17.25% a year. The decision tables follow the measured findings.
 
@@ -76,13 +76,13 @@ Recommendations follow the simulations in [`EXPERIMENTS.md`](EXPERIMENTS.md). "A
 | Food and evening dessert prompts | 59% of drink orders carry no food; attach rate 38.1%–43.0% by drink | Two 20-week branch-week switchbacks; roll out if the lower 95% bound is above 0 (a true +2.5 points rolls out 84% / 90% of the time; 2.6% with no effect) | $2,171 (food) and $1,295 (dessert) at +2.5 points; they overlap | Worth less than stopping the 10% discount if the attach rate rises less than 1.96 points |
 | Price elasticity (Option A, +6.86%) | 0 price changes on 135 price lists; Lebanon CPI +17.25% a year | 26-week chain-wide switchback; it measures the visit fall (91% power at −6.4%), not the profit gain (55% power), so prices are decided from the measured elasticity | $8,096 at elasticity −1 | Option A loses gross profit beyond elasticity −1.67 (a 10.5% fall in units) |
 
-**(b) No pilot of practical length can settle it: state the stakes and keep a cautious default.**
+**(b) None of the pilot designs we simulated can settle it: stakes and a cautious default.**
 
 | Action | At stake | Why a pilot cannot settle it | Default |
 |---|---|---|---|
-| Remove the 10% discount | $1,706 if no visits are lost | A 26-week pilot guarantees only a 5.6% loss margin against a 0.99% saving; a true 2.5% loss passes 30% of the time | Keep the discount as it is. A smaller change (for example 5% instead of 10%) halves both the saving and the risk, and is still a judgement, not a test result |
+| Remove the 10% discount | $1,706 if no visits are lost | Under our simulations a 26-week pilot reaches only a 5.6% loss margin against a 0.99% saving; a true 2.5% loss passes 30% of the time | Keep the discount as it is. A smaller change (for example 5% instead of 10%) halves the saving, and is still a judgement, not a test result |
 | Raise the four menu prices 5% | $881 at elasticity −1 (+0.49% of chain gross profit) | Detected 7% of the time at 26 weeks | Do not raise them on the strength of this analysis |
-| Price Option B (Garden and Uptown to Harbour's prices) | $4,298 at elasticity −1 | At most 31% power at any length | Do not change the branch price lists until the elasticity is measured in (a) |
+| Price Option B (Garden and Uptown to Harbour's prices) | $4,298 at elasticity −1 | At most 31% power up to 52 weeks | No branch price changes until the elasticity is measured in (a) |
 | Saturday offer | $2,601 (central case); ranks below the food prompt above 37.4% shifting | At most 14% power; the Tuesday driver is unknown | None until the Tuesday driver is found |
 
 **Other decisions.**

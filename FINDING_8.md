@@ -104,18 +104,18 @@ Question: does a counter prompt raise the share of drink orders that include a f
 - **Design: switchback by branch-week** on the balanced schedule in `EXPERIMENTS.md` (pilot 1), so every branch spends half the weeks in each arm. With one treated branch, any change at that branch (staff, stock, a local event) would be mixed up with the prompt; rotating the treatment spreads those changes across both arms. Compare attach rates in on-weeks and off-weeks within each branch.
 - **How long.** Simulated for the switchback design in `EXPERIMENTS.md` (pilot 1): 20 weeks give 80% power at +2.5 points, and 12 weeks detect +2.5 points 67% of the time and +5 points every time. The older one-treated-branch figures, kept for reference: `basket_pilot_power.csv` (80% power, 5% test level, June volumes, a day-to-day noise factor we measured at 1.07–1.13) gives the days needed for designs with one treated branch: a 5-point gain needs about 59 days with Garden against Uptown and 22 days with Harbour against Garden and Uptown. Those designs rest on one treated branch, so the figures are only a rough guide. Under those two designs, a 2–3 point effect needs 62–366 days.
 - **What to record:** attach rate on drink transactions (main measure); food gross profit per drink transaction; drinks per transaction and average ticket (to catch swapping); weekly numbers, so a trend at one branch is visible.
-- **Decision rule, set before the test:** roll out only if the lower end of the 95% interval for the attach-rate change is above the level needed to cover the extra staff time and waste. Stories has to supply those costs, because we do not have them.
+- **Decision rule, set before the test (as in the README and `EXPERIMENTS.md`):** roll out only if the lower end of the 95% interval for the attach-rate change is above 0, then compare the prompt's implementation cost (extra staff time and waste) with the gain at that lower bound. Stories has to supply those costs, because we do not have them.
 
 ## Weak areas
 - Everything about the effect of a prompt is a guess; the data only describes how baskets look today.
 - Six months only; no yearly seasonality, and sales grew through the period.
 - Item-level pairs rest on small counts; the category-level pattern is the reliable part.
 - We do not know what a cashier says today, whether a bakery case is next to the register, or which items were out of stock. Any of these could explain the Cold Drinks + Bakery gap better than customer taste.
-- A transaction with two drinks counts once, under its most expensive drink. We did not test another rule.
+- A transaction with two drinks counts once, under its most expensive drink; section 1b shows the rates under four other rules.
 
 ## Approaches we did not use
 - **Market-basket "lift" or association rules on all baskets.** Most baskets have one or two lines, so plain lift is distorted by basket size (in a quick exploratory check, not in the script, average lift came out well below 1, which cannot be right for unrelated items). The shuffle that keeps each basket's shape fixes this.
-- **A recommender or classifier for "will this basket take food".** Among the variables we tested, branch, hour, day and month showed no detectable association with taking food, and the drink type alone gives a 5-point range. A model would add complexity without a decision to support.
+- **A recommender or classifier for "will this basket take food".** Among the variables we tested, branch, hour, day and month showed no detectable association with taking food, and the drink type alone gives a 5- to 12-point range across the five primary-drink rules. A model would add complexity without a decision to support.
 - **Customer-level cross-sell** (who buys what over time): not attempted in the time we had. The data is real Stories data with anonymized IDs; 36.5% of lines have no Customer ID, so customer results cover identified customers only. 94% of identified customers use more than one branch.
 
 ## Reproduce
