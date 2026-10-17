@@ -313,6 +313,56 @@ save_table(mde, "experiment_mde.csv", index=False)
 print("\nSMALLEST EFFECT DETECTED WITH 80% POWER (blank = not reached within the simulated effects)\n",
       mde.pivot_table(index="design", columns="weeks", values="effect_for_80pct_power", dropna=False).to_string())
 
+# ---------------- rollout rules, simulated ----------------
+# How often would each decision rule say "roll out" (or "revert") for a given TRUE effect? Same simulated pilots as above.
+meta = pd.read_csv("results/opportunity_inflation_meta.csv").iloc[0]      # price rise tested and break-even units change (team file)
+P_RISE, U_STAR = float(meta.price_rise_tested), float(meta.units_change_at_break_even)
+R_, C_ = d["Line Revenue (USD)"].sum(), d["cost"].sum()
+GP0 = R_ - C_
+
+
+def gp_effect_pct(u):          # chain GP change (%) if every price rises P_RISE and units change by u (fraction), costs per unit and discounts unchanged
+    return 100 * ((1 + P_RISE) * (1 + u) * R_ - C_ * (1 + u) - GP0) / GP0
+
+
+M_POINTS = 1.0                 # minimum worthwhile gain for D1/D2 (points): +1 point is worth about $33 / $21 a week, see anchors
+rule_rows = []
+
+
+def decision_rate(fn, W, e, test):
+    hit = 0
+    for _ in range(N_SIM):
+        est, se, df = fn(W, e)
+        hit += test(est, se * stats.t.ppf(0.975, df))
+    return hit / N_SIM
+
+
+for name, (tot, succ, base) in RATES.items():
+    for W in [12, 16]:
+        for e in [0, 1, 2.5, 5]:
+            rule_rows.append({"design": name, "rule": f"roll out if the lower 95% bound of the gain is >= {M_POINTS:g} point", "weeks": W,
+                              "true_effect": e, "share_of_pilots_that_roll_out": decision_rate(
+                                  lambda W_, e_: sim_rate_design(W_, e_, tot, succ, base), W, e, lambda est, h: 100 * (est - h) >= M_POINTS)})
+# D1/D2 estimates are fractions (hence the x100); D3/D4 functions already return percent
+for W in [12, 16, 20, 26]:
+    for u in [-0.033, -0.064, -0.09, U_STAR, -0.124]:
+        e_gp = gp_effect_pct(u)
+        rule_rows.append({"design": "D3 price test", "rule": "A: roll out if the lower 95% bound of the chain GP effect is > 0", "weeks": W,
+                          "true_effect": f"units {100 * u:+.1f}% (GP {e_gp:+.1f}%)",
+                          "share_of_pilots_that_roll_out": decision_rate(sim_chain_weekly, W, e_gp, lambda est, h: est - h > 0)})
+        rule_rows.append({"design": "D3 price test", "rule": f"B: roll out if the lower 95% bound of the visit effect is > {100 * U_STAR:.1f}% (break-even units change)", "weeks": W,
+                          "true_effect": f"units {100 * u:+.1f}% (GP {e_gp:+.1f}%)",
+                          "share_of_pilots_that_roll_out": decision_rate(sim_chain_weekly_tx, W, 100 * u, lambda est, h: est - h > 100 * U_STAR)})
+for W in [12, 20, 26]:
+    for e in [0.99, 0, -2.5, -5, -7.5]:
+        rule_rows.append({"design": "D4 discount removal", "rule": "revert if the upper 95% bound of the chain GP effect is < 0", "weeks": W,
+                          "true_effect": f"GP {e:+.2f}%", "share_of_pilots_that_roll_out": decision_rate(sim_chain_weekly, W, e, lambda est, h: est + h < 0)})
+rules = pd.DataFrame(rule_rows)
+rules = rules.rename(columns={"share_of_pilots_that_roll_out": "share_of_pilots_triggering_rule"}).round(3)
+save_table(rules, "experiment_rollout_rules.csv", index=False)
+print(f"\nROLLOUT RULES (500 simulated pilots each; price rise {100 * P_RISE:.2f}%, break-even units change {100 * U_STAR:.2f}%)")
+print(rules.to_string(index=False))
+
 # ---------------- value anchors: what the effects are worth, to set rollout thresholds ----------------
 WEEKS_ALL = ((d.date.max() - d.date.min()).days + 1) / 7
 DRINKS = ["Hot Coffee", "Cold Coffee", "Cold Drinks", "Matcha & Tea"]
