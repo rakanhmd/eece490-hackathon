@@ -1,17 +1,30 @@
-time,model,split,mae_Garden,mae_Harbour,mae_Uptown,mae_all,mae_tuesdays,mae_other_days,mape_all_pct,notes,pr_auc,roc_auc,precision,recall,flag_rate
-15:14,dummy,val_may,15.13,22.2,9.02,15.45,49.61,10.39,19.82,daily transactions per branch; train Jan-Apr,,,,,
-15:14,seasonal_naive,val_may,7.29,12.26,7.26,8.94,11.92,8.49,13.93,daily transactions per branch; train Jan-Apr; seasonal_naive = same weekday last week (uses last week's actuals),,,,,
-15:14,weekday_trend,val_may,5.8,9.2,4.61,6.54,10.38,5.97,9.97,daily transactions per branch; train Jan-Apr,,,,,
-15:14,weekday_logtrend,val_may,5.56,8.55,4.27,6.12,6.72,6.03,9.6,daily transactions per branch; train Jan-Apr,,,,,
-15:14,dummy,test_june,18.15,31.3,11.35,20.27,55.04,13.31,23.42,daily transactions per branch; train Jan-May; model chosen on May,,,,,
-15:14,seasonal_naive,test_june,10.23,11.23,7.33,9.6,15.2,8.48,13.88,daily transactions per branch; train Jan-May; model chosen on May; seasonal_naive = same weekday last week (uses last week's actuals),,,,,
-15:14,weekday_logtrend,test_june,6.96,8.17,5.74,6.95,9.02,6.54,10.73,daily transactions per branch; train Jan-May; model chosen on May,,,,,
-15:20,churn_dummy_prior,val,,,,,,,,no skill; PR-AUC = prevalence,0.0859,0.5,0.0,0.0,0.0
-15:20,churn_logreg_C0.1,val,,,,,,,,threshold 0.1013 chosen on val (max F1),0.1382,0.4891,0.1607,0.4091,0.2188
-15:20,churn_gboost_d3_lr0.03_it200,val,,,,,,,,best gradient boosting on val,0.1224,0.5687,0.3,0.1364,0.0391
-15:20,churn_logreg_C0.1,test,,,,,,,,threshold 0.1013; test scored once,0.0995,0.5408,0.0902,0.2444,0.2378
-15:20,churn_dummy_prior,test,,,,,,,,no skill,0.0877,0.5,0.0,0.0,0.0
-15:20,churn_p2_dummy_prior,val,,,,,,,,"period 2 (Jan-Mar features, Apr-May label); no skill",0.1066,0.5,,,
-15:20,churn_p2_gboost_d3_lr0.1_it200,val,,,,,,,,period 2; threshold 0.1007 chosen on val (max F1),0.1255,0.5567,0.1421,0.5385,0.4037
-15:20,churn_p2_gboost_d3_lr0.1_it200,test,,,,,,,,period 2; threshold 0.1007; test scored once,0.159,0.4846,0.1042,0.3774,0.3926
-15:20,churn_p2_dummy_prior,test,,,,,,,,period 2; no skill,0.1084,0.5,,,
+time,model,split,mae_Garden,mae_Harbour,mae_Uptown,mae_all,mae_tuesdays,mae_other_days,mape_all_pct,notes,pr_auc,roc_auc,precision,recall,flag_rate,wape_pct
+15:14,dummy,val_may,15.13,22.2,9.02,15.45,49.61,10.39,19.82,daily transactions per branch; train Jan-Apr,,,,,,
+15:14,seasonal_naive,val_may,7.29,12.26,7.26,8.94,11.92,8.49,13.93,daily transactions per branch; train Jan-Apr; seasonal_naive = same weekday last week (uses last week's actuals),,,,,,
+15:14,weekday_trend,val_may,5.8,9.2,4.61,6.54,10.38,5.97,9.97,daily transactions per branch; train Jan-Apr,,,,,,
+15:14,weekday_logtrend,val_may,5.56,8.55,4.27,6.12,6.72,6.03,9.6,daily transactions per branch; train Jan-Apr,,,,,,
+15:14,dummy,test_june,18.15,31.3,11.35,20.27,55.04,13.31,23.42,daily transactions per branch; train Jan-May; model chosen on May,,,,,,
+15:14,seasonal_naive,test_june,10.23,11.23,7.33,9.6,15.2,8.48,13.88,daily transactions per branch; train Jan-May; model chosen on May; seasonal_naive = same weekday last week (uses last week's actuals),,,,,,
+15:14,weekday_logtrend,test_june,6.96,8.17,5.74,6.95,9.02,6.54,10.73,daily transactions per branch; train Jan-May; model chosen on May,,,,,,
+15:20,churn_dummy_prior,val,,,,,,,,no skill; PR-AUC = prevalence,0.0859,0.5,0.0,0.0,0.0,
+15:20,churn_logreg_C0.1,val,,,,,,,,threshold 0.1013 chosen on val (max F1),0.1382,0.4891,0.1607,0.4091,0.2188,
+15:20,churn_gboost_d3_lr0.03_it200,val,,,,,,,,best gradient boosting on val,0.1224,0.5687,0.3,0.1364,0.0391,
+15:20,churn_logreg_C0.1,test,,,,,,,,threshold 0.1013; test scored once,0.0995,0.5408,0.0902,0.2444,0.2378,
+15:20,churn_dummy_prior,test,,,,,,,,no skill,0.0877,0.5,0.0,0.0,0.0,
+15:20,churn_p2_dummy_prior,val,,,,,,,,"period 2 (Jan-Mar features, Apr-May label); no skill",0.1066,0.5,,,,
+15:20,churn_p2_gboost_d3_lr0.1_it200,val,,,,,,,,period 2; threshold 0.1007 chosen on val (max F1),0.1255,0.5567,0.1421,0.5385,0.4037,
+15:20,churn_p2_gboost_d3_lr0.1_it200,test,,,,,,,,period 2; threshold 0.1007; test scored once,0.159,0.4846,0.1042,0.3774,0.3926,
+15:20,churn_p2_dummy_prior,test,,,,,,,,period 2; no skill,0.1084,0.5,,,,
+15:22,hourly_dummy,val_may_hourly,2.1706,2.8261,1.384,2.1269,,,,transactions per branch-hour; train Jan-Apr,,,,,,52.2231
+15:22,hourly_same_hour_last_week,val_may_hourly,2.2277,2.797,1.6072,2.2106,,,,transactions per branch-hour; train Jan-Apr,,,,,,54.2786
+15:22,hourly_mean_last_4_same_weekdays,val_may_hourly,1.7391,2.0996,1.2713,1.7034,,,,transactions per branch-hour; train Jan-Apr,,,,,,41.8233
+15:22,hourly_profile_trend,val_may_hourly,1.612,1.9416,1.1809,1.5782,,,,transactions per branch-hour; train Jan-Apr,,,,,,38.7497
+15:22,hourly_poisson_glm_a0.001,val_may_hourly,1.5795,1.8962,1.1478,1.5412,,,,transactions per branch-hour; train Jan-Apr,,,,,,37.8415
+15:22,hourly_poisson_glm_a0.01,val_may_hourly,1.5828,1.8853,1.1383,1.5354,,,,transactions per branch-hour; train Jan-Apr,,,,,,37.7004
+15:22,hourly_poisson_glm_a0.1,val_may_hourly,1.6353,1.9288,1.1656,1.5766,,,,transactions per branch-hour; train Jan-Apr,,,,,,38.7106
+15:22,hourly_gboost_poisson_3_0.05_200,val_may_hourly,1.5905,1.8985,1.152,1.547,,,,transactions per branch-hour; train Jan-Apr,,,,,,37.9838
+15:22,hourly_gboost_poisson_4_0.05_300,val_may_hourly,1.6016,1.9178,1.1713,1.5635,,,,transactions per branch-hour; train Jan-Apr,,,,,,38.3905
+15:22,hourly_dummy,test_june_hourly,2.2847,3.1203,1.4426,2.2825,,,,transactions per branch-hour; train Jan-May; model chosen on May; test scored once,,,,,,50.5684
+15:22,hourly_same_hour_last_week,test_june_hourly,2.3078,2.8333,1.5765,2.2392,,,,transactions per branch-hour; train Jan-May; model chosen on May; test scored once,,,,,,49.609
+15:22,hourly_mean_last_4_same_weekdays,test_june_hourly,1.8961,2.1745,1.2887,1.7864,,,,transactions per branch-hour; train Jan-May; model chosen on May; test scored once,,,,,,39.5779
+15:22,hourly_poisson_glm_a0.01,test_june_hourly,1.7069,1.9883,1.1757,1.6236,,,,transactions per branch-hour; train Jan-May; model chosen on May; test scored once,,,,,,35.9709
