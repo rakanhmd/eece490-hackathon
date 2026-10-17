@@ -19,6 +19,8 @@ rng = np.random.default_rng(SEED)
 d = load_clean()
 d10 = d[d["Discount Rate"] != 0.15]          # the 15% promo is analysed separately
 d10 = d10[~d10["Transaction ID"].isin(d.loc[d["Discount Rate"] == 0.15, "Transaction ID"])]
+print(f"transactions left out because they contain a 15% line: "
+      f"{d.loc[d['Discount Rate'] == 0.15, 'Transaction ID'].nunique():,}")
 
 # 1. line-level or transaction-level?
 t = d10.groupby("Transaction ID").agg(

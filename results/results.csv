@@ -1,15 +1,8 @@
 time,model,split,mae_Garden,mae_Harbour,mae_Uptown,mae_all,mae_tuesdays,mae_other_days,mape_all_pct,notes
-12:28,dummy,val_may,15.13,22.2,9.02,15.45,49.61,10.39,19.82,daily transactions per branch; train Jan-Apr
-12:28,seasonal_naive,val_may,7.29,12.26,7.26,8.94,11.92,8.49,13.93,daily transactions per branch; train Jan-Apr
-12:28,weekday_trend,val_may,5.8,9.2,4.61,6.54,10.38,5.97,9.97,daily transactions per branch; train Jan-Apr
-12:28,weekday_logtrend,val_may,5.56,8.55,4.27,6.12,6.72,6.03,9.6,daily transactions per branch; train Jan-Apr
-12:28,dummy,test_june,18.15,31.3,11.35,20.27,55.04,13.31,23.42,daily transactions per branch; train Jan-May; model chosen on May
-12:28,seasonal_naive,test_june,10.23,11.23,7.33,9.6,15.2,8.48,13.88,daily transactions per branch; train Jan-May; model chosen on May
-12:28,weekday_logtrend,test_june,6.96,8.17,5.74,6.95,9.02,6.54,10.73,daily transactions per branch; train Jan-May; model chosen on May
-12:28,dummy,val_may,15.13,22.2,9.02,15.45,49.61,10.39,19.82,daily transactions per branch; train Jan-Apr
-12:28,seasonal_naive,val_may,7.29,12.26,7.26,8.94,11.92,8.49,13.93,daily transactions per branch; train Jan-Apr
-12:28,weekday_trend,val_may,5.8,9.2,4.61,6.54,10.38,5.97,9.97,daily transactions per branch; train Jan-Apr
-12:28,weekday_logtrend,val_may,5.56,8.55,4.27,6.12,6.72,6.03,9.6,daily transactions per branch; train Jan-Apr
-12:28,dummy,test_june,18.15,31.3,11.35,20.27,55.04,13.31,23.42,daily transactions per branch; train Jan-May; model chosen on May
-12:28,seasonal_naive,test_june,10.23,11.23,7.33,9.6,15.2,8.48,13.88,daily transactions per branch; train Jan-May; model chosen on May
-12:28,weekday_logtrend,test_june,6.96,8.17,5.74,6.95,9.02,6.54,10.73,daily transactions per branch; train Jan-May; model chosen on May
+13:20,dummy,val_may,15.13,22.2,9.02,15.45,49.61,10.39,19.82,daily transactions per branch; train Jan-Apr
+13:20,seasonal_naive,val_may,7.29,12.26,7.26,8.94,11.92,8.49,13.93,daily transactions per branch; train Jan-Apr
+13:20,weekday_trend,val_may,5.8,9.2,4.61,6.54,10.38,5.97,9.97,daily transactions per branch; train Jan-Apr
+13:20,weekday_logtrend,val_may,5.56,8.55,4.27,6.12,6.72,6.03,9.6,daily transactions per branch; train Jan-Apr
+13:20,dummy,test_june,18.15,31.3,11.35,20.27,55.04,13.31,23.42,daily transactions per branch; train Jan-May; model chosen on May
+13:20,seasonal_naive,test_june,10.23,11.23,7.33,9.6,15.2,8.48,13.88,daily transactions per branch; train Jan-May; model chosen on May
+13:20,weekday_logtrend,test_june,6.96,8.17,5.74,6.95,9.02,6.54,10.73,daily transactions per branch; train Jan-May; model chosen on May
