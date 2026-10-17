@@ -18,10 +18,21 @@ Code: [`src/experiment_power.py`](src/experiment_power.py) (about 45 seconds, se
 
 We treat **26 weeks** as the longest practical pilot. Lengths of 39 and 52 weeks were simulated by reusing the 25 historical weeks, which makes them less reliable. Beyond 52 weeks the simulated growth compounds far past the data, so we did not use longer lengths.
 
-**Reading.**
-- **Prompts:** both pilots can show a +2.5-point gain in 20 weeks.
-- **Price Option A:** it can measure the visit loss, and so the elasticity, in 26 weeks, but not the gross-profit gain.
-- **Option B, discount, Saturday and menu price:** these cannot confirm their central effects at any practical length. For them a pilot is a guard against large losses, and the decision rests on cost and on that guard.
+**What this means for the recommendations.**
+- **(a) Testable at a practical length:**
+  - **Food and evening dessert prompts:** 20 weeks each, rolled out if the lower 95% bound is above 0.
+  - **Price Option A's visit measure:** 26 weeks, which measures the elasticity.
+- **(b) Not measurable at a practical length:**
+  - **Discount removal:** only a 5.6% loss margin can be guaranteed, against a saving of about 1%.
+  - **Menu price:** detected 7% of the time.
+  - **Price Option B:** at most 31% power.
+  - **Saturday offer:** at most 14% power.
+  - **Price Option A's gross-profit gain:** 55% power at 26 weeks.
+- **What we recommend for (b):** we do not recommend a pilot as the decision tool for these. The README states their dollar stakes, says the data cannot settle them, and gives a cautious default:
+  - keep the discount as it is;
+  - do not raise the four menu prices or change branch price lists on this analysis;
+  - no Saturday offer until the Tuesday driver is found;
+  - decide price levels from the elasticity measured in (a).
 
 ## Who is eligible, and the denominator (pilots 1 and 2)
 | | Pilot 1: food prompt | Pilot 2: evening dessert prompt |
@@ -217,7 +228,7 @@ Value anchors measured from the file (`results/experiment_anchors.csv`):
   - **What was simulated:** the same chain-week design, with the central effect of +2.40% of chain gross profit (its $4,298 estimate).
   - **Simplification:** the effect is applied to the chain total; we did not model it falling only on Garden's and Uptown's transactions.
   - **Result:** detection is 19% at 20 weeks and 20% at 26 (at most 31%, at 39 weeks). The smallest effect detectable at 26 weeks is 6.9% of chain gross profit, and false positives are 6.0% at 26 weeks.
-  - **Reading:** Option B cannot be confirmed by a pilot; it can only be guarded against a large loss with the same rule.
+  - **Reading (group b):** Option B cannot be confirmed by a pilot, so we do not recommend a pilot as the decision tool. The default is to leave the branch price lists unchanged until Option A's visit measure gives the elasticity.
 
 ## Pilot 4: discount removal (stop the blanket 10% discount), a non-inferiority test
 - **Question.** If the 10% discount is switched off, is the chain no worse off, allowing for lost visits?
@@ -235,7 +246,7 @@ Value anchors measured from the file (`results/experiment_anchors.csv`):
   | −2.5% | **30% (wrongly passes)** | 37% |
   | −5% | **3.4% (wrongly passes)** | 8.7% |
 
-- **Reading:** the margin is more than five times the saving. A true 2.5% loss would wrongly pass about three times in ten, and a 5% loss about once in thirty. If Stories' acceptable loss is smaller than 5.6%, no practical pilot can show it, and keeping or removing the discount becomes a judgement on the $1,706 saving.
+- **Reading (group b):** the margin is more than five times the saving. A true 2.5% loss would wrongly pass about three times in ten, and a 5% loss about once in thirty. So we do not recommend this pilot as the decision tool. The stakes are $1,706 per six months if no visits are lost, the data cannot settle them, and the cautious default is to keep the discount as it is. A smaller change (for example 5% instead of 10%) halves both the saving and the risk, but it would still be a judgement, not a test result.
 
 ## Pilot 5: Saturday transfer (copy the Tuesday driver onto Saturday)
 - **Prerequisite:** the Tuesday driver is unknown (`TUESDAY_DECOMP.md`, `docs/tuesday_mechanism.md`). This pilot can only start after Stories identifies it.
@@ -253,7 +264,7 @@ Value anchors measured from the file (`results/experiment_anchors.csv`):
 - **Alternatives simulated:**
   1. *Saturday-only metric, chain-wide* (calibrated threshold). A 19% lift is detected 69% of the time at 16 weeks and 92% at 26, but this metric ignores displacement.
   2. *Branch-week Saturday offer* (nominal t; not chain-wide). It detects the central case 23% of the time at 26 weeks and a 50% lift 90% of the time. It cannot see customers moving between branches.
-- **Rule (the one rule):** stage 1, 12 weeks, chain-wide ABBA, Saturday metric: continue only if the lower 95% bound of the Saturday lift is above 0. Then apply the README's displacement scenarios to that lift as an estimate, not a confirmation.
+- **Reading (group b):** no practical pilot can confirm the weekly gain, and the Tuesday driver is unknown, so we do not recommend a Saturday offer now (stakes: $2,601 per six months in the central case). If the driver is found, the only rule a pilot could support is a Saturday-only stage 1: 12 weeks, continuing only if the lower 95% bound of the Saturday lift is above 0. The README's displacement scenarios would then give an estimate, not a confirmation.
 
 ## Pilot 6: menu price test (4 items)
 - **Question.** Does a 5% rise on the four frequent, below-median-margin items (Iced Matcha, Strawberry Matcha, Cinnamon Roll, Chocolate Croissant; `MENU.md`) raise the chain's gross profit, once customers who swap to other items or skip the item are counted?
@@ -276,7 +287,7 @@ Value anchors measured from the file (`results/experiment_anchors.csv`):
   The central effect is detected no more often than no effect at all, up to 52 weeks. The smallest effect detectable at 26 weeks is 6.9% of chain gross profit, 14 times the central estimate.
 - **Rule (the one rule, the same in `MENU.md` and the README):** keep the rise only if the lower 95% bound of the chain gross-profit effect is above 0; otherwise revert.
   - **Simulated at 26 weeks:** the rise is kept 4.0% of the time with no effect, 6.8% at the central +0.49%, 27% at +2.5% and 62% at +5%. A true loss of 1% is kept 0.8% of the time.
-- **Reading:** a pilot cannot show the expected gain. It will almost always revert, so it protects against a loss but will also usually undo a small gain. The decision on these four prices rests on cost and price positioning.
+- **Reading (group b):** a pilot cannot show the expected gain. It would almost always revert, so it would also undo a small real gain. We do not recommend the rise on the strength of this analysis. The stakes are $881 per six months at elasticity −1, and the default is to keep the four prices as they are.
 
 ---
 
@@ -301,14 +312,22 @@ Value anchors measured from the file (`results/experiment_anchors.csv`):
 For 20 or 26 weeks the last column continues 0 1 1 0 0 1 1 0 … .
 
 ## A plan that fits the evidence
-| Order | Pilot | Weeks | What it can show |
+**(a) Run as pilots:**
+
+| Order | Pilot | Weeks | What it settles |
 |---|---|---|---|
-| 1 | Food prompt | 20 | A +2.5-point gain (rolled out 84% of the time) |
+| 1 | Food prompt | 20 | A +2.5-point gain (rolled out 84% of the time; 2.6% with no effect) |
 | 2 | Evening dessert upsell | 20 | A +2.5-point gain (rolled out 90% of the time) |
-| 3 | Price Option A | 26 | The visit loss, so the elasticity (91% power at −6.4%); not the gross-profit gain |
-| 4 | Discount removal | 26 | Non-inferiority at a 5.6% margin only |
-| 5 | Menu price, Option B | 26 | Guard against a loss only |
-| 6 | Saturday offer | 12 + more | Only after the Tuesday driver is known; stage 1 only |
+| 3 | Price Option A, visit measure | 26 | The elasticity (91% power at a 6.4% fall); price levels are then decided from it |
+
+**(b) Not pilots; cautious defaults:**
+
+| Change | Six-month stakes | Default |
+|---|---|---|
+| Remove the 10% discount | $1,706 if no visits are lost | Keep it as it is |
+| Raise the four menu prices 5% | $881 at elasticity −1 | Keep them as they are |
+| Price Option B | $4,298 at elasticity −1 | No change until the elasticity is measured |
+| Saturday offer | $2,601 (central case) | None until the Tuesday driver is found |
 
 ## Limits of this document
 - Effect sizes are injected, not measured.

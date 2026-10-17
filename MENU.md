@@ -131,7 +131,7 @@ Garden's margins use recorded unit costs that are about 1.43× Harbour's on ever
   - **Central effect:** the +$880.80 estimate is +0.49% of six-month chain gross profit. It is detected 7% of the time at 26 weeks, no more often than no effect (6.0%).
   - **What 26 weeks can detect:** the smallest effect with 80% power is 6.9% of chain gross profit.
   - **Rule behaviour:** the rule keeps a rise that loses 1% only 0.8% of the time.
-- **Reading:** the test guards against a loss but cannot show the expected gain, so the decision rests on cost and price positioning.
+- **Reading:** no pilot of practical length can show the expected gain, so we do not recommend the rise on the strength of this analysis. The stakes are $881 per six months at elasticity −1, and the default is to keep the four prices as they are. The rule above applies only if Stories chooses to run the test anyway.
 
 ## Reproduce
 ```bash

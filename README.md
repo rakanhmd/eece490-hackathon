@@ -6,9 +6,11 @@ EECE 490 (Introduction to Machine Learning), American University of Beirut · Ha
 ## Bottom line: three actions
 1. **Audit Garden's costs.** Garden's recorded unit cost is about 1.43× Harbour's on every product (1.426–1.439 across 45 products), unchanged for six months; Garden keeps 46.9% of sales as gross profit, Harbour 65.0%. Comparing supplier invoices and overhead allocations for 5–10 products will show which explanation fits the sampled products. It is worth $0 if the gap is accounting only, and up to +$15,888 of gross profit per six months if the whole gap is real, avoidable cash.
 2. **Verify Tuesday against till records and campaign logs.** Tuesday brings about 1.5× the transactions of the Monday, Wednesday, Thursday and Friday average at every branch (1.52–1.56), and Saturday 0.69×. The mechanism is not identified. Daily till (Z-report) or bank totals and Stories' campaign and app logs for Tuesdays should come before copying it to Saturday; staffing from the forecast needs only the pattern to persist.
-3. **Run the food and evening dessert prompt pilots.** Two 20-week branch-week switchbacks, no discount. With the rule "roll out if the lower 95% bound of the gain is above 0", a true +2.5 points is rolled out 84% (food) and 90% (dessert) of the time, and 2.6% of the time with no effect (`EXPERIMENTS.md`). At +2.5 points they are worth about $2,171 and $1,295 per six months; the two overlap.
+3. **Run the food and evening dessert prompt pilots.** Two 20-week branch-week switchbacks, no discount. They are rolled out if the lower 95% bound of the gain is above 0. At +2.5 points they are worth about $2,171 and $1,295 per six months; the two overlap.
 
-Also measured: no price changed from January to June while Lebanese consumer prices rose 17.25% a year. The full decision table follows the measured findings.
+No pilot of practical length can settle removing the discount, raising the four menu prices, price Option B or a Saturday offer; the cautious default is to leave them unchanged (Decisions, b).
+
+Also measured: no price changed from January to June while Lebanese consumer prices rose 17.25% a year. The decision tables follow the measured findings.
 
 ## The business problem
 Gross profit is the measure throughout, because revenue would hide Garden's problem.
@@ -26,7 +28,7 @@ All figures are computed from the data after removing 132 exact duplicate rows. 
 
 2. **The gap is mostly in recorded unit cost; Garden's lower prices also contribute.** Its prices are about 5% lower than Harbour's.
    - [`GARDEN_CAUSE.md`](GARDEN_CAUSE.md) finds a best-fit factor of 1.4302 (95% interval 1.4297 to 1.4309), every product within cent rounding of it, and no fixed fee per unit. Garden's customers, hours and baskets look like the other branches'.
-   - This is consistent with a branch-level standard-cost or allocation rule. The data cannot tell whether Garden's costs are higher in cash or only recorded higher.
+   - This is consistent with a branch-level standard-cost or allocation rule.
    - Source: `src/margin_analysis.py`, `results/margin_by_branch.csv`, `results/unit_cost_ratio_by_product.csv`.
 
 3. **Each branch has one fixed price list, set as a flat share of Harbour's prices.** All 135 product-branch pairs have exactly one price and one unit cost for all six months. Every Uptown price is 91.2–91.6% of Harbour's and every Garden price is 95.1–95.3%. One multiplier plus cent rounding reproduces all 45 Garden prices (0.9522–0.9526), as it does Garden's costs (1.4299–1.4302); that fits a branch-level rule better than product-by-product setting, but is evidence, not proof ([`docs/price_structure.md`](docs/price_structure.md)). Source: `src/pricing_analysis.py`, `results/pricing_*.csv`.
@@ -65,17 +67,29 @@ All figures are computed from the data after removing 132 exact duplicate rows. 
 8. **59% of drink orders carry no food; of the variables we measured, only drink category was linked to the food-with-drink rate.** The attach rate is 40.8% overall, with no detectable difference across branches, hours, weekdays and months. It runs from 38.1% for Cold Coffee to 43.0% for Matcha & Tea (p < 0.0001) under the main rule (most expensive drink); under four other rules Matcha & Tea stays highest and the gap is 4.8–11.8 points. Detail in [`FINDING_8.md`](FINDING_8.md). Source: `src/basket_analysis.py`, `results/basket_*.csv`.
 
 ## Decisions
-Each threshold holds the other assumptions fixed (`results/decision_thresholds.csv`). "Break-even implementation cost" is the most an action can cost over six months before it stops paying: its own six-month estimate under the stated assumptions.
+Recommendations follow the simulations in [`EXPERIMENTS.md`](EXPERIMENTS.md). "At stake" is the six-month estimate under the stated assumptions, and also the most the action can cost to implement before it stops paying. Thresholds hold the other assumptions fixed (`results/decision_thresholds.csv`).
 
-| Area | Observed evidence | Decision now | What would change the order | Break-even implementation cost | Can a pilot confirm the gain? |
-|---|---|---|---|---|---|
-| Garden costs | See action 1 | Action 1: audit invoices and allocations | The cost fix beats price Option A only if more than 51.0% of the $15,888 gap is real, avoidable cash, and Option B only above 27.1% | $15,888 if the whole gap is avoidable cash; $0 if accounting only | No pilot; the audit decides |
-| Prices | 0 price changes on 135 price lists; Lebanon CPI +17.25% a year | Choose Option A or B (below); test with a chain-wide week switchback | Option A loses gross profit beyond elasticity −1.67 (a 10.5% fall in units) | $8,096 (A) or $4,298 (B) at elasticity −1 | Visits only: 26 weeks give 91% power at a 6.4% fall; not the profit gain |
-| Tuesday and Saturday | Tuesday 1.52–1.56× at every branch, all 25 full weeks; not a discount day | Verify (action 2); staff Tuesdays from the forecast; copy to Saturday only once the driver is found | Saturday (25% of Tuesday's lift, $3,468 before shifting) falls below the food prompt above 37.4% shifting | $2,601 (central case) | Guard against a loss only |
-| Food with drinks | 59% of drink orders carry no food; attach rate 38.1%–43.0% by drink | 20-week branch-week prompt pilot, no discount | Worth less than stopping the 10% discount if the attach rate rises less than 1.96 points | $2,171 at +2.5 points | Yes (action 3) |
-| 10% discount | Costs $1,706; no evidence it raises basket size | Remove it only if a 26-week chain-wide switchback shows a loss no worse than 5.6% of weekly gross profit; otherwise keep it | Lost visits reduce the saving; untested | $1,706 if no visits are lost | Non-inferiority only: a true 2.5% loss wrongly passes 30% of the time |
-| Harbour's 15% promo | $470 of discounts; the rise grew after it ended | Do not extend it without a proper test | — | — | — |
-| Win-back campaigns | Churn model PR-AUC 0.0995 on held-out customers vs 0.0877 baseline | No model-targeted win-back | A model that clearly beats the baseline on new data | — | — |
+**(a) A pilot of practical length can settle it.**
+
+| Action | Evidence | Pilot and rule | At stake | What would change the order |
+|---|---|---|---|---|
+| Food and evening dessert prompts | 59% of drink orders carry no food; attach rate 38.1%–43.0% by drink | Two 20-week branch-week switchbacks; roll out if the lower 95% bound is above 0 (a true +2.5 points rolls out 84% / 90% of the time; 2.6% with no effect) | $2,171 (food) and $1,295 (dessert) at +2.5 points; they overlap | Worth less than stopping the 10% discount if the attach rate rises less than 1.96 points |
+| Price elasticity (Option A, +6.86%) | 0 price changes on 135 price lists; Lebanon CPI +17.25% a year | 26-week chain-wide switchback; it measures the visit fall (91% power at −6.4%), not the profit gain (55% power), so prices are decided from the measured elasticity | $8,096 at elasticity −1 | Option A loses gross profit beyond elasticity −1.67 (a 10.5% fall in units) |
+
+**(b) No pilot of practical length can settle it: state the stakes and keep a cautious default.**
+
+| Action | At stake | Why a pilot cannot settle it | Default |
+|---|---|---|---|
+| Remove the 10% discount | $1,706 if no visits are lost | A 26-week pilot guarantees only a 5.6% loss margin against a 0.99% saving; a true 2.5% loss passes 30% of the time | Keep the discount as it is. A smaller change (for example 5% instead of 10%) halves both the saving and the risk, and is still a judgement, not a test result |
+| Raise the four menu prices 5% | $881 at elasticity −1 (+0.49% of chain gross profit) | Detected 7% of the time at 26 weeks | Do not raise them on the strength of this analysis |
+| Price Option B (Garden and Uptown to Harbour's prices) | $4,298 at elasticity −1 | At most 31% power at any length | Do not change the branch price lists until the elasticity is measured in (a) |
+| Saturday offer | $2,601 (central case); ranks below the food prompt above 37.4% shifting | At most 14% power; the Tuesday driver is unknown | None until the Tuesday driver is found |
+
+**Other decisions.**
+- **Garden costs:** the invoice audit decides (action 1). The cost fix beats price Option A only if more than 51.0% of the $15,888 gap is real, avoidable cash, and Option B only above 27.1%.
+- **Tuesday:** verify (action 2); staff Tuesdays from the forecast.
+- **Harbour's 15% promo:** do not extend it without a proper test.
+- **Win-back:** no model-targeted campaign (churn model PR-AUC 0.0995 on held-out customers vs 0.0877 baseline).
 
 **Price options (alternatives; do not add them).**
 - **Option A, all branches +6.86%** (inflation-matched): +$8,096 at an assumed elasticity of −1, meaning customers cut purchases 1% for every 1% price rise. The range is −$3,907 at elasticity −2 to +$20,922 at 0. It breaks even at −1.67.
@@ -105,7 +119,7 @@ Estimates, kept separate from the measured facts. Six-month figures; per year = 
   | Saturday gains 25% of Tuesday's lift | +$3,468 | **+$2,601** (central case) | +$1,734 (illustrative downside; shifting could be higher) |
   | Saturday gains 50% of Tuesday's lift | +$6,937 | +$5,202 | +$3,468 |
   | Saturday reaches the Mon/Wed/Thu/Fri average | +$7,993 | +$5,994 | +$3,996 |
-- **Food with drinks.** A 1 to 5 point rise in the attach rate is worth +$644 to +$4,341, with +$2,171 for 2.5 points at the average food margin (`results/basket_value_scenarios.csv`). A 10% pairing discount would need a 9.4-point rise to break even. An evening dessert upsell (18:00 onward) of 1 to 5 points, worth +$518 to +$2,589 (`results/daypart_evening_dessert_total.csv`), overlaps with it.
+- **Food with drinks.** A 1 to 5 point rise in the attach rate is worth +$644 to +$4,341 (`results/basket_value_scenarios.csv`). A 10% pairing discount would need a 9.4-point rise to break even. An evening dessert upsell (18:00 onward) of 1 to 5 points, worth +$518 to +$2,589 (`results/daypart_evening_dessert_total.csv`), overlaps with it.
 - **10% discount.** Stopping it saves up to $1,706, or $3,412 a year, if no visits are lost.
 - **Harbour promo.** If the promo caused all of the rise, its net was +$599, with a range of −$299 to +$1,451 (`results/promo_value.csv`).
 
@@ -113,7 +127,7 @@ Estimates, kept separate from the measured facts. Six-month figures; per year = 
 | Assumption | If it is wrong |
 |---|---|
 | The `Unit Cost` column records money Stories really pays per item | If Garden's cost includes overheads booked differently, no cash is saved; if it is a real supplier surcharge, it may still not be avoidable |
-| Price elasticity is between 0 and −2, the same for every product | Beyond about −1.67, Option A loses gross profit |
+| Price elasticity is between 0 and −2, the same for every product | Beyond −1.67, Option A loses gross profit |
 | Lebanon's lira-based CPI is a fair guide to pressure on dollar menu prices | The 6.42% real-price loss is then overstated or understated |
 | Tuesday's extra transactions are extra visits | Items per transaction are unchanged on Tuesdays, so there is no sign of split orders; till-session counts would confirm it |
 | Extra Saturday visits need no extra labour | Labour cost reduces every Saturday figure |
@@ -121,9 +135,9 @@ Estimates, kept separate from the measured facts. Six-month figures; per year = 
 | Anonymization changed only branch names and IDs | Some patterns could partly reflect that process; Stories can check against its own records |
 
 ## Pilots, staffing, menu and customers
-- **Pilots** ([`EXPERIMENTS.md`](EXPERIMENTS.md)). Simulated on Stories' own weeks in 4-week blocks, with zero effects, the planned analysis and, for chain-wide pilots, a critical value calibrated on Stories' history (the nominal t gave 8–12% false positives). Only the prompts can confirm their central gain; Option A can measure only the visit loss. Option B, the discount, Saturday and the menu price (+0.49% of chain gross profit, primary metric total chain gross profit) cannot be confirmed at any practical length and serve as loss guards.
-- **Staffing** ([`STAFFING.md`](STAFFING.md)). Measured: at a weekly roster horizon (1–7 days ahead, 12 test weeks, April–June) the hourly forecast's error is 1.55 transactions per branch-hour, against 2.15 for the same hour last week and 1.71 for the four-week average; it wins in all 12 weeks. Scenario (assumed service rate, minimum crew and breaks): a forecast roster leaves 4.1% of branch-hours short, against 5.4% (last week's roster) and 9.6% (flat one person); the edge over last week's roster shrinks when staff are scheduled in blocks of several hours.
-- **Menu** ([`MENU.md`](MENU.md)). Profit is spread out (the top 10 products earn 35.9%), and low margin or volume is no reason to drop an item, since its buyers also buy other items. One decision is tested: a 5% rise on four frequent, below-median-margin items, kept only if the lower bound of the chain gross-profit effect is above 0.
+- **Pilots** ([`EXPERIMENTS.md`](EXPERIMENTS.md)). Simulated on Stories' own weeks in 4-week blocks, with zero effects, the planned analysis and, for chain-wide pilots, a critical value calibrated on Stories' history (the nominal t gave 8–12% false positives).
+- **Staffing** ([`STAFFING.md`](STAFFING.md)). Measured: at a weekly roster horizon (1–7 days ahead, 12 test weeks, April–June) the hourly forecast's error is 1.55 transactions per branch-hour, against 2.15 for the same hour last week and 1.71 for the four-week average; it wins in all 12 weeks. Scenario (assumed service rate, minimum crew and breaks), with staff scheduled hour by hour: a forecast roster leaves 4.1% of branch-hours short, against 5.4% (last week's roster) and 9.6% (flat one person). With 4-hour blocks the forecast roster leaves 2.9% short against 2.6% for last week's, with 315 fewer staff-hours.
+- **Menu** ([`MENU.md`](MENU.md)). Profit is spread out (the top 10 products earn 35.9%), and low margin or volume is no reason to drop an item, since its buyers also buy other items. A 5% rise on four frequent, below-median-margin items cannot be confirmed by a practical pilot, so we do not recommend it on this analysis.
 - **Customers** ([`CUSTOMERS.md`](CUSTOMERS.md)). Lapses could not be predicted at either of two prediction origins with equal three-month feature windows (a sensitivity check; May overlaps), so we recommend no model-targeted win-back.
 
 ## Weak areas and uncertainty
