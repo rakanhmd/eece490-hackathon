@@ -1,0 +1,13 @@
+anchor,value
+chain drink transactions per week,906.0552
+food gross profit per drink+food basket (USD),3.6953
+value of +1 point attach rate per week (USD),33.4819
+chain transactions from 18:00 per week,659.9724
+dessert gross profit per evening dessert basket (USD),3.1522
+value of +1 point evening dessert rate per week (USD),20.8034
+mean weekly chain gross profit (USD),6922.4307
+10% discount given per week (USD),65.9744
+break-even share of discounted transactions lost if the discount is removed,0.1003
+share of chain transactions that carry a 10% line,0.0828
+break-even chain transaction loss (%) = both of the above multiplied,0.8301
+"Saturday lift (%) implied by the 'no shifting' central case ($3,468 on Saturday gross profit)",19.202
