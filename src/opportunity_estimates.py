@@ -57,7 +57,7 @@ tot["extra_gross_profit_per_year_usd"] = tot.extra_gross_profit_6mo_usd * 2   # 
 # visits from other days or branches instead of adding new ones. Net gain = gross gain x (1 - shifted share).
 rng_rows = []
 for scen in tot.index:
-    for shift in [0.0, 0.5]:
+    for shift in [0.0, 0.25, 0.5]:   # 0.25 with the 25% scenario is the central case in the README ranking
         rng_rows.append({"scenario": scen, "shifted_share": shift,
                          "net_extra_gross_profit_6mo_usd": tot.loc[scen, "extra_gross_profit_6mo_usd"] * (1 - shift)})
 sat_range = pd.DataFrame(rng_rows)

@@ -22,12 +22,12 @@ The biggest opportunity is to find out why Garden's costs are recorded 43% highe
 |---|---|---|---|---|---|
 | 1 | Audit how Garden's standard costs are set, and bring them to Harbour's level if the cost is real | Gap measured; value depends on assumptions | About 1.43× Harbour's recorded cost on every product (1.426–1.439), unchanged for six months; Garden keeps 47% of sales as gross profit, Harbour 65% | +$15,888 only if the whole recorded gap is real, avoidable cash; $0 if it is an accounting difference | Compare Garden's and Harbour's supplier invoices for 5–10 products; check how overheads are loaded into unit cost |
 | 2 | Review prices at all branches with an inflation-matched rise of 6.86% | Depends on assumptions | 0 price changes on 135 price lists; Lebanon CPI +17.25% a year; Garden's prices are 95% and Uptown's 91% of Harbour's | +$8,096 at elasticity −1 (range −$3,907 to +$20,922); Garden and Uptown alone +$4,722 | Raise prices in randomly chosen branch-weeks (each branch alternates) for about eight weeks, so customers cannot switch between raised and unraised products; roll out if units fall by less than 10.5% |
-| 3 | Find what drives Tuesday and test it on Saturday | Pattern measured; the driver is a hypothesis | Tuesday is 1.53× the Monday, Wednesday, Thursday and Friday average at every branch; it is not a discount day (10.1% vs 9.4% of transactions discounted); Saturday is 0.69× on the same base. The surge is more distinct existing customers, not more trips per customer, consistent with a chain-wide trigger such as an app notification or loyalty-member offer (hypothesis, not shown) | +$1,734 to +$7,993 (see the Saturday estimate) | Check Stories' app/loyalty campaign logs for Tuesdays and ask operations what happens then; then A/B test it on Saturdays by branch-week |
+| 3 | Find what drives Tuesday and test it on Saturday | Pattern measured; the driver is a hypothesis | Tuesday is 1.53× the Monday, Wednesday, Thursday and Friday average at every branch; it is not a discount day (10.1% vs 9.4% of transactions discounted); Saturday is 0.69× on the same base. The surge is more distinct existing customers, not more trips per customer, consistent with a chain-wide trigger such as an app notification or loyalty-member offer (hypothesis, not shown) | +$2,601 in the central case (range +$1,734 to +$7,993; see the Saturday estimate) | Check Stories' app/loyalty campaign logs for Tuesdays and ask operations what happens then; then A/B test it on Saturdays by branch-week |
 | 4 | Prompt food with drink orders, without a discount | Depends on assumptions | 59% of drink orders carry no food; the attach rate runs from 38.1% to 43.0% by drink | +$644 to +$4,341 | Switch the till prompt on and off by branch-week at random (switchback) for about eight weeks; we have not computed the detectable effect for this design |
 | 5 | Pilot stopping the blanket 10% discount at one branch | Cost measured; effect on visits untested | Costs $1,706; no evidence it raises basket size beyond random assignment | Up to +$1,706 if no visits are lost | Stop it at one branch for four weeks before stopping it chain-wide |
 
 How to read it:
-- **Ranking.** The rows are conditional scenarios, not comparable expected returns: each holds only if its own assumption holds. They are ordered by the estimate in a central case we chose for each row: (1) the whole recorded gap is avoidable cash, $15,888; (2) elasticity −1, $8,096; (3) Saturday gains 50% of Tuesday's lift with no shifting, $6,937; (4) a 2.5-point rise in the attach rate at the average food margin, $2,171; (5) no visits lost, $1,706.
+- **Ranking.** The rows are conditional scenarios, not comparable expected returns: each holds only if its own assumption holds. They are ordered by the estimate in a central case we chose for each row: (1) the whole recorded gap is avoidable cash, $15,888; (2) elasticity −1, $8,096; (3) Saturday gains 25% of Tuesday's lift with 25% of the extra visits shifted from other days, $2,601; (4) a 2.5-point rise in the attach rate at the average food margin, $2,171; (5) no visits lost, $1,706.
 - **Overlap.** Rows 1 and 2 overlap at Garden. With the 6.86% rise at elasticity −1, Garden sells fewer units, so the cost fix saves less: doing both is worth $1,019 less than the sum (`results/opportunity_cost_price_overlap.csv`).
 - **Per year.** Yearly figures are six months × 2 throughout.
 
@@ -169,13 +169,13 @@ These are estimates, kept separate from the measured facts. Six-month figures; p
   | −2.0 | −12.4% | −$3,907 | −$810 |
 
   It breaks even at elasticity −1.67, a 10.5% fall in units.
-- **Saturday, if the Tuesday driver can be copied.** Each branch's actual Saturday basket and margin are used. Because most customers are regulars who also use several branches, some extra Saturday visits may be shifted from other days or branches. We therefore also show an illustrative case where half are shifted (`results/opportunity_saturday_range.csv`):
+- **Saturday, if the Tuesday driver can be copied.** Each branch's actual Saturday basket and margin are used. Because most customers are regulars who also use several branches, some extra Saturday visits may be shifted from other days or branches. We therefore also show cases where a quarter or half are shifted (`results/opportunity_saturday_range.csv`):
 
-  | Scenario | No shifting | Half shifted |
-  |---|---|---|
-  | Saturday gains 25% of Tuesday's lift | +$3,468 | **+$1,734** (illustrative downside: 50% displacement assumed; it could be higher) |
-  | Saturday gains 50% of Tuesday's lift | +$6,937 | +$3,468 |
-  | Saturday reaches the Mon/Wed/Thu/Fri average | **+$7,993** | +$3,996 |
+  | Scenario | No shifting | Quarter shifted | Half shifted |
+  |---|---|---|---|
+  | Saturday gains 25% of Tuesday's lift | +$3,468 | **+$2,601** (central case) | **+$1,734** (illustrative downside: 50% displacement assumed; it could be higher) |
+  | Saturday gains 50% of Tuesday's lift | +$6,937 | +$5,202 | +$3,468 |
+  | Saturday reaches the Mon/Wed/Thu/Fri average | **+$7,993** | +$5,994 | +$3,996 |
 - **Food with drinks.** A 1 to 5 point rise in the attach rate is worth +$644 to +$4,341 (`results/basket_value_scenarios.csv`). A 10% pairing discount would need a 9.4-point rise just to break even. An evening dessert upsell of 1 to 5 points, worth +$455 to +$2,273 (`results/daypart_evening_dessert_total.csv`), is part of this row.
 - **10% discount.** Stopping it saves up to $1,706, or $3,412 a year, if no visits are lost.
 - **Harbour promo.** If the promo caused all of the rise, its net was +$599, with a range of −$299 to +$1,451 (`results/promo_value.csv`).
