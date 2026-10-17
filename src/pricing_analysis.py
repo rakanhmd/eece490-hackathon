@@ -97,6 +97,7 @@ for e in ELASTICITIES:
     comb.append({"elasticity": e, "cost_only_6mo_usd": round(cost_only), "price_only_6mo_usd": round(price_only),
                  "both_6mo_usd": round(both), "sum_of_separate_6mo_usd": round(cost_only + price_only),
                  "overlap_usd": round(cost_only + price_only - both),
+                 "cost_only_per_year_usd": round(cost_only * 365 / 181),
                  "both_per_year_usd": round(both * 365 / 181)})
 comb = pd.DataFrame(comb)
 print("\nESTIMATES, Garden cost + price combined:\n", comb.to_string(index=False))

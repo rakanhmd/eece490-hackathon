@@ -94,7 +94,7 @@ Facts computed directly from the data (after removing 132 duplicate rows). Each 
 ## Estimated business value
 Estimates, kept separate from the measured facts above.
 
-- If Garden's costs matched Harbour's cost ratio, gross profit over the same six months would be about **$18,000 higher** (Garden revenue × 18.1 margin points), or about **$15,600** if matched to Uptown. That is roughly $31,000–36,000 per year at the current sales level.
+- If Garden paid Harbour's unit cost for each product, with its current prices and sales, gross profit over the same six months would be **$15,888 higher**. That is about $32,000 a year at the current sales level. Source: `results/garden_cost_price_combined.csv`.
 - **Aligning Garden's and Uptown's prices with Harbour's.** The data cannot measure price sensitivity, because no price ever changes. So we assume a constant price elasticity for every product and show a range. Gross-profit change over the same six months, from `results/pricing_scenarios.csv`:
 
   | Elasticity (assumed) | Garden to Harbour prices (+5.0%) | Garden half-way | Uptown to Harbour prices (+9.4%) | Uptown half-way |
@@ -107,7 +107,7 @@ Estimates, kept separate from the measured facts above.
   | Break-even elasticity | −2.08 | −2.10 | −1.56 | −1.58 |
 
   For Garden, the price rise loses money only if customers are very price-sensitive: a 5% rise would have to cut units by about 10%. Annualised, the Garden scenario is worth about $5,000 a year at an elasticity of −1 and about $10,000 a year if no customers leave. This is smaller than fixing Garden's costs, but it needs no supplier change and can start at once.
-- **Garden cost and Garden price together, without double counting.** The $18,000 above assumes Garden reaches Harbour's margin at Garden's own prices, which means costs slightly *below* Harbour's. Here instead Garden pays exactly Harbour's unit cost per product. Both changes are computed together from one baseline, not added, because after the cost fix every customer lost to a price rise costs more. Six months, from `results/garden_cost_price_combined.csv`:
+- **Garden cost and Garden price together, without double counting.** Garden pays exactly Harbour's unit cost per product, as above. Both changes are computed together from one baseline, not added, because after the cost fix every customer lost to a price rise costs more. Six months, from `results/garden_cost_price_combined.csv`:
 
   | Elasticity (assumed) | Cost fix only | Price fix only | Both together | Sum of the two (overstated) |
   |---|---|---|---|---|

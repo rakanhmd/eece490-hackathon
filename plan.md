@@ -55,3 +55,5 @@ Rule: if a finding shows nothing after ~20 minutes, report the null result hones
 - Garden numbers must match the README table (Harbour 65.0%, Uptown 62.6%, Garden 46.9%; ratio 1.426–1.439).
 - Every number added to README must appear in a file in `results/` or in script output.
 - Forecast: test month (June) used once, after choosing the model on May.
+
+##test
