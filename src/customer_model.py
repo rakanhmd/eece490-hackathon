@@ -38,9 +38,9 @@ print(f"known-ID lines: {len(k):,} ({k['Customer ID'].nunique():,} customers); J
 
 
 # ---------------- features (Jan-Apr only) ----------------
-def build_features(h: pd.DataFrame) -> pd.DataFrame:
-    assert h.date.max() < CUT, "leakage: feature input contains May-Jun rows"
-    last_day = CUT - pd.Timedelta(days=1)
+def build_features(h: pd.DataFrame, cut: pd.Timestamp = CUT) -> pd.DataFrame:
+    assert h.date.max() < cut, "leakage: feature input contains rows on or after the cut-off"
+    last_day = cut - pd.Timedelta(days=1)
     tx = h.groupby(["Customer ID", "Transaction ID"]).agg(
         date=("date", "first"), hour=("hour", "first"), weekday=("weekday", "first"), branch=("Branch", "first"),
         dinein=("Order Type", lambda s: (s == "Dine-in").any()), spend=(REV, "sum"), units=("Quantity", "sum"),
@@ -56,7 +56,7 @@ def build_features(h: pd.DataFrame) -> pd.DataFrame:
         "avg_basket_usd": g.spend.mean(),
         "avg_units_per_visit": g.units.mean(),
         "gp_total": g.gp.sum(),
-        "visits_in_april": tx[tx.date >= "2026-04-01"].groupby("Customer ID").size().reindex(g.size().index, fill_value=0),
+        "visits_last_30d": tx[tx.date >= cut - pd.Timedelta(days=30)].groupby("Customer ID").size().reindex(g.size().index, fill_value=0),   # April for the Jan-Apr period
         "share_discounted_visits": g.disc.mean(),
         "share_dine_in": g.dinein.mean(),
         "share_weekend": tx.assign(w=tx.weekday >= 5).groupby("Customer ID").w.mean(),
@@ -65,7 +65,7 @@ def build_features(h: pd.DataFrame) -> pd.DataFrame:
         "n_branches": g.branch.nunique(),
     })
     f["mean_gap_days"] = f.tenure_days / (f.visits - 1).replace(0, np.nan)   # NaN for one-visit customers (imputed in the pipeline)
-    f["april_share_of_visits"] = f.visits_in_april / f.visits
+    f["last30d_share_of_visits"] = f.visits_last_30d / f.visits
     f["n_categories"] = h.groupby("Customer ID").Category.nunique()
     cs = h.pivot_table(index="Customer ID", columns="Category", values=REV, aggfunc="sum", fill_value=0)
     cs = cs.div(cs.sum(1), axis=0).add_prefix("cat_share_")
@@ -384,3 +384,79 @@ for cut in [0.01, 0.02, 0.03]:
 ab = pd.DataFrame(ab)
 save_table(ab, "customer_ab_test_size.csv", index=False)
 print("\nESTIMATE: A/B sample size (80%% power, 5%% level, baseline lapse rate %.1f%%)\n" % (100 * y.mean()), ab.to_string(index=False))
+
+# =====================================================================
+# 4. Second-period validation: features Jan-Mar, label = no purchase in Apr-May (June not used)
+# Same recipe as above (same features, split seed, model grid, validation choices, one test scoring), so the two periods can be
+# compared. The two label windows are both 61 days long. Period 1 above is features Jan-Apr / label May-Jun.
+# =====================================================================
+CUT2, LABEL_END2 = pd.Timestamp("2026-04-01"), pd.Timestamp("2026-05-31")
+rng2 = np.random.default_rng(SEED + 1)          # own generator, so nothing above changes
+hist2 = k[k.date < CUT2]
+lab_win2 = k[(k.date >= CUT2) & (k.date <= LABEL_END2)]
+X2 = build_features(hist2, CUT2)
+y2 = pd.Series((~X2.index.isin(lab_win2["Customer ID"].unique())).astype(int), index=X2.index, name="churned")
+assert build_features(d[d.date < CUT2].dropna(subset=["Customer ID"]), CUT2).equals(X2)
+print(f"\nPERIOD 2: features before {CUT2.date()} ({X2.shape[1]} features, {len(X2):,} customers); label = no purchase "
+      f"{CUT2.date()} to {LABEL_END2.date()}; churned {y2.sum()} = {y2.mean():.1%}")
+print("leakage check: features rebuilt from data with everything on/after the cut-off removed are identical")
+a_tr, a_va, a_te, b_tr, b_va, b_te = split_train_val_test(X2, y2)
+print(f"split train/val/test = {len(a_tr)}/{len(a_va)}/{len(a_te)}; churn {b_tr.mean():.3f}/{b_va.mean():.3f}/{b_te.mean():.3f}")
+fitted2, vrows = {}, []
+for name, m in cands.items():
+    from sklearn.base import clone
+    m2 = clone(m).fit(a_tr, b_tr)
+    fitted2[name] = m2
+    p = m2.predict_proba(a_va)[:, 1]
+    vrows.append({"model": name, "val_pr_auc": average_precision_score(b_va, p), "val_roc_auc": roc_auc_score(b_va, p)})
+val2 = pd.DataFrame(vrows).round(4).set_index("model")
+save_table(val2, "customer_churn_validation_period2.csv")
+best2 = max([n for n in val2.index if not n.startswith("dummy")], key=lambda n: val2.loc[n, "val_pr_auc"])
+print(f"\nPERIOD 2 VALIDATION (prevalence {b_va.mean():.4f}); best model on validation PR-AUC: {best2}")
+print(val2.to_string())
+mod2 = fitted2[best2]
+pv2 = mod2.predict_proba(a_va)[:, 1]
+thr2 = choose_threshold(b_va, pv2, goal="f1")
+pt2 = mod2.predict_proba(a_te)[:, 1]
+st2 = scores_at(b_te, pt2, thr2)
+cm2 = confusion_matrix(b_te, (pt2 >= thr2).astype(int))
+boots2 = []
+for _ in range(2000):
+    i = rng2.integers(0, len(b_te), len(b_te))
+    if b_te.values[i].sum() == 0:
+        continue
+    boots2.append([average_precision_score(b_te.values[i], pt2[i]), roc_auc_score(b_te.values[i], pt2[i])])
+ci2 = np.percentile(boots2, [2.5, 97.5], axis=0)
+sv2 = scores_at(b_va, pv2, thr2)
+log_result("churn_p2_dummy_prior", "val", {"pr_auc": round(b_va.mean(), 4), "roc_auc": 0.5}, "period 2 (Jan-Mar features, Apr-May label); no skill")
+log_result(f"churn_p2_{best2}", "val", {k_: round(v, 4) for k_, v in sv2.items()}, f"period 2; threshold {thr2:.4f} chosen on val (max F1)")
+log_result(f"churn_p2_{best2}", "test", {k_: round(v, 4) for k_, v in st2.items()}, f"period 2; threshold {thr2:.4f}; test scored once")
+log_result("churn_p2_dummy_prior", "test", {"pr_auc": round(b_te.mean(), 4), "roc_auc": 0.5}, "period 2; no skill")
+print(f"\nPERIOD 2 TEST (scored once; {len(b_te)} customers, {b_te.sum()} churners, prevalence {b_te.mean():.4f}) model {best2}, threshold {thr2:.4f}")
+print(f"  PR-AUC {st2['pr_auc']:.4f} (95% bootstrap CI {ci2[0, 0]:.3f}-{ci2[1, 0]:.3f}) vs no-skill {b_te.mean():.4f}")
+print(f"  ROC-AUC {st2['roc_auc']:.4f} (95% bootstrap CI {ci2[0, 1]:.3f}-{ci2[1, 1]:.3f}) vs 0.5")
+print(f"  precision {st2['precision']:.3f}, recall {st2['recall']:.3f}, flagged {st2['flag_rate']:.3f}; confusion [[TN FP],[FN TP]]:\n{cm2}")
+beats2 = ci2[0, 0] > b_te.mean() and ci2[0, 1] > 0.5
+print(f"  clearly beats baseline (same rule as period 1)? {'yes' if beats2 else 'NO'}")
+# noise reference on this validation set, as for period 1
+noise2 = np.array([average_precision_score(b_va, rng2.random(len(b_va))) for _ in range(2000)])
+print(f"  noise reference on validation: random scores give PR-AUC mean {noise2.mean():.4f}, 95th percentile {np.percentile(noise2, 95):.4f}")
+# steady-rate reference for period 2. RETROSPECTIVE: it uses the growth of daily transactions inside the label window, which is
+# not known at the cut-off, so it explains the label after the fact and is not a usable forecast.
+g2 = tx_day[(tx_day.index >= CUT2) & (tx_day.index <= LABEL_END2)].mean() / tx_day[tx_day.index < CUT2].mean()
+exp2 = np.exp(-(X2.visits / ((CUT2 - d.date.min()).days)) * 61 * g2)
+print(f"  steady-rate reference (RETROSPECTIVE: uses growth x{g2:.2f} measured inside the label window): expected churn {exp2.mean():.1%}, observed {y2.mean():.1%}")
+
+per = pd.DataFrame([
+    {"period": "1: features Jan-Apr, label May-Jun", "customers": len(X), "churn_rate": y.mean(), "test_customers": len(y_te), "test_churners": int(y_te.sum()),
+     "model": best, "val_pr_auc": val.loc[best, "val_pr_auc"], "test_pr_auc": st["pr_auc"], "test_pr_auc_ci_low": ci[0, 0], "test_pr_auc_ci_high": ci[1, 0],
+     "no_skill_pr_auc": y_te.mean(), "test_roc_auc": st["roc_auc"], "test_roc_ci_low": ci[0, 1], "test_roc_ci_high": ci[1, 1],
+     "precision": st["precision"], "recall": st["recall"], "flag_rate": st["flag_rate"], "clearly_beats_baseline": bool(beats),
+     "steady_rate_expected_churn_retrospective": exp_churn.mean()},
+    {"period": "2: features Jan-Mar, label Apr-May", "customers": len(X2), "churn_rate": y2.mean(), "test_customers": len(b_te), "test_churners": int(b_te.sum()),
+     "model": best2, "val_pr_auc": val2.loc[best2, "val_pr_auc"], "test_pr_auc": st2["pr_auc"], "test_pr_auc_ci_low": ci2[0, 0], "test_pr_auc_ci_high": ci2[1, 0],
+     "no_skill_pr_auc": b_te.mean(), "test_roc_auc": st2["roc_auc"], "test_roc_ci_low": ci2[0, 1], "test_roc_ci_high": ci2[1, 1],
+     "precision": st2["precision"], "recall": st2["recall"], "flag_rate": st2["flag_rate"], "clearly_beats_baseline": bool(beats2),
+     "steady_rate_expected_churn_retrospective": exp2.mean()}]).round(4)
+save_table(per, "customer_churn_periods.csv", index=False)
+print("\nPERIOD COMPARISON\n", per.T.to_string(header=False))
