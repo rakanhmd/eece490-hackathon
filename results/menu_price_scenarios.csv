@@ -1,0 +1,4 @@
+items,price_rise_pct,elasticity_assumed,units_change_pct,gp_change_6mo_usd,gp_change_per_year_usd_x2,ignores
+"Iced Matcha, Strawberry Matcha, Cinnamon Roll, Chocolate Croissant",5.0,0.0,0.0,2100.6,4201.3,customers who skip the basket or the drink-and-food pairing; no price variation exists in the data to measure elasticity
+"Iced Matcha, Strawberry Matcha, Cinnamon Roll, Chocolate Croissant",5.0,-1.0,-4.8,880.8,1761.6,customers who skip the basket or the drink-and-food pairing; no price variation exists in the data to measure elasticity
+"Iced Matcha, Strawberry Matcha, Cinnamon Roll, Chocolate Croissant",5.0,-2.0,-9.3,-281.0,-562.0,customers who skip the basket or the drink-and-food pairing; no price variation exists in the data to measure elasticity

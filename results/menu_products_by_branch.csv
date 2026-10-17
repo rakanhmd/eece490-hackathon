@@ -1,0 +1,136 @@
+branch,Category,Product,units,revenue,gross_profit,margin_pct,gp_per_unit,profit_share_pct,basket_share_pct,low_profit_low_volume,low_margin_basket_driver
+Garden,Bakery,Almond Croissant,376,1813.32,786.84,43.392,2.093,1.685,3.207,False,False
+Garden,Bakery,Banana Bread,416,1839.51,903.51,49.117,2.172,1.935,3.503,False,False
+Garden,Bakery,Blueberry Muffin,319,1253.79,657.26,52.422,2.06,1.408,2.634,True,False
+Garden,Bakery,Butter Croissant,684,2484.78,1369.86,55.13,2.003,2.934,5.903,False,False
+Garden,Bakery,Chocolate Cookie,536,1681.27,984.47,58.555,1.837,2.108,4.56,False,False
+Garden,Bakery,Chocolate Croissant,511,2157.58,1002.72,46.474,1.962,2.147,4.354,False,True
+Garden,Bakery,Cinnamon Roll,457,2343.34,880.94,37.593,1.928,1.887,3.861,False,False
+Garden,Bakery,Pistachio Cookie,417,1430.83,726.1,50.747,1.741,1.555,3.583,False,False
+Garden,Breakfast,Avocado Toast,304,2850.98,1033.06,36.235,3.398,2.212,2.526,False,False
+Garden,Breakfast,Egg Sandwich,346,2806.92,1267.22,45.146,3.662,2.714,2.911,False,False
+Garden,Breakfast,Granola Yoghurt,187,1461.63,573.38,39.229,3.066,1.228,1.568,True,False
+Garden,Cold Coffee,Coffee Frappe,321,2095.39,933.37,44.544,2.908,1.999,2.714,False,False
+Garden,Cold Coffee,Cold Brew,461,2361.91,1596.65,67.6,3.463,3.419,3.915,False,False
+Garden,Cold Coffee,Iced Americano,506,1936.69,1314.31,67.864,2.597,2.815,4.318,False,False
+Garden,Cold Coffee,Iced Latte,813,4317.75,2390.94,55.375,2.941,5.12,6.862,False,False
+Garden,Cold Coffee,Iced Mocha,362,2251.18,1096.4,48.703,3.029,2.348,3.091,False,False
+Garden,Cold Drinks,Fresh Orange Juice,336,1918.87,900.79,46.944,2.681,1.929,2.831,False,False
+Garden,Cold Drinks,Lemonade,355,1642.0,1049.15,63.895,2.955,2.247,2.938,False,False
+Garden,Cold Drinks,Peach Iced Tea,411,1822.2,1148.16,63.01,2.794,2.459,3.458,False,False
+Garden,Cold Drinks,Sparkling Water,336,918.33,269.85,29.385,0.803,0.578,2.885,False,False
+Garden,Cold Drinks,Still Water,367,711.47,370.16,52.027,1.009,0.793,3.207,False,False
+Garden,Desserts,Brownie,553,2829.56,954.89,33.747,1.727,2.045,4.748,False,True
+Garden,Desserts,Cheesecake Slice,461,3091.64,1063.24,34.391,2.306,2.277,3.924,False,True
+Garden,Desserts,Frozen Yoghurt Cup,484,2961.96,1098.56,37.089,2.27,2.353,4.139,False,True
+Garden,Desserts,Tiramisu Cup,451,2935.81,1095.73,37.323,2.43,2.347,3.753,False,False
+Garden,Hot Coffee,Americano,341,1069.49,718.26,67.159,2.106,1.538,2.929,False,False
+Garden,Hot Coffee,Cappuccino,515,2075.92,1251.92,60.307,2.431,2.681,4.416,False,False
+Garden,Hot Coffee,Caramel Latte,369,2105.77,1120.54,53.213,3.037,2.4,3.108,False,False
+Garden,Hot Coffee,Espresso,212,559.37,362.21,64.753,1.709,0.776,1.81,True,False
+Garden,Hot Coffee,Flat White,445,1924.31,1136.66,59.068,2.554,2.434,3.762,False,False
+Garden,Hot Coffee,Spanish Latte,411,2429.52,1266.39,52.125,3.081,2.712,3.547,False,False
+Garden,Hot Coffee,Vanilla Latte,460,2493.82,1362.22,54.624,2.961,2.917,3.879,False,False
+Garden,Matcha & Tea,Chai Latte,382,1997.17,1187.33,59.451,3.108,2.543,3.198,False,False
+Garden,Matcha & Tea,Classic Matcha,650,4170.08,2057.58,49.341,3.166,4.406,5.581,False,False
+Garden,Matcha & Tea,English Breakfast Tea,135,462.33,351.63,76.056,2.605,0.753,1.147,True,False
+Garden,Matcha & Tea,Iced Matcha,765,5211.31,2464.96,47.3,3.222,5.279,6.495,False,True
+Garden,Matcha & Tea,Mint Tea,196,709.86,533.46,75.15,2.722,1.142,1.666,True,False
+Garden,Matcha & Tea,Strawberry Matcha,478,3639.21,1464.31,40.237,3.063,3.136,4.004,False,True
+Garden,Meals,Chicken Salad Bowl,179,2216.05,769.73,34.734,4.3,1.648,1.55,True,False
+Garden,Meals,Quinoa Bowl,172,1994.52,783.64,39.29,4.556,1.678,1.415,False,False
+Garden,Meals,Soup of the Day,149,1061.8,467.29,44.009,3.136,1.001,1.236,True,False
+Garden,Sandwiches,Chicken Pesto Sandwich,353,3769.06,1160.39,30.787,3.287,2.485,3.028,False,False
+Garden,Sandwiches,Halloumi Wrap,286,2832.81,1139.69,40.232,3.985,2.441,2.383,False,False
+Garden,Sandwiches,Tuna Sandwich,210,1847.84,728.54,39.427,3.469,1.56,1.792,True,False
+Garden,Sandwiches,Turkey & Cheese Sandwich,317,3041.6,901.85,29.651,2.845,1.931,2.661,False,False
+Harbour,Bakery,Almond Croissant,613,3106.91,1936.08,62.315,3.158,1.986,3.557,False,False
+Harbour,Bakery,Banana Bread,623,2895.33,1917.22,66.218,3.077,1.966,3.643,False,False
+Harbour,Bakery,Blueberry Muffin,459,1894.59,1293.3,68.263,2.818,1.326,2.682,False,False
+Harbour,Bakery,Butter Croissant,1154,4391.64,3076.08,70.044,2.666,3.155,6.698,False,False
+Harbour,Bakery,Chocolate Cookie,800,2635.13,1907.13,72.373,2.384,1.956,4.671,False,False
+Harbour,Bakery,Chocolate Croissant,754,3341.74,2150.42,64.35,2.852,2.205,4.292,False,True
+Harbour,Bakery,Cinnamon Roll,774,4167.36,2433.6,58.397,3.144,2.496,4.5,False,True
+Harbour,Bakery,Pistachio Cookie,651,2340.78,1572.6,67.183,2.416,1.613,3.777,False,False
+Harbour,Breakfast,Avocado Toast,424,4184.3,2411.98,57.644,5.689,2.474,2.449,False,False
+Harbour,Breakfast,Egg Sandwich,465,3958.04,2511.89,63.463,5.402,2.576,2.657,False,False
+Harbour,Breakfast,Granola Yoghurt,281,2304.78,1371.86,59.522,4.882,1.407,1.665,True,False
+Harbour,Cold Coffee,Coffee Frappe,457,3096.7,1940.49,62.663,4.246,1.99,2.626,False,False
+Harbour,Cold Coffee,Cold Brew,769,4087.39,3195.35,78.176,4.155,3.277,4.481,False,False
+Harbour,Cold Coffee,Iced Americano,766,3034.32,2375.56,78.29,3.101,2.436,4.414,False,False
+Harbour,Cold Coffee,Iced Latte,1339,7377.47,5154.73,69.871,3.85,5.287,7.61,False,False
+Harbour,Cold Coffee,Iced Mocha,534,3440.11,2249.29,65.384,4.212,2.307,3.049,False,False
+Harbour,Cold Drinks,Fresh Orange Juice,486,2918.02,1887.7,64.691,3.884,1.936,2.798,False,False
+Harbour,Cold Drinks,Lemonade,501,2431.65,1845.48,75.894,3.684,1.893,2.871,False,False
+Harbour,Cold Drinks,Peach Iced Tea,541,2517.08,1894.93,75.283,3.503,1.943,3.159,False,False
+Harbour,Cold Drinks,Sparkling Water,520,1491.49,789.49,52.933,1.518,0.81,3.03,False,False
+Harbour,Cold Drinks,Still Water,575,1173.09,799.34,68.14,1.39,0.82,3.263,False,False
+Harbour,Desserts,Brownie,585,3103.29,1716.84,55.323,2.935,1.761,3.404,False,False
+Harbour,Desserts,Cheesecake Slice,559,3882.24,2160.52,55.651,3.865,2.216,3.171,False,False
+Harbour,Desserts,Frozen Yoghurt Cup,454,2874.24,1652.98,57.51,3.641,1.695,2.657,False,False
+Harbour,Desserts,Tiramisu Cup,418,2827.38,1636.08,57.866,3.914,1.678,2.437,True,False
+Harbour,Hot Coffee,Americano,565,1855.96,1449.16,78.081,2.565,1.486,3.269,False,False
+Harbour,Hot Coffee,Cappuccino,839,3548.55,2608.87,73.519,3.109,2.676,4.867,False,False
+Harbour,Hot Coffee,Caramel Latte,514,3085.96,2124.78,68.853,4.134,2.179,3.012,False,False
+Harbour,Hot Coffee,Espresso,350,964.88,737.38,76.422,2.107,0.756,2.002,True,False
+Harbour,Hot Coffee,Flat White,654,2966.29,2155.33,72.661,3.296,2.211,3.777,False,False
+Harbour,Hot Coffee,Spanish Latte,612,3802.95,2591.19,68.136,4.234,2.658,3.569,False,False
+Harbour,Hot Coffee,Vanilla Latte,690,3920.58,2733.78,69.729,3.962,2.804,3.955,False,False
+Harbour,Matcha & Tea,Chai Latte,517,2827.22,2062.06,72.936,3.989,2.115,2.988,False,False
+Harbour,Matcha & Tea,Classic Matcha,959,6453.69,4276.76,66.268,4.46,4.386,5.62,False,False
+Harbour,Matcha & Tea,English Breakfast Tea,258,930.0,782.94,84.187,3.035,0.803,1.5,True,False
+Harbour,Matcha & Tea,Iced Matcha,1115,7969.33,5170.68,64.882,4.637,5.303,6.416,False,True
+Harbour,Matcha & Tea,Mint Tea,321,1221.45,1019.22,83.443,3.175,1.045,1.849,True,False
+Harbour,Matcha & Tea,Strawberry Matcha,723,5770.48,3471.34,60.157,4.801,3.56,4.188,False,True
+Harbour,Meals,Chicken Salad Bowl,262,3402.07,1921.77,56.488,7.335,1.971,1.469,False,False
+Harbour,Meals,Quinoa Bowl,218,2662.48,1589.92,59.716,7.293,1.631,1.261,True,False
+Harbour,Meals,Soup of the Day,225,1685.25,1057.5,62.75,4.7,1.085,1.304,True,False
+Harbour,Sandwiches,Chicken Pesto Sandwich,489,5493.69,2965.56,53.981,6.065,3.041,2.877,False,False
+Harbour,Sandwiches,Halloumi Wrap,407,4232.16,2547.18,60.186,6.258,2.612,2.333,False,False
+Harbour,Sandwiches,Tuna Sandwich,329,3042.46,1815.29,59.665,5.518,1.862,1.922,False,False
+Harbour,Sandwiches,Turkey & Cheese Sandwich,476,4788.53,2541.81,53.081,5.34,2.607,2.688,False,False
+Uptown,Bakery,Almond Croissant,188,873.26,529.22,60.603,2.815,1.521,2.707,False,False
+Uptown,Bakery,Banana Bread,218,925.28,596.1,64.424,2.734,1.713,3.239,False,False
+Uptown,Bakery,Blueberry Muffin,150,565.84,376.84,66.598,2.512,1.083,2.191,True,False
+Uptown,Bakery,Butter Croissant,392,1365.0,937.72,68.697,2.392,2.695,5.759,False,False
+Uptown,Bakery,Chocolate Cookie,326,979.12,695.5,71.033,2.133,1.999,4.867,False,False
+Uptown,Bakery,Chocolate Croissant,285,1157.47,724.27,62.574,2.541,2.082,4.241,False,True
+Uptown,Bakery,Cinnamon Roll,280,1371.43,769.43,56.104,2.748,2.211,4.131,False,True
+Uptown,Bakery,Pistachio Cookie,262,858.97,562.91,65.533,2.149,1.618,3.912,False,False
+Uptown,Breakfast,Avocado Toast,175,1571.8,870.05,55.354,4.972,2.501,2.645,False,False
+Uptown,Breakfast,Egg Sandwich,183,1422.48,875.31,61.534,4.783,2.516,2.692,False,False
+Uptown,Breakfast,Granola Yoghurt,107,803.78,462.45,57.534,4.322,1.329,1.581,True,False
+Uptown,Cold Coffee,Coffee Frappe,178,1110.8,678.26,61.06,3.81,1.949,2.66,False,False
+Uptown,Cold Coffee,Cold Brew,264,1296.77,1003.73,77.402,3.802,2.885,3.865,False,False
+Uptown,Cold Coffee,Iced Americano,270,989.01,764.91,77.341,2.833,2.198,3.991,False,False
+Uptown,Cold Coffee,Iced Latte,465,2372.73,1633.38,68.84,3.513,4.694,6.808,False,False
+Uptown,Cold Coffee,Iced Mocha,217,1291.2,826.82,64.035,3.81,2.376,3.271,False,False
+Uptown,Cold Drinks,Fresh Orange Juice,180,984.25,617.05,62.692,3.428,1.773,2.754,False,False
+Uptown,Cold Drinks,Lemonade,184,814.35,608.27,74.694,3.306,1.748,2.723,False,False
+Uptown,Cold Drinks,Peach Iced Tea,234,994.02,736.62,74.105,3.148,2.117,3.459,False,False
+Uptown,Cold Drinks,Sparkling Water,208,546.0,275.6,50.476,1.325,0.792,3.099,False,False
+Uptown,Cold Drinks,Still Water,247,459.23,306.09,66.653,1.239,0.88,3.709,False,False
+Uptown,Desserts,Brownie,179,879.36,471.24,53.589,2.633,1.354,2.692,True,False
+Uptown,Desserts,Cheesecake Slice,189,1218.87,659.43,54.102,3.489,1.895,2.707,False,False
+Uptown,Desserts,Frozen Yoghurt Cup,179,1050.79,588.97,56.05,3.29,1.693,2.629,False,False
+Uptown,Desserts,Tiramisu Cup,163,1020.86,574.24,56.251,3.523,1.65,2.316,False,False
+Uptown,Hot Coffee,Americano,218,655.36,504.94,77.048,2.316,1.451,3.192,False,False
+Uptown,Hot Coffee,Cappuccino,324,1249.44,899.52,71.994,2.776,2.585,4.804,False,False
+Uptown,Hot Coffee,Caramel Latte,214,1179.08,793.88,67.33,3.71,2.282,3.239,False,False
+Uptown,Hot Coffee,Espresso,124,313.45,236.57,75.473,1.908,0.68,1.831,True,False
+Uptown,Hot Coffee,Flat White,271,1129.84,807.35,71.457,2.979,2.32,4.022,False,False
+Uptown,Hot Coffee,Spanish Latte,209,1188.26,791.16,66.581,3.785,2.274,3.067,False,False
+Uptown,Hot Coffee,Vanilla Latte,244,1269.35,866.75,68.283,3.552,2.491,3.646,False,False
+Uptown,Matcha & Tea,Chai Latte,223,1117.92,801.26,71.674,3.593,2.303,3.286,False,False
+Uptown,Matcha & Tea,Classic Matcha,347,2134.91,1378.45,64.567,3.972,3.962,5.18,False,False
+Uptown,Matcha & Tea,English Breakfast Tea,80,264.14,220.14,83.342,2.752,0.633,1.174,True,False
+Uptown,Matcha & Tea,Iced Matcha,434,2837.24,1791.3,63.135,4.127,5.148,6.432,False,True
+Uptown,Matcha & Tea,Mint Tea,114,397.25,328.85,82.782,2.885,0.945,1.69,True,False
+Uptown,Matcha & Tea,Strawberry Matcha,280,2046.44,1192.44,58.269,4.259,3.427,4.147,False,True
+Uptown,Meals,Chicken Salad Bowl,111,1324.07,722.45,54.563,6.509,2.076,1.581,False,False
+Uptown,Meals,Quinoa Bowl,112,1245.44,716.8,57.554,6.4,2.06,1.69,False,False
+Uptown,Meals,Soup of the Day,75,512.44,311.44,60.776,4.153,0.895,1.111,True,False
+Uptown,Sandwiches,Chicken Pesto Sandwich,303,3110.48,1607.6,51.683,5.306,4.62,4.491,False,True
+Uptown,Sandwiches,Halloumi Wrap,274,2604.35,1516.57,58.232,5.535,4.359,3.991,False,False
+Uptown,Sandwiches,Tuna Sandwich,181,1534.25,886.27,57.766,4.897,2.547,2.613,False,False
+Uptown,Sandwiches,Turkey & Cheese Sandwich,274,2517.73,1276.51,50.701,4.659,3.669,4.147,False,True

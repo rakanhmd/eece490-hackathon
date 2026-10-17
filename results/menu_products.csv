@@ -1,0 +1,46 @@
+Category,Product,units,revenue,gross_profit,margin_pct,gp_per_unit,units_share_pct,profit_share_pct,cum_profit_share_pct,basket_share_pct,attach_role,role_rate,low_profit_low_volume,low_margin_basket_driver
+Matcha & Tea,Iced Matcha,2314,16017.88,9426.94,58.853,4.074,4.289,5.267,5.267,6.445,neutral,0.401,False,True
+Cold Coffee,Iced Latte,2617,14067.95,9179.05,65.248,3.507,4.85,5.128,10.395,7.212,tends to be bought alone (attach below the drink average),0.351,False,False
+Matcha & Tea,Classic Matcha,1956,12758.68,7712.79,60.451,3.943,3.625,4.309,14.704,5.524,neutral,0.419,False,False
+Matcha & Tea,Strawberry Matcha,1481,11456.13,6128.09,53.492,4.138,2.745,3.424,18.127,4.12,neutral,0.426,False,True
+Cold Coffee,Cold Brew,1494,7746.07,5795.73,74.822,3.879,2.769,3.238,21.365,4.179,tends to be bought alone (attach below the drink average),0.345,False,False
+Sandwiches,Chicken Pesto Sandwich,1145,12373.23,5733.55,46.338,5.007,2.122,3.203,24.568,3.231,stand-alone (usually without a drink),0.435,False,False
+Bakery,Butter Croissant,2230,8241.42,5383.66,65.324,2.414,4.133,3.008,27.576,6.259,neutral,0.476,False,False
+Sandwiches,Halloumi Wrap,967,9669.32,5203.44,53.814,5.381,1.792,2.907,30.483,2.662,neutral,0.448,False,False
+Hot Coffee,Vanilla Latte,1394,7683.75,4962.75,64.588,3.56,2.584,2.773,33.256,3.872,tends to be bought alone (attach below the drink average),0.355,False,False
+Hot Coffee,Cappuccino,1678,6873.91,4760.31,69.252,2.837,3.11,2.659,35.915,4.707,tends to be bought alone (attach below the drink average),0.341,False,False
+Sandwiches,Turkey & Cheese Sandwich,1067,10347.86,4720.17,45.615,4.424,1.978,2.637,38.552,2.954,stand-alone (usually without a drink),0.44,False,False
+Breakfast,Egg Sandwich,994,8187.44,4654.42,56.848,4.683,1.842,2.6,41.153,2.747,stand-alone (usually without a drink),0.381,False,False
+Hot Coffee,Spanish Latte,1232,7420.73,4648.74,62.645,3.773,2.283,2.597,43.75,3.467,tends to be bought alone (attach below the drink average),0.361,False,False
+Cold Coffee,Iced Americano,1542,5960.02,4454.78,74.744,2.889,2.858,2.489,46.239,4.303,tends to be bought alone (attach below the drink average),0.353,False,False
+Breakfast,Avocado Toast,903,8607.08,4315.09,50.134,4.779,1.674,2.411,48.649,2.511,stand-alone (usually without a drink),0.378,False,False
+Cold Coffee,Iced Mocha,1113,6982.49,4172.51,59.757,3.749,2.063,2.331,50.98,3.104,tends to be bought alone (attach below the drink average),0.344,False,False
+Hot Coffee,Flat White,1370,6020.44,4099.34,68.09,2.992,2.539,2.29,53.271,3.819,tends to be bought alone (attach below the drink average),0.368,False,False
+Bakery,Cinnamon Roll,1511,7882.13,4083.97,51.813,2.703,2.8,2.282,55.552,4.22,neutral,0.481,False,True
+Matcha & Tea,Chai Latte,1122,5942.31,4050.65,68.166,3.61,2.08,2.263,57.815,3.113,neutral,0.387,False,False
+Hot Coffee,Caramel Latte,1097,6370.81,4039.2,63.402,3.682,2.033,2.257,60.072,3.087,tends to be bought alone (attach below the drink average),0.372,False,False
+Desserts,Cheesecake Slice,1209,8192.75,3883.19,47.398,3.212,2.241,2.169,62.241,3.332,stand-alone (usually without a drink),0.384,False,False
+Bakery,Chocolate Croissant,1550,6656.79,3877.41,58.247,2.502,2.873,2.166,64.408,4.303,neutral,0.491,False,True
+Cold Drinks,Peach Iced Tea,1186,5333.3,3779.71,70.87,3.187,2.198,2.112,66.519,3.314,tends to be bought alone (attach below the drink average),0.332,False,False
+Bakery,Chocolate Cookie,1662,5295.52,3587.1,67.738,2.158,3.08,2.004,68.523,4.671,add-on (usually with a drink),0.506,False,False
+Cold Coffee,Coffee Frappe,956,6302.89,3552.12,56.357,3.716,1.772,1.984,70.508,2.662,tends to be bought alone (attach below the drink average),0.337,False,False
+Cold Drinks,Lemonade,1040,4888.0,3502.9,71.663,3.368,1.928,1.957,72.465,2.865,tends to be bought alone (attach below the drink average),0.318,False,False
+Sandwiches,Tuna Sandwich,720,6424.55,3430.1,53.391,4.764,1.334,1.916,74.381,2.01,neutral,0.448,False,False
+Bakery,Banana Bread,1257,5660.12,3416.83,60.367,2.718,2.33,1.909,76.29,3.521,neutral,0.464,False,False
+Meals,Chicken Salad Bowl,552,6942.19,3413.95,49.177,6.185,1.023,1.907,78.197,1.517,neutral,0.44,False,False
+Cold Drinks,Fresh Orange Juice,1002,5821.14,3405.54,58.503,3.399,1.857,1.903,80.1,2.8,tends to be bought alone (attach below the drink average),0.346,False,False
+Desserts,Frozen Yoghurt Cup,1117,6886.99,3340.51,48.505,2.991,2.07,1.866,81.966,3.14,stand-alone (usually without a drink),0.337,False,False
+Desserts,Tiramisu Cup,1032,6784.05,3306.05,48.733,3.204,1.913,1.847,83.813,2.848,stand-alone (usually without a drink),0.369,False,False
+Bakery,Almond Croissant,1177,5793.49,3252.14,56.134,2.763,2.181,1.817,85.63,3.281,neutral,0.497,False,False
+Desserts,Brownie,1317,6812.21,3142.97,46.137,2.386,2.441,1.756,87.386,3.712,stand-alone (usually without a drink),0.368,False,False
+Meals,Quinoa Bowl,502,5902.44,3090.36,52.357,6.156,0.93,1.727,89.112,1.393,neutral,0.468,True,False
+Bakery,Pistachio Cookie,1330,4630.58,2861.61,61.798,2.152,2.465,1.599,90.711,3.739,neutral,0.474,False,False
+Hot Coffee,Americano,1124,3580.81,2672.36,74.63,2.378,2.083,1.493,92.204,3.143,tends to be bought alone (attach below the drink average),0.348,False,False
+Breakfast,Granola Yoghurt,575,4570.19,2407.69,52.682,4.187,1.066,1.345,93.549,1.617,stand-alone (usually without a drink),0.361,True,False
+Bakery,Blueberry Muffin,928,3714.22,2327.4,62.662,2.508,1.72,1.3,94.849,2.573,neutral,0.466,True,False
+Matcha & Tea,Mint Tea,631,2328.56,1881.53,80.802,2.982,1.169,1.051,95.901,1.759,neutral,0.394,True,False
+Meals,Soup of the Day,449,3259.49,1836.23,56.335,4.09,0.832,1.026,96.926,1.245,stand-alone (usually without a drink),0.424,True,False
+Cold Drinks,Still Water,1189,2343.79,1475.59,62.957,1.241,2.204,0.824,97.751,3.329,tends to be bought alone (attach below the drink average),0.35,False,False
+Matcha & Tea,English Breakfast Tea,473,1656.47,1354.71,81.783,2.864,0.877,0.757,98.508,1.322,neutral,0.415,True,False
+Hot Coffee,Espresso,686,1837.7,1336.16,72.708,1.948,1.271,0.746,99.254,1.906,tends to be bought alone (attach below the drink average),0.344,True,False
+Cold Drinks,Sparkling Water,1064,2955.82,1334.94,45.163,1.255,1.972,0.746,100.0,2.995,tends to be bought alone (attach below the drink average),0.345,False,False

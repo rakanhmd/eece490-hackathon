@@ -1,0 +1,4 @@
+substitution_share,items,gross_profit_of_items_6mo_usd,share_of_total_gross_profit_pct,gp_lost_6mo_usd,assumption
+0.0,7,14234.1,8.0,14234.1,0% of the buyers choose another item that earns the same gross profit per unit
+0.5,7,14234.1,8.0,7117.0,50% of the buyers choose another item that earns the same gross profit per unit
+0.8,7,14234.1,8.0,2846.8,80% of the buyers choose another item that earns the same gross profit per unit

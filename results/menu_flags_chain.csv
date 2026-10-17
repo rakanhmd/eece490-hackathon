@@ -1,0 +1,12 @@
+Product,Category,low_profit_low_volume,low_margin_basket_driver,units,gross_profit,margin_pct,basket_share_pct
+Iced Matcha,Matcha & Tea,False,True,2314,9426.94,58.853,6.445
+Strawberry Matcha,Matcha & Tea,False,True,1481,6128.09,53.492,4.12
+Cinnamon Roll,Bakery,False,True,1511,4083.97,51.813,4.22
+Chocolate Croissant,Bakery,False,True,1550,3877.41,58.247,4.303
+Quinoa Bowl,Meals,True,False,502,3090.36,52.357,1.393
+Granola Yoghurt,Breakfast,True,False,575,2407.69,52.682,1.617
+Blueberry Muffin,Bakery,True,False,928,2327.4,62.662,2.573
+Mint Tea,Matcha & Tea,True,False,631,1881.53,80.802,1.759
+Soup of the Day,Meals,True,False,449,1836.23,56.335,1.245
+English Breakfast Tea,Matcha & Tea,True,False,473,1354.71,81.783,1.322
+Espresso,Hot Coffee,True,False,686,1336.16,72.708,1.906
