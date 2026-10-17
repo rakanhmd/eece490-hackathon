@@ -8,6 +8,12 @@ Uncertainty: block bootstrap that resamples whole weeks (days in a week are not 
 Placebos: (a) same model on NON-target categories (should show ~0),
           (b) a fake promo window inside the pre-period (should show ~0).
 """
+import os
+# One BLAS thread: the bootstrap runs thousands of small least-squares fits, where multithreaded BLAS
+# mostly adds overhead. Tested on a Mac (system BLAS): 33.6 s vs 33.9 s, identical results.
+# Not tested on an OpenBLAS machine, where the default used ~52 CPU-minutes for a 2-minute run.
+for _v in ["OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS", "VECLIB_MAXIMUM_THREADS"]:
+    os.environ.setdefault(_v, "1")
 import numpy as np
 import pandas as pd
 import matplotlib

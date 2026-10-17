@@ -13,7 +13,7 @@ Transaction ID, Date, Time, Branch, Customer ID, Order Type, Product, Category, 
 | Rows | 51,177 lines, 2026-01-01 to 2026-06-30 (181 days), 3 branches, 45 products, 9 categories |
 | Exact duplicate rows | 132 (same transaction, time, product and values). **Removed** → 51,045 lines, 33,887 transactions |
 | Missing Customer ID | 36.5% of lines (anonymous purchases) |
-| Revenue formula | Line Revenue = Quantity × Unit Price × (1 − Discount Rate) holds on every row |
+| Revenue formula | Line Revenue = Quantity × Unit Price × (1 − Discount Rate) holds on every row within rounding (±$0.01) |
 | Profit formula | Line Gross Profit = Line Revenue − Quantity × Unit Cost holds on every row; no negative values |
 | Quantity / prices | No zero or negative values; quantity is 1 or 2 |
 | Customer IDs across branches | 94% of known customers bought at more than one branch, which is unusual for a café chain. Treated as a caveat: customer IDs may not identify real individuals reliably |
