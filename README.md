@@ -4,7 +4,7 @@
 EECE 490 (Introduction to Machine Learning), American University of Beirut · Hackathon, October 17, 2026
 
 ## Conclusion
-Garden is Stories' biggest profit leak. On every one of its 45 products, Garden's recorded unit cost is 1.43 times Harbour's. Yet its price list is a flat 95% of Harbour's, so it keeps 47% of sales as gross profit against Harbour's 65%. We recommend two steps. First, audit where Garden's extra cost comes from: suppliers, delivery, or how costs are booked. Second, move a random half of Garden's products to Harbour's prices for four weeks and compare them with the other half. If the costs are real and Garden can buy at Harbour's prices, our estimate is about $17,600 more gross profit per six months, roughly $35,600 a year. This assumes customers cut purchases 1% for every 1% price rise, and the range is $14,600–$20,900. About 90% of that gain comes from the cost fix. The main assumption is that the unit-cost column records money Stories really pays. If Garden's cost includes overheads that other branches book elsewhere, most of the saving disappears, which is why the audit comes first. Separately, Tuesday brings about 1.5 times a normal weekday's transactions at every branch, every week. A simple forecast cuts the Tuesday planning error from 15.2 to 9.0 transactions a day compared with "same weekday last week". Public weather, holiday, Ramadan, school and campus data explain none of the surge. The daily counts also show none of the real-world effects we tested, so Stories should confirm the Tuesday pattern against raw till records before changing staffing. 59% of drink orders carry no food. A counter prompt, not a discount, could add an estimated $640 to $4,340 per six months if it lifts the food-with-drink rate by 1 to 5 points. Neither discount we examined shows evidence of paying for itself.
+Garden is Stories' biggest profit leak: its recorded unit cost is 1.43 times Harbour's on all 45 products while its prices are 95% of Harbour's, so it keeps 47% of sales as gross profit against Harbour's 65%. Auditing Garden's cost records and then testing Harbour's prices on a random half of its products could add an estimated $17,600 of gross profit per six months (range $14,600–$20,900, about $35,600 a year), about 90% of it from the cost fix. Smaller gains come from prompting food with drink orders ($640–$4,340 per six months) and from Uptown's prices, while neither discount we examined shows evidence of paying for itself. Neither the Tuesday surge (about 1.5 times a normal weekday) nor Garden's 1.43× is explained by any outside factor we tested, and the daily data reacts to none of the factors that move real shops, so a till-record check and the cost audit should confirm both before Stories acts.
 
 | Rank | Finding and action | Value over 6 months (Jan–Jun) | Measured or estimated |
 |---|---|---|---|
@@ -42,6 +42,8 @@ Facts computed directly from the data (after removing 132 duplicate rows). Each 
 
 2. **The gap comes from unit cost, not price.** For every one of the 45 products, Garden's recorded unit cost is 1.43× Harbour's (range 1.426–1.439). Garden's prices are about 5% *lower* than Harbour's (Uptown's about 9% lower). A uniform 43% markup on every product is consistent with a branch-level cause, such as supplier terms, delivery costs or how costs are allocated to Garden, rather than recipes or waste on specific items. The data cannot tell whether Garden *pays* more or only *books* more.
 
+   Follow-up tests in [`GARDEN_CAUSE.md`](GARDEN_CAUSE.md) find the gap is one flat factor of 1.4302 on every product, with a 95% interval of 1.4297 to 1.4309 and no fixed fee per unit. The factor does not move with Brent crude, even though Brent roughly doubled, and Garden's customers, hours and baskets look like the other branches'. The most likely explanation is a branch-level cost rule, such as an allocation or a standard-cost factor, rather than real invoices. The cost audit is what would confirm this.
+
 3. **Each branch has one fixed price list, set as a flat percentage of Harbour's prices, whatever the branch's costs.** All 135 product-branch pairs have exactly one price and one unit cost over the six months. Every Uptown price is 91.2–91.6% of Harbour's and every Garden price is 95.1–95.3% of Harbour's. So Garden, the branch whose costs are 43% higher, charges *less* than Harbour. At list prices, before any discount, the share of revenue kept as gross profit is:
 
    | Branch | Price vs Harbour | Unit cost vs Harbour | Margin at list price |
@@ -52,7 +54,7 @@ Facts computed directly from the data (after removing 132 duplicate rows). Each 
 
    Source: `src/pricing_analysis.py`, `results/pricing_ratios_summary.csv`, `results/pricing_list_margin_by_branch.csv`.
 
-4. **Tuesday has about 1.5 times the transactions of other weekdays, every week, at every branch, and it does not look like a recording error.** Mean transactions per calendar day:
+4. **Tuesday has about 1.5 times the transactions of other weekdays, every week, at every branch, and it is not one of the recording errors we tested.** Mean transactions per calendar day:
 
    | | Mon | Tue | Wed | Thu | Fri | Sat | Sun |
    |---|---|---|---|---|---|---|---|
@@ -104,98 +106,73 @@ Facts computed directly from the data (after removing 132 duplicate rows). Each 
    The drink-type gap appears inside every branch. Some drink and food pairs sell less often together than item popularity predicts. To test this, we reshuffled items 2,000 times, keeping each basket's size and branch fixed. Cold Drinks + Bakery comes out at 0.63 of the expected count, 605 baskets against 958 expected. It stays at 0.62 when the comparison is limited to baskets that already hold both a drink and food. Matcha & Tea + Meals and + Sandwiches also stay under-sold, at 0.64 and 0.70, under that stricter test. Item-level pairs rest on small counts, so we treat them as pointers only. Food gross profit per drink-and-food basket averages $3.70: $4.22 at Harbour, $4.00 at Uptown and $2.77 at Garden. Garden's figure is lower because of its higher costs. Full write-up: [`FINDING_8.md`](FINDING_8.md). Source: `src/basket_analysis.py`, `results/basket_*.csv`, `figures/basket_attach_by_category.png`, `figures/basket_pair_ratio.png`.
 
 ## Did outside factors cause this?
-We tested public data against the two biggest patterns: the Tuesday surge and Garden's 43% higher unit costs. **Assumption:** Stories is a Lebanese chain, and branch addresses are not in the data, so we treat all three branches as being in Greater Beirut (lat 33.89, lon 35.50). Weather and calendar are therefore the same for every branch. Datasets, URLs and download dates are in [`data/README.md`](data/README.md). Every result below is an association tested against shuffled versions of the same data, not proof of cause.
+We tested whether public data explains the two biggest patterns, the Tuesday surge and Garden's 1.43× unit cost. We also compared our data with real shops. **Assumption:** Stories is a Lebanese chain, and branch addresses are not in the data, so all three branches are treated as being in Greater Beirut (lat 33.89, lon 35.50). Brackets are 95% intervals. Real-shop values are references, not causes. All datasets, URLs, licenses and download dates are in [`data/README.md`](data/README.md).
 
-**Outside factors we checked.** Brackets are 95% intervals. The p-values come from shuffling weather across days within each month, or calendar labels across weeks.
+![Real shops vs Stories](figures/outside_factors_summary.png)
 
-| Factor | Dataset | Test | Result | Verdict |
+| Factor | Data source | Real-world effect | Our effect | Verdict |
 |---|---|---|---|---|
-| Temperature | Open-Meteo daily max, Beirut | Added to the weekday + log-trend model from finding 5 | −0.21% transactions per °C [−0.64, +0.21], p = 0.29 | does not explain |
-| Rain | Open-Meteo precipitation; rain day = 1 mm or more | Same model | −0.9% on rain days [−3.6, +1.9], p = 0.54. Adding both weather terms raises R² by 0.00018, p = 0.56 | does not explain |
-| Hot days and cold drinks | Open-Meteo | Cold-drink share of items vs temperature, beyond month and weekday | +0.08 points per °C [−0.06, +0.22], p = 0.31. Share 24.4% in January and 25.0% in June, although June averaged 28.1 °C against 17.4 °C | does not explain |
-| January to June growth | Open-Meteo | Weather effect measured within months, applied to the January-to-June change in weather | Weather predicts −0.7% of the observed +52.6% | does not explain |
-| Public holidays | holidaydb.com, calendarlabs.com | 26 holiday days vs the same weekday 1–3 weeks before and after | Mean ratio 0.995 [0.961, 1.030] | does not explain |
-| Ramadan, Feb 18 to Mar 19 | L'Orient Today | Share of transactions at 18:00 or later vs three weeks before and after | +0.4 points [−1.4, +2.2] vs before; −1.6 points [−3.6, +0.4] vs after | does not explain |
-| Security escalation from Mar 2 | Al-Monitor, LBC | Actual sales vs a weekday + trend model fitted on January–February | March +2.4% [−2.6, +6.8]; April +0.8% [−2.2, +5.3]. The same model scored on February gives +5.7%, so errors of about ±6% are normal | does not explain |
-| School or campus drives Tuesday | AUB Provost calendar, LBC school closures | Tuesday ratio while AUB was online or out (Mar 30 to Jun 30) vs in person | −0.026 [−0.096, +0.050], p = 0.51. Tuesday is still 1.50× with campus out | does not explain |
-| University Tue/Thu timetable | Transactions | Thursday / mean of Mon, Wed, Fri | 0.971 [0.940, 1.003], so Thursday is not raised | does not explain |
-| A local cause near one branch | Transactions | Tuesday ratio per branch, holidays excluded | Garden 1.56 [1.49, 1.66], Harbour 1.56 [1.47, 1.65], Uptown 1.53 [1.42, 1.67]. All pairwise gaps include zero | does not explain |
-| Normal real-world day-to-day noise | Transactions | Variance ÷ mean of daily counts after weekday × month, vs simulated Poisson counts | Garden 0.86, Harbour 1.10, Uptown 0.99. Pure-chance (Poisson) ranges are about 0.76 to 1.25 | cannot tell (data diagnostic) |
-| World coffee price and Garden's costs | IMF arabica price via FRED | Do recorded unit costs move with the world price? | Arabica fell 15.4% from January to June. All 135 product-branch pairs keep one unit cost for all six months | cannot tell |
+| Public holidays | holidaydb.com, calendarlabs.com; French government holiday API | French bakery: +36% [+19, +54] | −0.5% [−3.9, +3.0] over 26 holiday days | Does not explain. Ours lacks an effect our data could detect |
+| Temperature | Open-Meteo, Beirut; Paris for the bakery | French bakery, within month: +0.82% per °C [+0.37, +1.27] | −0.09% per °C [−0.54, +0.37] within month | Does not explain. The difference is borderline: the intervals touch |
+| Hot days and cold drinks | Open-Meteo; United Baristas | One London café: cold-coffee share +2.2 points per °C | +0.08 points per °C [−0.06, +0.22]; 24.4% in January, 25.0% in June | Does not explain |
+| Rain | Open-Meteo; Foursquare and AccuWeather | French bakery: −2.6% [−6.9, +2.0]; US coffee shops: less traffic in rain | −0.9% [−3.6, +1.9] | Does not explain. Cannot tell if different |
+| Ramadan | L'Orient Today | — | Evening share +0.4 points [−1.4, +2.2] vs before, −1.6 [−3.6, +0.4] vs after | Does not explain |
+| Security escalation from Mar 2 | Al-Monitor, LBC | — | March +2.4% [−2.6, +6.8], April +0.8% [−2.2, +5.3] vs the January–February trend | Does not explain |
+| School or campus (Tuesday) | AUB Provost calendar, LBC school closures | — | Tuesday ratio −0.026 [−0.096, +0.050] with AUB online or out; still 1.50× | Does not explain |
+| University Tue/Thu timetable | Transactions | — | Thursday / Mon, Wed, Fri = 0.971 [0.940, 1.003] | Does not explain |
+| A local cause near one branch | Transactions | — | Tuesday ratio Garden 1.56 [1.49, 1.66], Harbour 1.56 [1.47, 1.65], Uptown 1.53 [1.42, 1.67] | Does not explain |
+| Tuesday peak itself | Kaggle shop data; Placer.ai; Square UK | Bakery 0.97, vending machine 1.08, Maven (fictitious) 0.98. Starbucks and UK coffee buyers peak on Saturday, 1.49× the average weekday | 1.53; Saturday is our quietest day, 0.63× | Ours is unusual |
+| Day-to-day variation | Kaggle shop data | Bakery 8.45, vending machine 1.84, Maven (fictitious) 4.76 | 0.98, inside the pure-chance range 0.88–1.14 | Ours lacks normal variation |
+| Growth, weather and inflation | Open-Meteo; Lebanon CPI (Central Administration of Statistics) | Consumer prices +17.25% a year (June 2026) | +52.6% transactions, January to June; weather predicts −0.7% of it; no price changed in six months | Does not explain. Growth is volume, not price |
+| Fuel and Garden's costs | FRED Brent crude ([`GARDEN_CAUSE.md`](GARDEN_CAUSE.md)) | Brent weekly mean $62.93 to $124.61 | Garden's mix-neutral cost ratio moved by 0.0001 | Does not explain |
+| World coffee price and costs | IMF arabica price via FRED | Arabica −15.4%, January to June | All 135 product-branch unit costs unchanged | Cannot tell. Costs look like a fixed standard |
+| Location of Garden | Transactions ([`GARDEN_CAUSE.md`](GARDEN_CAUSE.md)) | — | Garden's hours, basket size and customers match the other branches (hour-profile p = 0.81) | Does not explain, but rent and delivery cannot be tested without addresses |
+| Industry cost levels | Starbucks 10-K; Zest café targets | Starbucks 31.4% cost of goods; café targets 20–25% coffee, 25–35% food | Harbour 35.0%, Uptown 37.4%, Garden 53.1% | Context: Garden is the abnormal branch |
 
-Source: `src/external_factors.py`, `results/external_*.csv` (summary in `results/external_factors_summary.csv`), `figures/weather_vs_sales.png`, `figures/tuesday_by_branch_school.png`.
+**Overall verdict.** The Tuesday surge and Garden's 1.43× are not explained by weather, calendar, conflict, school, fuel or location. Our data reacts to none of the real-world factors that move real shops, and even a fictional shop varies more. So both patterns most likely come from how the data was produced or recorded. The till-record check and the cost audit are what would confirm it.
 
-**(a) Tuesday.** None of the outside factors we could test explains the surge.
-- **Branches.** It is the same size at all three branches, which argues against a local cause such as a school, a market day or an office next to one shop.
-- **School and campus.** It did not fade while AUB taught online or after its exams ended. It did not fade in late June either: the June 23 week has the highest ratio of the half-year at 1.74.
-- **Thursday.** Thursday is not raised, so a university Tuesday/Thursday timetable cannot explain it.
-- **One test was sensitive to how we chose weeks.** Our first version kept only weeks with three or more non-holiday comparison days. It found a small dip when the campus was out, −0.068 [−0.135, −0.001], p = 0.08. Keeping weeks with two comparison days, the version above, the dip shrinks to −0.026, p = 0.51. Either way, Tuesday stays about 1.5 times a normal weekday with the campus out.
-- **Calendar caveats.** The school Easter and Eid closures contained no Tuesday. Late June rests on two weeks, one of them a holiday. The end-of-school date of June 15 is our assumption.
+### Details
+**Method.** Weather and calendar effects come from the weekday + log-trend model of finding 5, with p-values from shuffling weather across days within each month. Adding temperature and rain raises R² by only 0.00018 (p = 0.56). Source: `src/external_factors.py`, `results/external_*.csv`, `figures/weather_vs_sales.png`, `figures/tuesday_by_branch_school.png`.
 
-**(b) Garden's costs.** Public data cannot explain the 43% gap.
-- **Fixed costs.** The recorded unit costs never change in six months, even though the world arabica price fell 15.4%. So the cost column looks like a fixed standard cost, not what Stories paid each month.
-- **Location.** With no branch addresses, we cannot test location causes such as rent or delivery distance.
-- **Action unchanged.** The cost audit in the conclusion is still the way to find the cause.
+**Tuesday.**
+- **Same at every branch.** The surge does not differ between branches, which argues against a school, market day or office next to one shop.
+- **Campus and school.** It did not fade while AUB taught online, after its exams, or in late June; the June 23 week has the highest ratio of the half-year at 1.74.
+- **One test was sensitive to how we chose weeks.** Keeping only weeks with three or more non-holiday comparison days gives a small dip with the campus out, −0.068 [−0.135, −0.001], p = 0.08. Keeping weeks with two comparison days gives −0.026, p = 0.51. Either way Tuesday stays about 1.5×.
+- **Calendar caveats.** The school Easter and Eid closures contained no Tuesday. Late June rests on two weeks, one of them a holiday. The end-of-school date of June 15 is an assumption.
 
-**What the null results suggest.** A real café in Beirut would normally show some of these effects. Typical examples are fewer customers on rainy days, more cold drinks in June, different evening traffic in Ramadan, and some change during a war that displaced over a million people. This data shows none of them. Its day-to-day variation is also no larger than pure chance: real shop counts usually vary more than a Poisson model predicts, because of weather, events and promotions. Ratios at or below 1 suggest the daily counts may have been generated or smoothed rather than recorded as they happened. We cannot tell which from the data. Stories' data team can check this against raw till records. This matters most for the Tuesday staffing recommendation and the forecast, which rely on the daily pattern being real.
+**Garden's costs.** Recorded unit costs never change in six months, while world arabica fell 15.4% and Brent roughly doubled. So the cost column looks like a fixed standard cost, not what Stories paid each month. [`GARDEN_CAUSE.md`](GARDEN_CAUSE.md) has the fuel, flat-factor and location tests.
 
-### How Stories compares with other coffee chains
-These published figures are context, not causes. Each is set beside one Stories number, with no correlation computed. Values and URLs are in `data/external/benchmarks.csv`, and the comparison is in `results/benchmarks_comparison.csv`.
+**Security escalation.** Errors of about ±6% are normal for this model: scored on February, with no escalation, it gives +5.7%. So the March and April results rule out only drops larger than about 3%.
 
-| Topic | Published benchmark | Stories, Jan–Jun 2026 |
-|---|---|---|
-| Busiest day | Saturday, for Starbucks (Placer.ai foot traffic) and for UK coffee purchases (Square) | Tuesday. Saturday is the quietest day |
-| Busiest day vs the average weekday, Mon–Fri | UK Saturday: 1.49× (cups sold, Square) | Tuesday: 1.39×; Saturday: 0.63× |
-| Cost of goods, % of net sales | Starbucks 31.4%, fiscal 2025 (product and distribution costs, 10-K) | All 41.3%; Harbour 35.0%; Uptown 37.4%; Garden 53.1% |
-| Coffee-drink costs, % of coffee sales | Café target 20–25% (Zest, a coffee supplier's rule of thumb) | Harbour 28.8%; Uptown 30.2%; Garden 43.2% |
-| Food costs, % of food sales | Café target 25–35% (Zest) | Harbour 39.6%; Uptown 42.1%; Garden 59.9% |
-| Growth vs inflation | Lebanon consumer prices +17.25% year on year, June 2026 (Central Administration of Statistics) | Transactions +52.6% from January to June, weekday-adjusted; no price changes on any of the 135 price lists |
-| Weather | One London café: cold-coffee share +2.2 points per °C. US coffee shops: less traffic when it rains (Foursquare and AccuWeather, 13 million users) | Cold-drink share +0.08 points per °C [−0.06, +0.22]; −0.9% on rain days [−3.6, +1.9] |
+**Day-to-day variation.** Real shop counts usually vary more than a Poisson (pure-chance) model, because of weather, events and promotions. A ratio at or below 1 suggests the daily counts may have been generated or smoothed. Our per-branch ratios are Garden 0.86, Harbour 1.10 and Uptown 0.99, against pure-chance ranges of about 0.76 to 1.25. The pooled 0.98 in the table uses year-month cells, so the same method fits every reference dataset.
 
-- **Day of week.** We found no published source showing a Tuesday peak, let alone one of 1.5 times the other weekdays. The sources we found put the peak on Saturday, which is Stories' quietest day. This is outside evidence that the Tuesday pattern is unusual.
-- **Costs.** Harbour and Uptown are somewhat above Starbucks and above the café targets, which may reflect import costs in Lebanon. Garden is far outside every benchmark: 53.1% overall, 43.2% on coffee and 59.9% on food. The benchmarks support finding 1: Garden is the abnormal branch, not the others.
-- **Growth.** The 52.6% rise is in transaction counts, and prices never changed, so inflation cannot produce it. It is three times a full year of consumer-price inflation, reached in five months. Keeping every price fixed for six months while consumer prices rose about 17% in a year is also unusual. One caveat: Stories prices in US dollars, while the inflation rate is measured on Lebanese pounds.
-- **Weather.** Industry and trade analyses report that weather moves coffee-shop traffic and the share of cold drinks; we found no peer-reviewed café study. Stories shows neither effect, which is consistent with the daily data being generated rather than recorded.
+**Published benchmarks** (`src/benchmarks.py`, `data/external/benchmarks.csv`, `results/benchmarks_comparison.csv`).
+- **Day of week.** We found no published source with a Tuesday peak.
+- **Costs.** Coffee-drink costs are 28.8% of coffee sales at Harbour, 30.2% at Uptown and 43.2% at Garden. Food costs are 39.6%, 42.1% and 59.9%. Harbour and Uptown sit somewhat above the targets, which may reflect import costs in Lebanon. Garden is far outside every benchmark.
+- **Growth.** No price changed in six months while Lebanon's consumer prices rose about 17% a year, so the growth is volume, not price. Stories prices in US dollars, while the inflation rate is measured on Lebanese pounds.
+- **Weather sources.** These are industry and trade analyses; we found no peer-reviewed café study.
 
-### How our data compares with real shops
-We compared our data with three public transaction datasets from Kaggle, used only as a reference for what shop data looks like. No other shop's pattern is a cause of ours. Licenses and claims are recorded in [`data/README.md`](data/README.md).
-- **French bakery.** It claims to be real: one bakery, January 2021 to September 2022.
-- **Coffee vending machine.** It claims to be real: one machine, March 2024 to March 2025.
-- **Maven Roasters.** Its own description calls it a *fictitious* coffee shop: three New York stores, January to June 2023.
+**Real shop datasets** (`src/reference_compare.py`, `results/reference_*.csv`, `figures/reference_signatures.png`). The French bakery and the vending machine claim to be real. Maven describes itself as a fictitious three-store New York coffee shop.
+- **Other signatures.**
 
-Source: `src/reference_compare.py`, `results/reference_*.csv`, `figures/reference_signatures.png`.
+  | Signature | Stories | French bakery | Vending machine | Maven (fictitious) |
+  |---|---|---|---|---|
+  | Busiest day (ratio to Mon–Fri average) | Tue (1.39) | Sun (1.35) | Tue (1.06) | Fri (1.01) |
+  | Peak hour | 21:00 | 11:00 | 10:00 | 10:00 |
+  | Items per transaction | 1.59 | 2.67 | 1.00 | 1.44 |
+  | Top-3 category share of items | 52% | 48% | 60% | 85% |
 
-| Signature | Stories | French bakery (real) | Vending machine (real) | Maven (fictitious) | Verdict |
-|---|---|---|---|---|---|
-| Tuesday / Mon, Wed, Thu, Fri | 1.53 | 0.97 | 1.08 | 0.98 | Ours is unusual |
-| Busiest day (ratio to Mon–Fri average) | Tue (1.39) | Sun (1.35) | Tue (1.06) | Fri (1.01) | Ours is unusual |
-| Peak hour | 21:00 | 11:00 | 10:00 | 10:00 | Ours is unusual. A late peak may be local habit, so on its own this proves nothing |
-| Day-to-day variation, variance ÷ mean after weekday × month | **0.98**; pure-chance range 0.88–1.14 | 8.45 | 1.84 | 4.76 | Ours lacks normal variation |
-| Items per transaction | 1.59 | 2.67 | 1.00 | 1.44 | Normal |
-| Top-3 category share of items | 52% | 48% | 60% | 85% | Normal |
+  A late peak may be local habit, so on its own it proves nothing. Basket size and category spread look normal.
+- **Bakery effect transfer.** We assume Paris, because the dataset names no city, and fit log(daily transactions) on weekday, trend, temperature, rain day and holiday. Without month effects, the bakery's temperature effect is +3.2% per °C [+2.9, +3.6], but that mixes in its summer season. The within-month value in the summary table is the fair comparison. The French holiday effect need not apply in Beirut: the test shows only that effects of this size would be visible in our data.
+- **Is our data derived from Maven?** Probably not. It shares Maven's framing: January 1 to June 30, three stores and nine categories. Almost everything else differs:
+  - only 3 of our 45 product names appear in Maven (Almond Croissant, Cappuccino, Chocolate Croissant);
+  - a median price of $5.41 against $3.00;
+  - 1.51 lines per transaction against 1;
+  - 62 transactions per store per day against 275;
+  - an hourly profile running opposite to Maven's, with a correlation of −0.58;
+  - no Tuesday peak in Maven.
 
-**Weather and holiday effects in the real bakery.** The test asks whether effects of the bakery's size would show up in our data. We assume the bakery is in Paris, because the dataset names no city, and join Open-Meteo weather and official French holidays. The model is the same as for Stories: log(daily transactions) on weekday, trend, temperature, rain day and holiday. Results are from `results/reference_effect_transfer.csv`:
-
-| Effect | French bakery, 95% interval | Stories, 95% interval | Bakery effect outside our interval? |
-|---|---|---|---|
-| Temperature, within month (month fixed effects) | +0.82% per °C [+0.37, +1.27] | −0.09% per °C [−0.54, +0.37] | Yes, just. The intervals touch at +0.37 |
-| Temperature, no month effects | +3.2% per °C [+2.9, +3.6] | −0.21% per °C [−0.64, +0.21] | Yes, but the bakery figure mixes in its summer season |
-| Rain day | −2.6% [−6.9, +2.0] | −0.9% [−3.6, +1.9] | No. Neither is clearly different from zero, so we cannot tell |
-| Public holiday | +36% [+19, +54] | −0.5% [−3.9, +3.0] | Yes, by a wide margin |
-
-**Does our data come from the Maven dataset?** Probably not. It shares Maven's framing: January 1 to June 30, three stores and nine categories. But almost everything at row level differs (`results/reference_template_maven.csv`):
-- **Products.** Only 3 of our 45 product names appear in Maven: Almond Croissant, Cappuccino and Chocolate Croissant. Only one category name is shared.
-- **Prices.** The median price is $5.41 against $3.00.
-- **Baskets.** Ours average 1.51 lines per transaction, while Maven always has one.
-- **Traffic.** We have 62 transactions per store per day against 275.
-- **Hours.** Our hourly profile runs opposite to Maven's, with a correlation of −0.58.
-- **Weekdays and noise.** Maven has no Tuesday peak, at 0.98, and its day-to-day variation is 4.76 against our 0.98.
-
-This is evidence, not certainty: the shared framing could be a loose template or a coincidence.
-
-**Verdict.** All three reference datasets vary from day to day far more than chance alone, and so does a fictitious one. None of them has a Tuesday peak near 1.5. Our data sits inside the pure-chance range and has a Tuesday surge no reference shows. The real bakery also has temperature and holiday effects that our data would have detected, and our intervals exclude them. Together these add to the earlier signs that Stories' daily counts lack the normal variation of real shops. The French holiday effect need not apply in Beirut, though: the test shows that effects of this size would be visible in our data, not that Stories should have them.
-
-This day-to-day ratio of 0.98 pools the three branches and uses year-month cells, so the same method fits every dataset. The per-branch figures earlier in this section, 0.86 to 1.10, use the same idea.
+  This is evidence, not certainty.
 
 ## Estimated business value
 Estimates, kept separate from the measured facts above.
@@ -292,5 +269,6 @@ python external_factors.py    # weather, calendar, Tuesday and cost checks again
 python benchmarks.py          # Stories next to published coffee-chain benchmarks (run after external_factors.py)
 python garden_cost_cause.py   # Garden cost-cause checks (Brent crude, branch profile), written up in GARDEN_CAUSE.md
 python reference_compare.py   # comparison with public shop datasets; first download them with the Kaggle API (see data/README.md)
+python outside_summary.py     # summary figure for the outside-factors section (run after the two scripts above)
 ```
 Summary tables are saved in `results/`, figures in `figures/`.

@@ -1,6 +1,6 @@
 # Why is Garden's unit cost 1.43× Harbour's? Three tests
 
-Code: [`src/garden_cost_cause.py`](src/garden_cost_cause.py) (13 s, seeded, reruns give identical tables). Tables: `results/garden_cause_*.csv`. Data: Jan–Jun 2026 transactions after removing 132 duplicates, plus daily Brent crude (FRED `DCOILBRENTEU`, downloaded to `data/external/`, which is gitignored; the weekly means we used are saved in `results/garden_cause_brent_weekly.csv`).
+Code: [`src/garden_cost_cause.py`](src/garden_cost_cause.py) (13 s, seeded, reruns give identical tables). Tables: `results/garden_cause_*.csv`. Data: Jan–Jun 2026 transactions after removing 132 duplicates, plus daily Brent crude (FRED `DCOILBRENTEU`, downloaded to `data/external/` and committed; the weekly means we used are saved in `results/garden_cause_brent_weekly.csv`).
 
 ## Short answer
 The data says the gap is a **flat multiplier of about 1.430 applied to every product, all six months**, not a delivery fee, not fuel, and not a different kind of customer. It looks like a rule in how costs are recorded (an allocation or a standard-cost factor), not like invoices. The data cannot tell an accounting rule from a real supplier surcharge. Finance's invoices can.

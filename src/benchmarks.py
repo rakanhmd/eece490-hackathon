@@ -67,8 +67,7 @@ n_price_changes = int((d.groupby(["Product", "Branch"])["Unit Price (USD)"].nuni
 rows += [
     ["Growth vs inflation", "June vs January transactions, weekday-adjusted",
      f"Lebanon CPI +{bval('lebanon_cpi_yoy_jun2026'):.2f}% year on year in June 2026 (CAS)",
-     f"+{g['jun_vs_jan_growth_pct_weekday_adjusted']:.1f}% in five months "
-     f"({g['jun_vs_jan_growth_pct_weekday_adjusted'] / bval('lebanon_cpi_yoy_jun2026'):.1f}x the annual inflation rate)",
+     f"+{g['jun_vs_jan_growth_pct_weekday_adjusted']:.1f}% in five months with no price changes, so volume, not price",
      "transaction counts, not dollars"],
     ["Growth vs inflation", "Price changes Jan-Jun", "consumer prices rose about 17% over the year to June",
      f"{n_price_changes} price changes across 135 product-branch price lists", "Unit Price per product and branch"],
