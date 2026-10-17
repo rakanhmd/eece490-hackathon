@@ -139,6 +139,24 @@ Source: `src/external_factors.py`, `results/external_*.csv` (summary in `results
 
 **What the null results suggest.** A real café in Beirut would normally show some of these effects. Typical examples are fewer customers on rainy days, more cold drinks in June, different evening traffic in Ramadan, and some change during a war that displaced over a million people. This data shows none of them. Its day-to-day variation is also no larger than pure chance: real shop counts usually vary more than a Poisson model predicts, because of weather, events and promotions. Ratios at or below 1 suggest the daily counts may have been generated or smoothed rather than recorded as they happened. We cannot tell which from the data. Stories' data team can check this against raw till records. This matters most for the Tuesday staffing recommendation and the forecast, which rely on the daily pattern being real.
 
+### How Stories compares with other coffee chains
+These published figures are context, not causes. Each is set beside one Stories number, with no correlation computed. Values and URLs are in `data/external/benchmarks.csv`, and the comparison is in `results/benchmarks_comparison.csv`.
+
+| Topic | Published benchmark | Stories, Jan–Jun 2026 |
+|---|---|---|
+| Busiest day | Saturday, for Starbucks (Placer.ai foot traffic) and for UK coffee purchases (Square) | Tuesday. Saturday is the quietest day |
+| Busiest day vs the average weekday, Mon–Fri | UK Saturday: 1.49× (cups sold, Square) | Tuesday: 1.39×; Saturday: 0.63× |
+| Cost of goods, % of net sales | Starbucks 31.4%, fiscal 2025 (product and distribution costs, 10-K) | All 41.3%; Harbour 35.0%; Uptown 37.4%; Garden 53.1% |
+| Coffee-drink costs, % of coffee sales | Café target 20–25% (Zest, a coffee supplier's rule of thumb) | Harbour 28.8%; Uptown 30.2%; Garden 43.2% |
+| Food costs, % of food sales | Café target 25–35% (Zest) | Harbour 39.6%; Uptown 42.1%; Garden 59.9% |
+| Growth vs inflation | Lebanon consumer prices +17.25% year on year, June 2026 (Central Administration of Statistics) | Transactions +52.6% from January to June, weekday-adjusted; no price changes on any of the 135 price lists |
+| Weather | One London café: cold-coffee share +2.2 points per °C. US coffee shops: less traffic when it rains (Foursquare and AccuWeather, 13 million users) | Cold-drink share +0.08 points per °C [−0.06, +0.22]; −0.9% on rain days [−3.6, +1.9] |
+
+- **Day of week.** We found no published source showing a Tuesday peak, let alone one of 1.5 times the other weekdays. The sources we found put the peak on Saturday, which is Stories' quietest day. This is outside evidence that the Tuesday pattern is unusual.
+- **Costs.** Harbour and Uptown are somewhat above Starbucks and above the café targets, which may reflect import costs in Lebanon. Garden is far outside every benchmark: 53.1% overall, 43.2% on coffee and 59.9% on food. The benchmarks support finding 1: Garden is the abnormal branch, not the others.
+- **Growth.** The 52.6% rise is in transaction counts, and prices never changed, so inflation cannot produce it. It is three times a full year of consumer-price inflation, reached in five months. Keeping every price fixed for six months while consumer prices rose about 17% in a year is also unusual. One caveat: Stories prices in US dollars, while the inflation rate is measured on Lebanese pounds.
+- **Weather.** Industry and trade analyses report that weather moves coffee-shop traffic and the share of cold drinks; we found no peer-reviewed café study. Stories shows neither effect, which is consistent with the daily data being generated rather than recorded.
+
 ## Estimated business value
 Estimates, kept separate from the measured facts above.
 
@@ -231,5 +249,7 @@ python promo_analysis.py      # Harbour 15% promo, 30 seconds to about 2 minutes
 python discount_analysis.py   # 10% discount
 python basket_analysis.py     # drink + food cross-sell, about 15 seconds
 python external_factors.py    # weather, calendar, Tuesday and cost checks against public data in data/external/, about 10 seconds
+python benchmarks.py          # Stories next to published coffee-chain benchmarks (run after external_factors.py)
+python garden_cost_cause.py   # Garden cost-cause checks (Brent crude, branch profile), written up in GARDEN_CAUSE.md
 ```
 Summary tables are saved in `results/`, figures in `figures/`.

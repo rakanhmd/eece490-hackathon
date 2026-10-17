@@ -1,0 +1,12 @@
+topic,measure,benchmark,stories,stories_basis
+Day of week,Busiest day,"Saturday (Starbucks, Placer.ai; UK coffee, Square)",Tue,transactions per day
+Day of week,Busiest day vs average weekday (Mon-Fri),"Saturday 1.49x (UK, cups)",Tuesday 1.39x,transactions per day
+Day of week,"Tuesday vs Mon, Wed, Thu, Fri",no published Tuesday peak found,1.53x,transactions per day
+Day of week,Saturday vs average weekday (Mon-Fri),"1.49x (UK, busiest day)",0.63x (quietest day),transactions per day
+Cost share,Cost of goods as % of net sales,Starbucks 31.4% (FY2025),All branches 41.3%; Harbour 35.0%; Uptown 37.4%; Garden 53.1%,unit cost x quantity / revenue after discounts
+Cost share,Coffee drinks: cost as % of coffee drinks sales,"20-25% (café target, Zest)",Harbour 28.8%; Uptown 30.2%; Garden 43.2%,unit cost x quantity / revenue after discounts
+Cost share,Food: cost as % of food sales,"25-35% (café target, Zest)",Harbour 39.6%; Uptown 42.1%; Garden 59.9%,unit cost x quantity / revenue after discounts
+Growth vs inflation,"June vs January transactions, weekday-adjusted",Lebanon CPI +17.25% year on year in June 2026 (CAS),+52.6% in five months (3.1x the annual inflation rate),"transaction counts, not dollars"
+Growth vs inflation,Price changes Jan-Jun,consumer prices rose about 17% over the year to June,0 price changes across 135 product-branch price lists,Unit Price per product and branch
+Weather,Cold-coffee/cold-drink share per 1 degC of daily max temperature,"+2.2 pts (one London café, cold coffee)","+0.08 pts [-0.06, +0.22] (cold coffee + cold drinks, within month)",share of items
+Weather,Rain,"less coffee-shop traffic when it rains (Foursquare/AccuWeather, US)","-0.9% on rain days [-3.6, +1.9]",transactions

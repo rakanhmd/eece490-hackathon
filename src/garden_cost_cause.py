@@ -4,7 +4,7 @@
     A fixed fee per unit/order would raise cheap items' ratio MORE; a percentage overhead or supplier markup is uniform.
  2. Fuel/transport: does Garden's cost relative to the other branches move with weekly Brent crude?
  3. Location: does Garden look like a different neighbourhood (basket, hours, categories, customers)?
-Needs data/external/DCOILBRENTEU.csv (gitignored; download with
+Needs data/external/DCOILBRENTEU.csv (committed; downloaded 2026-10-17 with
   curl -o data/external/DCOILBRENTEU.csv "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DCOILBRENTEU").
 All tests are on observed data; none can identify the cause, only say which stories the data rules out.
 """
