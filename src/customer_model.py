@@ -228,3 +228,159 @@ ax.set_ylabel("Precision")
 ax.set_ylim(0, 0.5)
 ax.legend()
 save_fig(fig, "customer_churn_pr_curve.png")
+
+# =====================================================================
+# 2. RFM segments (unsupervised: the churn label is NOT used to build them)
+# =====================================================================
+from sklearn.cluster import KMeans
+from sklearn.decomposition import PCA
+from sklearn.metrics import silhouette_score
+
+R = X[["recency_days", "visits", "spend_total"]].copy()
+R["visits"] = np.log1p(R.visits)            # frequency and spend are right-skewed
+R["spend_total"] = np.log1p(R.spend_total)
+Z = StandardScaler().fit_transform(R)
+sil = {}
+for kk in range(2, 9):
+    km = KMeans(n_clusters=kk, n_init=10, random_state=SEED).fit(Z)
+    sil[kk] = silhouette_score(Z, km.labels_)
+sil_s = pd.Series(sil).round(4)
+K = int(sil_s.idxmax())
+save_table(sil_s.rename("silhouette").to_frame(), "customer_segments_silhouette.csv")
+print("\nSEGMENTS: silhouette by k:", sil_s.to_dict(), f"-> k = {K}")
+print("note: silhouette values below ~0.25 mean the groups are not well separated (a slicing of a continuum)")
+km = KMeans(n_clusters=K, n_init=10, random_state=SEED).fit(Z)
+seg = pd.Series(km.labels_, index=X.index, name="segment")
+
+
+def wilson(kk, n, z=1.96):
+    p = kk / n
+    c = (p + z**2 / (2 * n)) / (1 + z**2 / n)
+    h = z * np.sqrt(p * (1 - p) / n + z**2 / (4 * n**2)) / (1 + z**2 / n)
+    return c - h, c + h
+
+
+cat_cols = [c for c in X.columns if c.startswith("cat_share_")]
+br_cols = [c for c in X.columns if c.startswith("branch_share_")]
+rows = []
+for s_, idx in seg.groupby(seg).groups.items():
+    xs = X.loc[idx]
+    n = len(xs)
+    lo, hi = wilson(y.loc[idx].sum(), n)
+    rows.append({"segment": s_, "customers": n, "share_of_customers": n / len(X),
+                 "recency_days_mean": xs.recency_days.mean(), "visits_mean": xs.visits.mean(),
+                 "spend_mean_usd": xs.spend_total.mean(), "avg_basket_usd": xs.avg_basket_usd.mean(),
+                 "gross_margin": xs.gp_total.sum() / xs.spend_total.sum(), "gp_per_customer_usd": xs.gp_total.mean(),
+                 "share_of_total_spend": xs.spend_total.sum() / X.spend_total.sum(),
+                 "main_branch": xs[br_cols].mean().idxmax().replace("branch_share_", ""),
+                 "main_branch_share": xs[br_cols].mean().max(),
+                 "top_category": xs[cat_cols].mean().idxmax().replace("cat_share_", ""),
+                 "top_category_share": xs[cat_cols].mean().max(),
+                 "churn_rate": y.loc[idx].mean(), "churn_ci_low": lo, "churn_ci_high": hi})
+sg = pd.DataFrame(rows).sort_values("spend_mean_usd", ascending=False).round(4)
+save_table(sg, "customer_segments.csv", index=False)
+chi2, p_chi, _, _ = stats.chi2_contingency(pd.crosstab(seg, y))
+print("\nSEGMENT PROFILES (Jan-Apr behaviour; churn = no purchase May-Jun)\n", sg.T.to_string(header=False))
+print(f"chi-square test that churn differs between segments: p = {p_chi:.3f}")
+overall_branch = X[br_cols].mean().round(3).to_dict()
+print("all customers' average branch shares:", overall_branch)
+
+pca = PCA(n_components=2, random_state=SEED).fit(Z)
+P2 = pca.transform(Z)
+fig, ax = plt.subplots(figsize=(7, 5))
+for s_ in sorted(seg.unique()):
+    m_ = (seg == s_).values
+    ax.scatter(P2[m_, 0], P2[m_, 1], s=8, alpha=0.5, label=f"segment {s_} (n={m_.sum()})")
+ax.set_title(f"RFM segments (k={K}, KMeans) in PCA 2D; PCA explains {100 * pca.explained_variance_ratio_.sum():.0f}% of variance")
+ax.set_xlabel("PC1")
+ax.set_ylabel("PC2")
+ax.legend(markerscale=2)
+save_fig(fig, "customer_segments_pca.png")
+fig, ax = plt.subplots(figsize=(6.5, 4))
+sgp = sg.sort_values("segment")
+ax.bar(sgp.segment.astype(str), 100 * sgp.churn_rate, color="#4c78a8",
+       yerr=100 * np.vstack([sgp.churn_rate - sgp.churn_ci_low, sgp.churn_ci_high - sgp.churn_rate]), capsize=4)
+ax.axhline(100 * y.mean(), color="#c0392b", ls="--", label=f"all customers ({y.mean():.1%})")
+ax.set_title("Churn rate by RFM segment (95% CI)")
+ax.set_xlabel("Segment")
+ax.set_ylabel("No purchase in May-Jun (%)")
+ax.legend()
+save_fig(fig, "customer_segment_churn.png")
+
+# =====================================================================
+# 3. business use: win-back offer (ESTIMATE; every parameter below is an assumption)
+# =====================================================================
+N_BASE = len(X)
+gp_month = X.gp_total / 4.0                         # Jan-Apr gross profit per customer-month (measured)
+avg_basket = X.avg_basket_usd.mean()
+print(f"\nMEASURED: customers {N_BASE:,}; gross profit per customer-month (Jan-Apr) mean ${gp_month.mean():.2f}, "
+      f"average basket ${avg_basket:.2f}")
+# precision/recall at the chosen threshold with a bootstrap interval (test set, so out of sample)
+pr_b = []
+pred_te = (p_te >= thr).astype(int)
+for _ in range(2000):
+    i = rng.integers(0, len(y_te), len(y_te))
+    yy, pp = y_te.values[i], pred_te[i]
+    if pp.sum() == 0 or yy.sum() == 0:
+        continue
+    pr_b.append([precision_score(yy, pp), recall_score(yy, pp)])
+prec_ci, rec_ci = np.percentile(np.array(pr_b)[:, 0], [2.5, 97.5]), np.percentile(np.array(pr_b)[:, 1], [2.5, 97.5])
+print(f"MEASURED (test): precision {st['precision']:.3f} (95% CI {prec_ci[0]:.3f}-{prec_ci[1]:.3f}), "
+      f"recall {st['recall']:.3f} ({rec_ci[0]:.3f}-{rec_ci[1]:.3f}), flagged {st['flag_rate']:.1%}; no-skill precision = {y_te.mean():.3f}")
+flagged = st["flag_rate"] * N_BASE
+caught = st["recall"] * y.mean() * N_BASE
+print(f"scaled to the {N_BASE:,}-customer base: flag {flagged:,.0f} customers, containing about {caught:,.0f} of the "
+      f"{y.mean() * N_BASE:,.0f} who will lapse; flagging a random {st['flag_rate']:.1%} would catch about {st['flag_rate'] * y.mean() * N_BASE:,.0f}")
+
+# assumptions (low / mid / high), all UNMEASURED
+S = pd.DataFrame({
+    "uplift_win_back": [0.05, 0.10, 0.20],      # share of would-be lapsers the offer brings back
+    "months_retained": [2, 3, 6],                # how long a saved customer keeps buying at the old rate
+    "redemption_rate_flagged": [0.40, 0.25, 0.15],   # share of ALL contacted customers who use the offer
+    "discount_pct_of_basket": [0.15, 0.15, 0.15],
+    "contact_cost_per_customer": [0.10, 0.05, 0.02],
+}, index=["pessimistic", "middle", "optimistic"])
+V = gp_month[y == 1].mean()          # value of one lapser-month (measured on churners' own Jan-Apr history)
+rows = []
+for target, prec, n_t in [("model-flagged (test precision)", st["precision"], flagged),
+                          ("random customers, same number", y.mean(), flagged),
+                          ("all active customers", y.mean(), N_BASE)]:
+    for sc, a in S.iterrows():
+        saved = n_t * prec * a.uplift_win_back
+        gain = saved * V * a.months_retained
+        cost = n_t * (a.contact_cost_per_customer + a.redemption_rate_flagged * a.discount_pct_of_basket * avg_basket)
+        rows.append({"target": target, "scenario": sc, "customers_contacted": n_t, "precision_assumed": prec,
+                     "customers_saved": saved, "gross_profit_gained_usd": gain, "offer_cost_usd": cost, "net_usd": gain - cost})
+bu = pd.DataFrame(rows).round(2)
+save_table(bu, "customer_winback_scenarios.csv", index=False)
+print(f"\nESTIMATE (assumptions in results/customer_winback_scenarios.csv; value of a lapser-month = ${V:.2f}, measured on lapsers' own history)")
+print(bu.to_string(index=False))
+mid = S.loc["middle"]
+cost_per = mid.contact_cost_per_customer + mid.redemption_rate_flagged * mid.discount_pct_of_basket * avg_basket
+be_prec = cost_per / (mid.uplift_win_back * V * mid.months_retained)
+print(f"ESTIMATE: with middle assumptions an offer costs ${cost_per:.2f} per contacted customer; it breaks even only if "
+      f"{be_prec:.0%} of contacted customers would otherwise lapse (observed lapse rate {y.mean():.1%}, model-flagged {st['precision']:.1%})")
+
+# value-based targeting: same lapse rate, but a bigger prize per customer in high-value segments
+vs = []
+for s_, idx in seg.groupby(seg).groups.items():
+    xs = X.loc[idx]
+    Vs = (xs.gp_total / 4.0).mean()
+    ev = y.loc[idx].mean() * mid.uplift_win_back * Vs * mid.months_retained - cost_per
+    vs.append({"segment": s_, "customers": len(idx), "lapse_rate": y.loc[idx].mean(), "gp_per_customer_month_usd": Vs,
+               "expected_net_per_offer_usd_middle": ev})
+vs = pd.DataFrame(vs).round(3).sort_values("expected_net_per_offer_usd_middle", ascending=False)
+save_table(vs, "customer_winback_by_segment.csv", index=False)
+print("\nESTIMATE: expected net per offer by segment (middle assumptions; lapse rates are noisy)\n", vs.to_string(index=False))
+
+# A/B test sizing: two-arm test on 'no purchase in the next 8 weeks'
+za, zb = stats.norm.ppf(0.975), stats.norm.ppf(0.8)
+ab = []
+for cut in [0.01, 0.02, 0.03]:
+    p0, p1 = y.mean(), y.mean() - cut
+    n = (za + zb) ** 2 * (p0 * (1 - p0) + p1 * (1 - p1)) / cut**2
+    ab.append({"lapse_rate_cut_pp": cut * 100, "customers_per_arm": int(np.ceil(n)), "total": int(np.ceil(2 * n)),
+               "base_available": N_BASE})
+ab = pd.DataFrame(ab)
+save_table(ab, "customer_ab_test_size.csv", index=False)
+print("\nESTIMATE: A/B sample size (80%% power, 5%% level, baseline lapse rate %.1f%%)\n" % (100 * y.mean()), ab.to_string(index=False))

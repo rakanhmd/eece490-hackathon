@@ -1,0 +1,3 @@
+segment,customers,lapse_rate,gp_per_customer_month_usd,expected_net_per_offer_usd_middle
+0,2266,0.084,6.386,-0.226
+1,1148,0.091,2.414,-0.321

@@ -1,0 +1,10 @@
+target,scenario,customers_contacted,precision_assumed,customers_saved,gross_profit_gained_usd,offer_cost_usd,net_usd
+model-flagged (test precision),pessimistic,811.91,0.09,3.66,36.74,519.63,-482.88
+model-flagged (test precision),middle,811.91,0.09,7.32,110.23,314.62,-204.39
+model-flagged (test precision),optimistic,811.91,0.09,14.64,440.92,180.65,260.27
+"random customers, same number",pessimistic,811.91,0.09,3.52,35.33,519.63,-484.29
+"random customers, same number",middle,811.91,0.09,7.04,106.0,314.62,-208.62
+"random customers, same number",optimistic,811.91,0.09,14.08,423.99,180.65,243.34
+all active customers,pessimistic,3414.0,0.09,14.8,148.57,2184.99,-2036.42
+all active customers,middle,3414.0,0.09,29.6,445.71,1322.94,-877.24
+all active customers,optimistic,3414.0,0.09,59.2,1782.83,759.63,1023.2

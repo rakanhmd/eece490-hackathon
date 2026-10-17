@@ -1,0 +1,3 @@
+segment,customers,share_of_customers,recency_days_mean,visits_mean,spend_mean_usd,avg_basket_usd,gross_margin,gp_per_customer_usd,share_of_total_spend,main_branch,main_branch_share,top_category,top_category_share,churn_rate,churn_ci_low,churn_ci_high
+0,2266,0.6637,16.5154,4.7608,43.6752,9.2939,0.5849,25.5435,0.8416,Harbour,0.4793,Matcha & Tea,0.1659,0.0843,0.0735,0.0964
+1,1148,0.3363,44.2474,1.9782,16.2306,8.4204,0.5948,9.6547,0.1584,Harbour,0.4777,Bakery,0.1873,0.0915,0.0761,0.1095
