@@ -1,13 +1,13 @@
 time,model,split,mae_Garden,mae_Harbour,mae_Uptown,mae_all,mae_tuesdays,mae_other_days,mape_all_pct,notes,pr_auc,roc_auc,precision,recall,flag_rate
-13:20,dummy,val_may,15.13,22.2,9.02,15.45,49.61,10.39,19.82,daily transactions per branch; train Jan-Apr,,,,,
-13:20,seasonal_naive,val_may,7.29,12.26,7.26,8.94,11.92,8.49,13.93,daily transactions per branch; train Jan-Apr,,,,,
-13:20,weekday_trend,val_may,5.8,9.2,4.61,6.54,10.38,5.97,9.97,daily transactions per branch; train Jan-Apr,,,,,
-13:20,weekday_logtrend,val_may,5.56,8.55,4.27,6.12,6.72,6.03,9.6,daily transactions per branch; train Jan-Apr,,,,,
-13:20,dummy,test_june,18.15,31.3,11.35,20.27,55.04,13.31,23.42,daily transactions per branch; train Jan-May; model chosen on May,,,,,
-13:20,seasonal_naive,test_june,10.23,11.23,7.33,9.6,15.2,8.48,13.88,daily transactions per branch; train Jan-May; model chosen on May,,,,,
-13:20,weekday_logtrend,test_june,6.96,8.17,5.74,6.95,9.02,6.54,10.73,daily transactions per branch; train Jan-May; model chosen on May,,,,,
 13:31,churn_dummy_prior,val,,,,,,,,no skill; PR-AUC = prevalence,0.0859,0.5,0.0,0.0,0.0
 13:31,churn_logreg_C0.1,val,,,,,,,,threshold 0.1013 chosen on val (max F1),0.1382,0.4891,0.1607,0.4091,0.2188
 13:31,churn_gboost_d3_lr0.03_it200,val,,,,,,,,best gradient boosting on val,0.1224,0.5687,0.3,0.1364,0.0391
 13:31,churn_logreg_C0.1,test,,,,,,,,threshold 0.1013; test scored once,0.0995,0.5408,0.0902,0.2444,0.2378
 13:31,churn_dummy_prior,test,,,,,,,,no skill,0.0877,0.5,0.0,0.0,0.0
+15:14,dummy,val_may,15.13,22.2,9.02,15.45,49.61,10.39,19.82,daily transactions per branch; train Jan-Apr,,,,,
+15:14,seasonal_naive,val_may,7.29,12.26,7.26,8.94,11.92,8.49,13.93,daily transactions per branch; train Jan-Apr; seasonal_naive = same weekday last week (uses last week's actuals),,,,,
+15:14,weekday_trend,val_may,5.8,9.2,4.61,6.54,10.38,5.97,9.97,daily transactions per branch; train Jan-Apr,,,,,
+15:14,weekday_logtrend,val_may,5.56,8.55,4.27,6.12,6.72,6.03,9.6,daily transactions per branch; train Jan-Apr,,,,,
+15:14,dummy,test_june,18.15,31.3,11.35,20.27,55.04,13.31,23.42,daily transactions per branch; train Jan-May; model chosen on May,,,,,
+15:14,seasonal_naive,test_june,10.23,11.23,7.33,9.6,15.2,8.48,13.88,daily transactions per branch; train Jan-May; model chosen on May; seasonal_naive = same weekday last week (uses last week's actuals),,,,,
+15:14,weekday_logtrend,test_june,6.96,8.17,5.74,6.95,9.02,6.54,10.73,daily transactions per branch; train Jan-May; model chosen on May,,,,,

@@ -74,7 +74,7 @@ tr, va = tx.loc[:"2026-04-30"], tx.loc["2026-05-01":"2026-05-31"]
 val_rows = []
 for k in KINDS:
     s = score(va, fit_predict(k, tr, va.index))
-    log_result(k, "val_may", s, "daily transactions per branch; train Jan-Apr")
+    log_result(k, "val_may", s, "daily transactions per branch; train Jan-Apr" + ("; seasonal_naive = same weekday last week (uses last week's actuals)" if k == "seasonal_naive" else ""))
     val_rows.append({"model": k, **s})
 val = pd.DataFrame(val_rows)
 print("VALIDATION (May):\n", val.to_string(index=False))
@@ -89,7 +89,7 @@ for k in ["dummy", "seasonal_naive", best]:
     p = fit_predict(k, trf, te.index)
     preds[k] = p
     s = score(te, p)
-    log_result(k, "test_june", s, "daily transactions per branch; train Jan-May; model chosen on May")
+    log_result(k, "test_june", s, "daily transactions per branch; train Jan-May; model chosen on May" + ("; seasonal_naive = same weekday last week (uses last week's actuals)" if k == "seasonal_naive" else ""))
     test_rows.append({"model": k, **s})
 test = pd.DataFrame(test_rows)
 print("\nTEST (June):\n", test.to_string(index=False))

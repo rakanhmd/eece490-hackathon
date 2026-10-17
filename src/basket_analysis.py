@@ -280,7 +280,7 @@ print("ESTIMATE note: closing these gaps only moves food between drinks unless t
 
 # ---------- 4. ESTIMATE: gross profit from a higher attach rate ----------
 DAYS = (d.date.max() - d.date.min()).days + 1
-ANNUAL = 365 / DAYS
+ANNUAL = 2  # per year = six months x 2 (one convention across the repo)
 mx = t.loc[mixed_ids]
 per_branch = []
 for br in sorted(t.branch.unique()):

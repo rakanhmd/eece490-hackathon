@@ -1,3 +1,5 @@
+> Working notes from the hackathon, kept for the record. They are not part of the submission and may be out of date; README.md is the current write-up.
+
 # Stories Coffee hackathon plan (final status)
 
 ## Context

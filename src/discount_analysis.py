@@ -120,7 +120,7 @@ print(f"\nKnown customers: {len(per_c):,}; share with any 10% line: {(per_c > 0)
 cost = d.loc[d["Discount Rate"] == 0.10, "discount_usd"].sum()
 days = (d.date.max() - d.date.min()).days + 1
 print(f"\nMEASURED: 10% discounts given Jan-Jun = ${cost:,.0f} over {days} days")
-print(f"ESTIMATE: annualised at the same rate = ${cost * 365 / days:,.0f}")
+print(f"ESTIMATE: per year (six months x 2) = ${cost * 2:,.0f}")
 save_table(pd.DataFrame({"discount_usd_jan_jun": [round(cost, 2)], "days": [days],
-                         "annualised_estimate_usd": [round(cost * 365 / days, 0)]}),
+                         "per_year_estimate_usd_x2": [round(cost * 2, 0)]}),
            "discount_cost.csv", index=False)

@@ -72,7 +72,7 @@ for branch in ["Garden", "Uptown"]:
             g, q0, q1 = scenario_gain(branch, e, move)
             rows.append({"branch": branch, "scenario": label, "elasticity": e,
                          "units_change_pct": round(100 * (q1 / q0 - 1), 1),
-                         "gp_change_6mo_usd": round(g), "gp_change_per_year_usd": round(g * 365 / 181)})
+                         "gp_change_6mo_usd": round(g), "gp_change_per_year_usd": round(g * 2)})
         be = brentq(lambda e: scenario_gain(branch, e, move)[0], -30, -0.01)
         rows.append({"branch": branch, "scenario": label, "elasticity": round(be, 2),
                      "units_change_pct": np.nan, "gp_change_6mo_usd": 0, "gp_change_per_year_usd": 0,
@@ -97,8 +97,8 @@ for e in ELASTICITIES:
     comb.append({"elasticity": e, "cost_only_6mo_usd": round(cost_only), "price_only_6mo_usd": round(price_only),
                  "both_6mo_usd": round(both), "sum_of_separate_6mo_usd": round(cost_only + price_only),
                  "overlap_usd": round(cost_only + price_only - both),
-                 "cost_only_per_year_usd": round(cost_only * 365 / 181),
-                 "both_per_year_usd": round(both * 365 / 181)})
+                 "cost_only_per_year_usd": round(cost_only * 2),
+                 "both_per_year_usd": round(both * 2)})
 comb = pd.DataFrame(comb)
 print("\nESTIMATES, Garden cost + price combined:\n", comb.to_string(index=False))
 save_table(comb, "garden_cost_price_combined.csv", index=False)

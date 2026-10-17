@@ -52,7 +52,17 @@ for b in BR:
                      "extra_gross_profit_6mo_usd": extra_tx * basket[b] * margin[b]})
 satdf = pd.DataFrame(rows)
 tot = satdf.groupby("scenario")[["extra_tx_6mo", "extra_revenue_6mo_usd", "extra_gross_profit_6mo_usd"]].sum()
-tot["extra_gross_profit_per_year_usd"] = tot.extra_gross_profit_6mo_usd * 365 / 181
+tot["extra_gross_profit_per_year_usd"] = tot.extra_gross_profit_6mo_usd * 2   # per year = six months x 2
+# Shifting: regulars (98.5% of identified customers buy more than once; 93.8% use several branches) may move
+# visits from other days or branches instead of adding new ones. Net gain = gross gain x (1 - shifted share).
+rng_rows = []
+for scen in tot.index:
+    for shift in [0.0, 0.5]:
+        rng_rows.append({"scenario": scen, "shifted_share": shift,
+                         "net_extra_gross_profit_6mo_usd": tot.loc[scen, "extra_gross_profit_6mo_usd"] * (1 - shift)})
+sat_range = pd.DataFrame(rng_rows)
+print("\nSaturday with half of the extra visits shifted from other days or branches (ESTIMATE):\n", sat_range.round(0))
+save_table(sat_range.round(2), "opportunity_saturday_range.csv", index=False)
 print(f"a) Saturday ({n_sat} Saturdays). Per branch:")
 print(satdf[["branch", "scenario", "saturday_tx_per_day", "mon_wed_thu_fri_tx_per_day", "tuesday_tx_per_day",
              "extra_tx_per_saturday", "saturday_basket_usd", "saturday_gross_margin",
@@ -87,7 +97,8 @@ for e in [0.0, -0.5, -1.0, -1.5, -2.0]:
     r = {"elasticity": e, "units_change_pct": 100 * ((1 + rise) ** e - 1), "gp_change_6mo_usd_all": gain(e)}
     for b in BR:
         r[f"gp_change_6mo_usd_{b}"] = gain(e, pb.xs(b, level="Branch"))
-    r["gp_change_per_year_usd_all"] = r["gp_change_6mo_usd_all"] * 365 / 181
+    r["gp_change_6mo_usd_Garden_Uptown"] = r["gp_change_6mo_usd_Garden"] + r["gp_change_6mo_usd_Uptown"]
+    r["gp_change_per_year_usd_all"] = r["gp_change_6mo_usd_all"] * 2   # per year = six months x 2
     inf_rows.append(r)
 be = brentq(lambda e: gain(e), -30, -0.01)
 infl = pd.DataFrame(inf_rows)

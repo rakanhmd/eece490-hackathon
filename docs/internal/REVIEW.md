@@ -1,3 +1,5 @@
+> Working notes from the hackathon, kept for the record. They are not part of the submission and may be out of date; README.md is the current write-up.
+
 # Independent review (Task 1)
 
 Reviewer: Claude (Muche's session). Scope: README.md, data/README.md, plan.md, REQUIREMENTS.md and the three scripts in `src/`. Nothing in those files was edited.
@@ -17,7 +19,7 @@ All figures in the Garden section match: revenue, gross profit and margin per br
 ## Problems, most severe first
 
 ### 1. (High) Findings 2 and 3 are not in the README, and the README still has placeholders
-- Lines 1, 7, 10, 27, 33, 40, 43, 48, 51 are `<...>` placeholders; line 60 is `python src/<script>.py`.
+- At the time, lines 1, 7, 10, 27, 33, 40, 43, 48 and 51 still held template placeholder text, and line 60 a generic script path (all since fixed).
 - The promo and discount results exist only in `results/` and the script output. Graders read the README.
 - **Fix:** list the three real commands under "How to reproduce" (`python src/margin_analysis.py`, `promo_analysis.py`, `discount_analysis.py`, note that promo takes ~2 min), then write findings 2 and 3 from the tables below (with the caveats in problems 3–5).
 

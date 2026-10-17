@@ -1,11 +1,28 @@
 # Data
 
-`stories_transactions.csv`: Stories coffee transaction lines, provided by the course for the EECE 490 hackathon (October 17, 2026). Transaction IDs are replacement IDs (`SYN-…`), as stated in the brief.
+`stories_transactions.csv`: Stories coffee transaction lines, provided by the course for the EECE 490 hackathon (October 17, 2026). This is real Stories transaction data; branch names, transaction IDs and customer IDs were anonymized (transaction IDs are replacement IDs, `SYN-…`, as stated in the brief).
 
 The raw file is **not committed**. It is company transaction data, so we keep it out of a public repo. To reproduce our results, place the file here as `data/stories_transactions.csv`. Every summary table we rely on is saved in `results/` so the evidence can be inspected without the raw data.
 
 ## Columns
-Transaction ID, Date, Time, Branch, Customer ID, Order Type, Product, Category, Quantity, Unit Price (USD), Discount Rate, Unit Cost (USD), Line Revenue (USD), Line Gross Profit (USD)
+One row per transaction line (one product in one transaction).
+
+| Column | Type | Meaning |
+|---|---|---|
+| Transaction ID | text | Anonymized replacement ID (`SYN-` + 7 digits). Shared by every line of the same transaction |
+| Date | date, YYYY-MM-DD | Day of the transaction, 2026-01-01 to 2026-06-30 |
+| Time | time, HH:MM:SS | Time of the transaction; the same on every line of a transaction |
+| Branch | text | Anonymized branch name: Garden, Harbour or Uptown. One branch per transaction |
+| Customer ID | text, may be empty | Anonymized customer ID (for example `C01797`); empty for anonymous purchases (36.5% of lines) |
+| Order Type | text | Dine-in or Takeaway; one value per transaction |
+| Product | text | One of 45 products |
+| Category | text | One of 9 categories: Bakery, Breakfast, Cold Coffee, Cold Drinks, Desserts, Hot Coffee, Matcha & Tea, Meals, Sandwiches |
+| Quantity | integer | Units of the product on this line: 1 or 2 |
+| Unit Price (USD) | number | List price per unit; one fixed value per product and branch for all six months |
+| Discount Rate | number | Share taken off the line: 0, 0.10 or 0.15 (the 0.15 rate appears only at Harbour) |
+| Unit Cost (USD) | number | Recorded cost per unit; one fixed value per product and branch for all six months |
+| Line Revenue (USD) | number | Quantity × Unit Price × (1 − Discount Rate) |
+| Line Gross Profit (USD) | number | Line Revenue − Quantity × Unit Cost |
 
 ## Data quality checks (measured)
 | Check | Result |

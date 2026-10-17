@@ -3,7 +3,7 @@
 Code: [`src/basket_analysis.py`](src/basket_analysis.py) (about 10 seconds; seeded, reruns give identical tables). Tables: `results/basket_*.csv`. Figures: `figures/basket_attach_by_category.png`, `figures/basket_pair_ratio.png`. Data: Jan–Jun 2026, after removing the 132 duplicate rows (33,887 transactions).
 
 ## Short answer
-Many drink orders carry no food, but the gain from fixing that is modest. 59% of drink transactions (13,865 of 23,428) have no food item. The share that do (the "attach rate", 40.8%) is almost the same in every branch, hour, weekday and month. It differs only by drink type. Raising the attach rate by 1 to 5 percentage points would add an estimated **$640 to $4,340 of gross profit per six months**, which is roughly **$1,300 to $8,800 per year**. Offering the pairing as a 10% discount would lose money unless the attach rate rose by more than 9.4 points. These dollar figures are estimates built on assumptions listed below. They are not measured results.
+Many drink orders carry no food, but the gain from fixing that is modest. 59% of drink transactions (13,865 of 23,428) have no food item. The share that do (the "attach rate", 40.8%) is almost the same in every branch, hour, weekday and month. It differs only by drink type. Raising the attach rate by 1 to 5 percentage points would add an estimated **$640 to $4,340 of gross profit per six months**, which is roughly **$1,290 to $8,680 per year** (six months × 2). Offering the pairing as a 10% discount would lose money unless the attach rate rose by more than 9.4 points. These dollar figures are estimates built on assumptions listed below. They are not measured results.
 
 ## Definitions
 - **Drinks:** Hot Coffee, Cold Coffee, Cold Drinks, Matcha & Tea. **Food:** Bakery, Breakfast, Desserts, Meals, Sandwiches. Every product is one or the other.
@@ -48,19 +48,19 @@ The drink-category gap holds inside each branch (Cold Coffee is lowest at Garden
 Bakery is the cheapest food to add and the one most under-sold with Cold Drinks. Garden's food margin is 17–22 points lower, the same cost gap as Finding 1. Food gross profit per drink + food basket is $3.70 on average (95% bootstrap interval $3.66 to $3.73): Harbour $4.22, Uptown $4.00, Garden $2.77.
 
 ## Estimates (these rest on assumptions)
-Basis: Jan–Jun 2026 volume (23,428 drink transactions), each branch's own food margin (`basket_value_scenarios.csv`). "Annualised" multiplies by 365/181 and ignores growth.
+Basis: Jan–Jun 2026 volume (23,428 drink transactions), each branch's own food margin (`basket_value_scenarios.csv`). "Annualised" means six months × 2 (one convention across the repo) and ignores growth.
 
 | Scenario | Extra food baskets (6 mo.) | Extra gross profit, 6 months | Annualised |
 |---|---|---|---|
-| +1 pp attach, cheap add-on margin | 234 | $644 | $1,300 |
-| +1 pp, average food margin | 234 | $868 | $1,751 |
-| +2.5 pp, cheap add-on margin | 586 | $1,611 | $3,249 |
-| +2.5 pp, average margin | 586 | $2,171 | $4,377 |
-| +5 pp, cheap add-on margin | 1,171 | $3,222 | $6,498 |
-| +5 pp, average margin | 1,171 | $4,341 | $8,755 |
-| Benchmark: every drink category reaches Matcha & Tea's 43.0% | 527 | $2,037 | $4,109 |
+| +1 pp attach, cheap add-on margin | 234 | $644 | $1,289 |
+| +1 pp, average food margin | 234 | $868 | $1,737 |
+| +2.5 pp, cheap add-on margin | 586 | $1,611 | $3,222 |
+| +2.5 pp, average margin | 586 | $2,171 | $4,341 |
+| +5 pp, cheap add-on margin | 1,171 | $3,222 | $6,444 |
+| +5 pp, average margin | 1,171 | $4,341 | $8,683 |
+| Benchmark: every drink category reaches Matcha & Tea's 43.0% | 527 | $2,037 | $4,075 |
 
-**Range: about $640 to $4,340 per six months** (the first and the sixth row), or about $1,300 to $8,800 per year. For scale, that is 0.4% to 2.4% of the six-month gross profit of $178,994.
+**Range: about $640 to $4,340 per six months** (the first and the sixth row), or about $1,290 to $8,680 per year (six months × 2). For scale, that is 0.4% to 2.4% of the six-month gross profit of $178,994.
 
 Why these numbers: +1 pp is a change too small to notice; +5 pp is about the size of the whole gap between the best and the worst drink category (4.8 pp: 43.0% vs 38.1%); the benchmark row lifts every category to the best one. "Cheap add-on" prices the extra basket at Bakery's margin (0.74 × the average food margin, measured). None of these is a forecast. We have no data on how much a prompt, a menu placement or a pairing offer would move the attach rate.
 
@@ -74,7 +74,7 @@ Why these numbers: +1 pp is a change too small to notice; +5 pp is about the siz
 | An extra attached basket earns the branch's average food gross profit per basket, or 0.74 of it (Bakery's margin) | A cheaper add-on (cookie only) pushes toward the low scenario; a sandwich or meal pushes above the high one |
 | Extra food does not reduce drink sales or the basket's other items | If people trade a second drink for a pastry, gain falls |
 | No change in labour, waste or prep cost for the extra items | Unmeasured. Extra bakery waste or staff time lowers the net, and we have no data on either |
-| Same volume as Jan–Jun; annualised = ×365/181 | Monthly sales rose about 49% from January to June at Garden, so a later-year run rate could be higher; if the rise is seasonal, a full-year figure could be lower |
+| Same volume as Jan–Jun; per year = six months × 2 | Monthly sales rose about 49% from January to June at Garden, so a later-year run rate could be higher; if the rise is seasonal, a full-year figure could be lower |
 | The 132 removed duplicates were system errors | They are 0.26% of lines; including them would not change any conclusion |
 | A transaction ID is one customer visit | If one visit is split over several IDs, attach rate is understated everywhere equally |
 

@@ -1,8 +1,8 @@
 scenario,assumption,extra_attached_baskets_H1,gp_per_extra_basket_factor,extra_gp_H1_usd,extra_gp_annualised_usd,cost_if_10pct_combo_discount_H1_usd,net_with_combo_discount_H1_usd
-"+1 pp attach, cheap add-on (Bakery margin)",attach rate rises by 1 pp in every branch; extra basket earns 0.74x avg,234.3,0.7,644.4,1299.6,6799.0,-6154.6
-"+1 pp attach, average food margin",attach rate rises by 1 pp in every branch; extra basket earns 1.00x avg,234.3,1.0,868.3,1750.9,6799.0,-5930.8
-"+2.5 pp attach, cheap add-on (Bakery margin)",attach rate rises by 2.5 pp in every branch; extra basket earns 0.74x avg,585.7,0.7,1611.1,3248.9,7043.0,-5431.9
-"+2.5 pp attach, average food margin",attach rate rises by 2.5 pp in every branch; extra basket earns 1.00x avg,585.7,1.0,2170.7,4377.3,7043.0,-4872.3
-"+5 pp attach, cheap add-on (Bakery margin)",attach rate rises by 5 pp in every branch; extra basket earns 0.74x avg,1171.4,0.7,3222.2,6497.8,7449.5,-4227.3
-"+5 pp attach, average food margin",attach rate rises by 5 pp in every branch; extra basket earns 1.00x avg,1171.4,1.0,4341.3,8754.6,7449.5,-3108.1
-benchmark: all drink categories reach the best category's rate,"every drink category rises to 43.0% (Matcha & Tea today); assumes drinks differ only by habit, which may be false",527.3,1.0,2037.4,4108.6,7003.3,-4965.8
+"+1 pp attach, cheap add-on (Bakery margin)",attach rate rises by 1 pp in every branch; extra basket earns 0.74x avg,234.3,0.7,644.4,1288.9,6799.0,-6154.6
+"+1 pp attach, average food margin",attach rate rises by 1 pp in every branch; extra basket earns 1.00x avg,234.3,1.0,868.3,1736.5,6799.0,-5930.8
+"+2.5 pp attach, cheap add-on (Bakery margin)",attach rate rises by 2.5 pp in every branch; extra basket earns 0.74x avg,585.7,0.7,1611.1,3222.2,7043.0,-5431.9
+"+2.5 pp attach, average food margin",attach rate rises by 2.5 pp in every branch; extra basket earns 1.00x avg,585.7,1.0,2170.7,4341.3,7043.0,-4872.3
+"+5 pp attach, cheap add-on (Bakery margin)",attach rate rises by 5 pp in every branch; extra basket earns 0.74x avg,1171.4,0.7,3222.2,6444.4,7449.5,-4227.3
+"+5 pp attach, average food margin",attach rate rises by 5 pp in every branch; extra basket earns 1.00x avg,1171.4,1.0,4341.3,8682.7,7449.5,-3108.1
+benchmark: all drink categories reach the best category's rate,"every drink category rises to 43.0% (Matcha & Tea today); assumes drinks differ only by habit, which may be false",527.3,1.0,2037.4,4074.9,7003.3,-4965.8
