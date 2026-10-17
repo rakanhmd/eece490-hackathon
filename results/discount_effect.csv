@@ -1,0 +1,5 @@
+metric,full_price_mean,matched_diff_discounted_minus_full,ci_low,ci_high,null_mean_if_random,null_p95,excess_over_null
+lines,1.485,0.226,0.203,0.25,0.232,0.253,-0.006
+qty,1.57,0.239,0.214,0.269,0.246,0.269,-0.007
+list_rev,8.943,1.322,1.151,1.525,1.417,1.595,-0.095
+gp,5.261,0.166,0.063,0.272,0.827,0.931,-0.661

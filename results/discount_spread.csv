@@ -1,0 +1,26 @@
+,,share_lines_10pct
+by_branch,Garden,0.055
+by_branch,Harbour,0.057
+by_branch,Uptown,0.0584
+by_month,1,0.0591
+by_month,2,0.0565
+by_month,3,0.0536
+by_month,4,0.0559
+by_month,5,0.0592
+by_month,6,0.0554
+by_weekday,0,0.0535
+by_weekday,1,0.0585
+by_weekday,2,0.0529
+by_weekday,3,0.0546
+by_weekday,4,0.0616
+by_weekday,5,0.0548
+by_weekday,6,0.0581
+by_category,Bakery,0.0544
+by_category,Breakfast,0.0566
+by_category,Cold Coffee,0.0591
+by_category,Cold Drinks,0.0575
+by_category,Desserts,0.0564
+by_category,Hot Coffee,0.0588
+by_category,Matcha & Tea,0.058
+by_category,Meals,0.0421
+by_category,Sandwiches,0.055

@@ -1,0 +1,7 @@
+test,promo_effect_pct,promo_ci_low_pct,promo_ci_high_pct,post_effect_pct,post_ci_low_pct,post_ci_high_pct
+"MAIN: target categories, Harbour vs Garden+Uptown",13.75,1.98,27.73,18.63,8.13,29.22
+Control = Garden only,6.87,-4.31,21.04,10.15,-1.48,22.77
+Control = Uptown only,21.06,6.03,41.14,27.76,10.54,46.39
+PLACEBO: non-target categories,-1.53,-5.69,2.91,3.41,-1.29,8.2
+"PLACEBO: Cold Drinks (weather-sensitive, never discounted)",-1.26,-16.09,15.84,-5.12,-24.29,13.35
+PLACEBO: fake window Feb 1-Mar 11 (pre only),-1.59,-15.24,12.96,0.0,-0.0,0.0
