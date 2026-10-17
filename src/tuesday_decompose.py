@@ -40,7 +40,7 @@ first_monday = tx.date.min() + pd.Timedelta(days=(7 - tx.date.min().dayofweek) %
 last_sunday = tx.date.max() - pd.Timedelta(days=(tx.date.max().dayofweek + 1) % 7)
 full = tx[(tx.date >= first_monday) & (tx.date <= last_sunday)].copy()
 weeks = sorted(full.week.unique())
-print(f"transactions {len(tx):,}; {len(weeks)} full weeks {weeks[0].date()} .. {weeks[-1].date()}; "
+print(f"transactions {len(tx):,} ({len(full):,} in the full weeks); {len(weeks)} full weeks {weeks[0].date()} .. {weeks[-1].date()}; "
       f"identified {tx.cust.notna().mean():.1%} of transactions")
 
 # ---- per branch x day counts ----

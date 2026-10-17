@@ -113,7 +113,6 @@ for name, x in data.items():
     per_wd = t.groupby(t.date.dt.dayofweek).tx.mean().reindex(range(7))      # mean per open store-day
     open_days = per_wd.dropna().index.tolist()
     comp = per_wd.reindex([0, 2, 3, 4]).dropna()
-    mon_fri = per_wd.reindex(range(5)).dropna()
     hours = x.drop_duplicates("basket").hour.value_counts(normalize=True).sort_index()
     basket = x.groupby("basket").agg(items=("qty", "sum"), lines=("category", "size"))
     cat = x.groupby("category").qty.sum().sort_values(ascending=False) / x.qty.sum()
@@ -124,13 +123,13 @@ for name, x in data.items():
         "closed_weekdays": ",".join(DAYS[i] for i in range(7) if i not in open_days) or "none",
         "tx_per_store_day": t.tx.mean(),
         "tue_ratio_vs_mon_wed_thu_fri": per_wd[1] / comp.mean() if not np.isnan(per_wd[1]) else np.nan,
-        "busiest_weekday": DAYS[int(per_wd.idxmax())], "busiest_vs_mon_fri_avg": per_wd.max() / mon_fri.mean(),
+        "busiest_weekday": DAYS[int(per_wd.idxmax())], "busiest_vs_mon_wed_thu_fri": per_wd.max() / comp.mean(),
         "peak_hour": int(hours.idxmax()), "peak_hour_share": hours.max(),
         "dispersion_ratio": disp, "poisson_range_low": plo, "poisson_range_high": phi,
         "items_per_basket": basket["items"].mean(), "lines_per_basket": basket["lines"].mean(),
         "top_category": cat.index[0], "top_category_share": cat.iloc[0], "top3_category_share": cat.iloc[:3].sum(),
         "n_categories": x.category.nunique()})
-    wd_profiles[name] = per_wd / mon_fri.mean()
+    wd_profiles[name] = per_wd / comp.mean()
     hour_profiles[name] = hours
 sig = pd.DataFrame(sig_rows)
 pd.set_option("display.width", 250)
@@ -166,8 +165,8 @@ if "Maven (fictitious, NYC)" in data:
         ["Transactions, last month / first month", f"{month_growth(o):.2f}", f"{month_growth(m):.2f}"],
         ["Peak hour", f"{int(so.peak_hour)}:00", f"{int(sm.peak_hour)}:00"],
         ["Correlation of hourly profiles", f"{np.corrcoef(hh.iloc[:, 0], hh.iloc[:, 1])[0, 1]:.2f}", ""],
-        ["Busiest weekday (ratio to Mon-Fri average)", f"{so.busiest_weekday} ({so.busiest_vs_mon_fri_avg:.2f})",
-         f"{sm.busiest_weekday} ({sm.busiest_vs_mon_fri_avg:.2f})"],
+        ["Busiest weekday (ratio to Mon, Wed, Thu, Fri average)", f"{so.busiest_weekday} ({so.busiest_vs_mon_wed_thu_fri:.2f})",
+         f"{sm.busiest_weekday} ({sm.busiest_vs_mon_wed_thu_fri:.2f})"],
         ["Tuesday / Mon, Wed, Thu, Fri", f"{so.tue_ratio_vs_mon_wed_thu_fri:.2f}", f"{sm.tue_ratio_vs_mon_wed_thu_fri:.2f}"],
         ["Dispersion ratio (Poisson about 1)", f"{so.dispersion_ratio:.2f}", f"{sm.dispersion_ratio:.2f}"],
         ["Customer IDs", "yes (63% of transactions)", "no"],
@@ -241,7 +240,7 @@ for name, prof in wd_profiles.items():
     axes[0].plot(range(7), prof.values, "o-", color=colors[name], label=name, lw=2.2 if "ours" in name else 1.3)
 axes[0].axhline(1, color="grey", ls="--", lw=0.8)
 axes[0].set_xticks(range(7), DAYS)
-axes[0].set_title("Transactions per day, relative to Mon-Fri average")
+axes[0].set_title("Transactions per day, relative to the Mon, Wed, Thu, Fri average")
 axes[0].set_xlabel("Weekday")
 axes[0].set_ylabel("Ratio (gaps = closed)")
 axes[0].legend(fontsize=8)

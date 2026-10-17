@@ -1,5 +1,5 @@
-dataset,stores,days,closed_weekdays,tx_per_store_day,tue_ratio_vs_mon_wed_thu_fri,busiest_weekday,busiest_vs_mon_fri_avg,peak_hour,peak_hour_share,dispersion_ratio,poisson_range_low,poisson_range_high,items_per_basket,lines_per_basket,top_category,top_category_share,top3_category_share,n_categories
-Stories (ours),3,181,none,62.407,1.5348,Tue,1.3865,21,0.1261,0.9843,0.8766,1.1445,1.5922,1.5063,Bakery,0.2158,0.5227,9
-"Maven (fictitious, NYC)",3,181,none,274.6151,0.9826,Fri,1.0093,10,0.1244,4.7564,0.8732,1.1318,1.4383,1.0,Coffee,0.4161,0.8495,9
-French bakery (real),1,600,none,226.1433,0.9709,Sun,1.3501,11,0.2111,8.4525,0.8836,1.124,2.6693,1.7151,TRADITIONAL BAGUETTE,0.3261,0.4784,149
-Vending machine (real),1,381,none,9.5433,1.0812,Tue,1.0639,10,0.096,1.842,0.8481,1.1627,1.0,1.0,Americano with Milk,0.2266,0.6007,8
+dataset,stores,days,closed_weekdays,tx_per_store_day,tue_ratio_vs_mon_wed_thu_fri,busiest_weekday,busiest_vs_mon_wed_thu_fri,peak_hour,peak_hour_share,dispersion_ratio,poisson_range_low,poisson_range_high,items_per_basket,lines_per_basket,top_category,top_category_share,top3_category_share,n_categories
+Stories (ours),3,181,none,62.407,1.5348,Tue,1.5348,21,0.1261,0.9843,0.8766,1.1445,1.5922,1.5063,Bakery,0.2158,0.5227,9
+"Maven (fictitious, NYC)",3,181,none,274.6151,0.9826,Fri,1.0057,10,0.1244,4.7564,0.8732,1.1318,1.4383,1.0,Coffee,0.4161,0.8495,9
+French bakery (real),1,600,none,226.1433,0.9709,Sun,1.3423,11,0.2111,8.4525,0.8836,1.124,2.6693,1.7151,TRADITIONAL BAGUETTE,0.3261,0.4784,149
+Vending machine (real),1,381,none,9.5433,1.0812,Tue,1.0812,10,0.096,1.842,0.8481,1.1627,1.0,1.0,Americano with Milk,0.2266,0.6007,8

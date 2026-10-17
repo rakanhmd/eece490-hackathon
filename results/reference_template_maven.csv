@@ -13,7 +13,7 @@ Transactions per store per day,62.4,274.6
 "Transactions, last month / first month",1.52,2.04
 Peak hour,21:00,10:00
 Correlation of hourly profiles,-0.58,
-Busiest weekday (ratio to Mon-Fri average),Tue (1.39),Fri (1.01)
+"Busiest weekday (ratio to Mon, Wed, Thu, Fri average)",Tue (1.53),Fri (1.01)
 "Tuesday / Mon, Wed, Thu, Fri",1.53,0.98
 Dispersion ratio (Poisson about 1),0.98,4.76
 Customer IDs,yes (63% of transactions),no

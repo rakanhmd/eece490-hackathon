@@ -20,7 +20,9 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-from common import log_result, save_fig
+import os
+
+from common import RESULTS_CSV, log_result, save_fig
 from load import load_clean, save_table
 
 d = load_clean()
@@ -68,6 +70,11 @@ def score(actual, pred):
 
 
 KINDS = ["dummy", "seasonal_naive", "weekday_trend", "weekday_logtrend"]
+
+# rerunning replaces this script's own rows in results.csv instead of appending duplicates
+if os.path.exists(RESULTS_CSV):
+    _r = pd.read_csv(RESULTS_CSV)
+    _r[~_r.split.isin(["val_may", "test_june"])].to_csv(RESULTS_CSV, index=False)
 
 # ---------- validation: train Jan-Apr, score May ----------
 tr, va = tx.loc[:"2026-04-30"], tx.loc["2026-05-01":"2026-05-31"]

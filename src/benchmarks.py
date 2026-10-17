@@ -26,17 +26,15 @@ rows = []
 # ---------- 1. day of week ----------
 tx = d.groupby(["date"])["Transaction ID"].nunique()
 per_wd = tx.groupby(tx.index.dayofweek).mean()
-weekday_avg = per_wd.loc[0:4].mean()
 others = per_wd.loc[[0, 2, 3, 4]].mean()
 rows += [
     ["Day of week", "Busiest day", "Saturday (Starbucks, Placer.ai; UK coffee, Square)",
      ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][int(per_wd.idxmax())], "transactions per day"],
-    ["Day of week", "Busiest day vs average weekday (Mon-Fri)", f"Saturday {bval('saturday_vs_average_weekday_uk_coffee'):.2f}x (UK, cups)",
-     f"Tuesday {per_wd[1] / weekday_avg:.2f}x", "transactions per day"],
     ["Day of week", "Tuesday vs Mon, Wed, Thu, Fri", "no published Tuesday peak found",
      f"{per_wd[1] / others:.2f}x", "transactions per day"],
-    ["Day of week", "Saturday vs average weekday (Mon-Fri)", f"{bval('saturday_vs_average_weekday_uk_coffee'):.2f}x (UK, busiest day)",
-     f"{per_wd[5] / weekday_avg:.2f}x (quietest day)", "transactions per day"],
+    ["Day of week", "Saturday vs Mon, Wed, Thu, Fri (UK: vs the average weekday, the source's definition)",
+     f"{bval('saturday_vs_average_weekday_uk_coffee'):.2f}x (UK, busiest day)",
+     f"{per_wd[5] / others:.2f}x (quietest day)", "transactions per day"],
 ]
 
 # ---------- 2. cost share ----------

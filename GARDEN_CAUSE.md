@@ -3,7 +3,7 @@
 Code: [`src/garden_cost_cause.py`](src/garden_cost_cause.py) (13 s, seeded, reruns give identical tables). Tables: `results/garden_cause_*.csv`. Data: Jan–Jun 2026 transactions after removing 132 duplicates, plus daily Brent crude (FRED `DCOILBRENTEU`, downloaded to `data/external/` and committed; the weekly means we used are saved in `results/garden_cause_brent_weekly.csv`).
 
 ## Short answer
-The data says the gap is a **flat multiplier of about 1.430 applied to every product, all six months**, not a delivery fee, not fuel, and not a different kind of customer. It looks like a rule in how costs are recorded (an allocation or a standard-cost factor), not like invoices. The data cannot tell an accounting rule from a real supplier surcharge. Finance's invoices can.
+The data says the gap is a **flat multiplier of about 1.430 applied to every product, all six months**. Our tests do not support a delivery fee, fuel or a different kind of customer as the cause. It looks like a rule in how costs are recorded (an allocation or a standard-cost factor), not like invoices. The data cannot tell an accounting rule from a real supplier surcharge. Finance's invoices can.
 
 ## Test 1: is the ratio the same everywhere?
 **One fact first (measured):** each product has exactly **one** recorded unit cost per branch for the whole period. Garden's cost for a Butter Croissant is the same in January and June, in a one-unit line and a two-unit line. So the cost field is a price list, not a series of real purchases.
@@ -27,7 +27,7 @@ Ratio of Garden's unit cost to Harbour's, over the 45 products (`garden_cause_ra
 | Slope | 1.4302 | 1.4297 to 1.4309 |
 
 - The fixed amount per unit is zero within ±$0.002. Cheap-half items have a median ratio of 1.4298, expensive-half 1.4303. Rank correlation of the ratio with item cost is 0.11 (p = 0.47). The dollar difference grows with the item: median $0.50 for the cheaper half, $1.28 for the dearer half.
-- **Verdict: the pattern matches a uniform percentage** (overhead or rent allocation, a flat supplier markup, or a branch cost factor). It does **not** match a fixed delivery fee per unit or per order. A per-order fee cannot be seen at all in this field, because the cost does not vary by order.
+- **Verdict: the pattern matches a uniform percentage** (overhead or rent allocation, a flat supplier markup, or a branch cost factor). It does **not** match a fixed delivery fee per unit; a per-order fee cannot be tested. A per-order fee cannot be seen at all in this field, because the cost does not vary by order.
 - Uptown is also uniform (0.960), and Garden's and Uptown's *prices* are uniform too (Garden 0.951–0.953 of Harbour's). The data looks like each branch has its own multiplier for cost and for price.
 
 ## Test 2: does it move with fuel prices?
@@ -41,7 +41,7 @@ Brent crude for Jan–Jun 2026: 124 daily prices from $61.08 to $138.21. Weekly 
 
 - The one "significant" row is not a fuel effect. The mix-neutral ratio varies by only ±0.0001 across the half year (from which products were sold that week); across the whole Brent range the fitted change is +0.0001 on a ratio of 1.43. Its week-to-week changes do not follow Brent at all (r = −0.04). With a 101% rise in Brent, a transport-cost pass-through would have moved the ratio by far more than 0.0001.
 - The other two series are mix-driven and show no relation (r near zero or negative; intervals include zero). With 25 weeks we cannot rule out a moderate correlation in these two, so we rely more on the structural fact in Test 1: **the recorded cost never changes, so no fuel price could have flowed into it.** Brent doubling should have shown up in real delivery costs; it did not show up in this field.
-- **Verdict: fuel or transport does not explain the gap**, and this field cannot tell us about transport cost either way, because it is not updated over time.
+- **Verdict: fuel or transport is not supported by our tests**, and this field cannot tell us about transport cost either way, because it is not updated over time.
 
 ## Test 3: does Garden look like a different place?
 Branch profiles (`garden_cause_branch_profile.csv`):
@@ -68,11 +68,11 @@ Distance between each branch and the other two pooled (Jensen–Shannon distance
 
 - **Hours, basket size, dine-in and known-customer shares match the other branches** (Garden's hour-profile distance to Harbour is 0.017, to Uptown 0.024, versus 0.020 between Harbour and Uptown).
 - **Category mix differs a little in all three branches**, which with 50,000 lines is detectable; Garden (0.053) sits between Harbour (0.039) and Uptown (0.063) and is not the odd one out. Its cold-drink share (24.0%) is within 1 point of the others.
-- **Customers overlap heavily:** 98.6% of Garden's known customers also bought at another branch, and 83% of the customer IDs that appear at Garden or Harbour appear at both (Jaccard 0.83; Garden–Uptown 0.62, Harbour–Uptown 0.65). The overlap depends on branch size, so compare with care, and Finding 1 already says customer IDs are unreliable.
+- **Customers overlap heavily:** 98.6% of Garden's known customers also bought at another branch, and 83% of the customer IDs that appear at Garden or Harbour appear at both (Jaccard 0.83; Garden–Uptown 0.62, Harbour–Uptown 0.65). The overlap depends on branch size, so compare with care. The data is real Stories data with anonymized IDs; 36.5% of lines have no Customer ID, so customer results cover identified customers only. 94% of identified customers use more than one branch.
 - **Verdict:** nothing in this data suggests Garden serves a different neighbourhood. A "different neighbourhood, so higher costs" story is weak. This test does not show where the cost comes from, only that the sales side gives no hint of a different place.
 
 ## Most likely explanation (a hypothesis, not a finding)
-**Hypothesis:** Garden's unit cost is Harbour's cost × a flat factor of about 1.43 set at branch level. It is a standard-cost or allocation rule (for example an overhead or rent loading booked into product cost) or a flat percentage surcharge on a supplier price list. It is not Garden's actual invoiced prices.
+**Hypothesis:** Garden's unit cost is Harbour's cost × a flat factor of about 1.43 set at branch level. It is a standard-cost or allocation rule (for example an overhead or rent loading booked into product cost) or a flat percentage surcharge on a supplier price list. It may or may not reflect Garden's invoiced prices.
 
 Evidence for it: (1) one fixed cost per product per branch for six months; (2) slope 1.4302 with a 95% interval of ±0.0006 and no fixed-fee component; (3) the same ratio for cheap and expensive items and every category; (4) no connection to Brent even though Brent doubled; (5) Garden's sales look like Harbour's and Uptown's. Real purchase prices would normally differ by product and change over the months.
 

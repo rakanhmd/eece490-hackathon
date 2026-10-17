@@ -43,6 +43,10 @@ print("Mean transactions per calendar day:\n", per_day.round(1))
 save_table(per_day.round(2), "tuesday_tx_per_day.csv")
 tue_ratio = per_day.loc["Tue"] / per_day.drop(["Tue"]).loc[["Mon", "Wed", "Thu", "Fri"]].mean()
 print("Tuesday / mean(Mon, Wed, Thu, Fri):\n", tue_ratio.round(3))
+# every weekday on the same denominator, mean(Mon, Wed, Thu, Fri), so Saturday and Tuesday are comparable
+day_ratio = per_day / per_day.loc[["Mon", "Wed", "Thu", "Fri"]].mean()
+print("Each weekday / mean(Mon, Wed, Thu, Fri):\n", day_ratio.round(3))
+save_table(day_ratio.round(4), "tuesday_weekday_ratios.csv")
 
 # ---- C. every week? ratio of each Tuesday to the other weekdays of the same week ----
 dt = tx.groupby("date").size().to_frame("n")

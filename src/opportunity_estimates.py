@@ -111,3 +111,20 @@ meta = pd.DataFrame({"cpi_yoy_jun2026": [cpi], "monthly_rate": [monthly], "real_
                      "units_change_at_break_even": [(1 + rise) ** be - 1]})
 save_table(infl.round(2), "opportunity_inflation_price.csv", index=False)
 save_table(meta.round(5), "opportunity_inflation_meta.csv", index=False)
+
+# ---------------- c) overlap: Garden cost fix + the all-branch price review (ranked rows 1 and 2) ----------------
+# Cost fix = Garden pays Harbour's unit cost. With the price rise, Garden sells fewer units (e < 0), so the cost
+# fix saves less. Overlap = cost fix alone + price review alone - both together = (units lost) x (cost gap).
+g = pb.xs("Garden", level="Branch")
+h_cost = pb.xs("Harbour", level="Branch").cost.loc[g.index]
+ov_rows = []
+for e in [0.0, -1.0, -2.0]:
+    q1 = g.units * (1 + rise) ** e
+    cost_only = float((g.units * (g.cost - h_cost)).sum())
+    price_only = gain(e)
+    both = price_only + float((q1 * (g.cost - h_cost)).sum())
+    ov_rows.append({"elasticity": e, "cost_fix_only_6mo_usd": cost_only, "price_review_only_6mo_usd": price_only,
+                    "both_6mo_usd": both, "overlap_6mo_usd": cost_only + price_only - both})
+ov = pd.DataFrame(ov_rows)
+print("\nGarden cost fix + all-branch price review, overlap (ESTIMATE):\n", ov.round(0).to_string(index=False))
+save_table(ov.round(2), "opportunity_cost_price_overlap.csv", index=False)

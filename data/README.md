@@ -75,6 +75,7 @@ Published figures used only as context in `src/benchmarks.py`. Each row of the C
 ### Reference shop datasets (`data/external/reference/`, gitignored; downloaded 2026-10-17)
 Used by `src/reference_compare.py` as a picture of what shop data looks like. They are not a cause of anything in our data. The raw files are not committed. Download them with:
 ```bash
+mkdir -p data/external/reference
 cd data/external/reference
 kaggle datasets download -d ahmedabbas757/coffee-sales -p ahmedabbas757_coffee-sales --unzip
 kaggle datasets download -d matthieugimbert/french-bakery-daily-sales -p matthieugimbert_french-bakery-daily-sales --unzip

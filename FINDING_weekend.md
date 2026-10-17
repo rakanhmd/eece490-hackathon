@@ -72,7 +72,7 @@ Compare independent daily records with this data. For each branch and day, Stori
 ## Weak areas
 - 25 weeks (about 6 months): no yearly cycle, and a growth trend that confounds raw counts.
 - A "deficit" depends on the baseline we picked (Mon/Wed/Thu/Fri average). A different baseline would shift the size but, as both gaps are present in every week, probably not the conclusion.
-- Customers have no reliable IDs, so we cannot follow a person from a weekend to a Tuesday.
+- The data is real Stories data with anonymized IDs; 36.5% of lines have no Customer ID, so customer results cover identified customers only. 94% of identified customers use more than one branch. This analysis uses daily totals, so it does not follow customers from a weekend to a Tuesday; TUESDAY_DECOMP.md does that for identified customers.
 - The dataset has no sale-versus-posting times and no till totals, so we cannot tell a real demand shift from an artefact. That is why we propose the test above.
 
 ## Reproduce

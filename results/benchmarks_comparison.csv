@@ -1,8 +1,7 @@
 topic,measure,benchmark,stories,stories_basis
 Day of week,Busiest day,"Saturday (Starbucks, Placer.ai; UK coffee, Square)",Tue,transactions per day
-Day of week,Busiest day vs average weekday (Mon-Fri),"Saturday 1.49x (UK, cups)",Tuesday 1.39x,transactions per day
 Day of week,"Tuesday vs Mon, Wed, Thu, Fri",no published Tuesday peak found,1.53x,transactions per day
-Day of week,Saturday vs average weekday (Mon-Fri),"1.49x (UK, busiest day)",0.63x (quietest day),transactions per day
+Day of week,"Saturday vs Mon, Wed, Thu, Fri (UK: vs the average weekday, the source's definition)","1.49x (UK, busiest day)",0.69x (quietest day),transactions per day
 Cost share,Cost of goods as % of net sales,Starbucks 31.4% (FY2025),All branches 41.3%; Harbour 35.0%; Uptown 37.4%; Garden 53.1%,unit cost x quantity / revenue after discounts
 Cost share,Coffee drinks: cost as % of coffee drinks sales,"20-25% (café target, Zest)",Harbour 28.8%; Uptown 30.2%; Garden 43.2%,unit cost x quantity / revenue after discounts
 Cost share,Food: cost as % of food sales,"25-35% (café target, Zest)",Harbour 39.6%; Uptown 42.1%; Garden 59.9%,unit cost x quantity / revenue after discounts

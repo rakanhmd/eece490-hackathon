@@ -3,7 +3,7 @@
 Code: [`src/basket_analysis.py`](src/basket_analysis.py) (about 10 seconds; seeded, reruns give identical tables). Tables: `results/basket_*.csv`. Figures: `figures/basket_attach_by_category.png`, `figures/basket_pair_ratio.png`. Data: Jan–Jun 2026, after removing the 132 duplicate rows (33,887 transactions).
 
 ## Short answer
-Many drink orders carry no food, but the gain from fixing that is modest. 59% of drink transactions (13,865 of 23,428) have no food item. The share that do (the "attach rate", 40.8%) is almost the same in every branch, hour, weekday and month. It differs only by drink type. Raising the attach rate by 1 to 5 percentage points would add an estimated **$640 to $4,340 of gross profit per six months**, which is roughly **$1,290 to $8,680 per year** (six months × 2). Offering the pairing as a 10% discount would lose money unless the attach rate rose by more than 9.4 points. These dollar figures are estimates built on assumptions listed below. They are not measured results.
+Many drink orders carry no food, but the gain from fixing that is modest. 59% of drink transactions (13,865 of 23,428) have no food item. The share that do (the "attach rate", 40.8%) is almost the same in every branch, hour, weekday and month. Of the variables we measured, only drink type was linked to it. Raising the attach rate by 1 to 5 percentage points would add an estimated **$640 to $4,340 of gross profit per six months**, which is roughly **$1,290 to $8,680 per year** (six months × 2). Offering the pairing as a 10% discount would lose money unless the attach rate rose by more than 9.4 points. These dollar figures are estimates built on assumptions listed below. They are not measured results.
 
 ## Definitions
 - **Drinks:** Hot Coffee, Cold Coffee, Cold Drinks, Matcha & Tea. **Food:** Bakery, Breakfast, Desserts, Meals, Sandwiches. Every product is one or the other.
@@ -79,7 +79,7 @@ Why these numbers: +1 pp is a change too small to notice; +5 pp is about the siz
 | A transaction ID is one customer visit | If one visit is split over several IDs, attach rate is understated everywhere equally |
 
 ## Alternative explanations and what we checked
-- **Branch, hour or day explains the pattern:** it does not. Attach rate is flat on all three (table above), and the drink-category effect survives adjustment for them.
+- **Branch, hour or day explains the pattern:** not supported by our tests. Attach rate is flat on all three (table above), and the drink-category effect survives adjustment for them.
 - **Customers, not drinks, explain the gaps.** Matcha & Tea buyers may simply be people who like pastries. The data cannot separate "the drink makes people buy a croissant" from "people who buy matcha also buy croissants". That is why we do not claim a prompt would work; we propose a test.
 - **Multiple testing.** 506 item pairs would produce about 25 "significant" pairs at p < 0.05 by chance alone. We use a false-discovery correction (Benjamini–Hochberg) and check the same direction in both half-years.
 - **Interaction with other findings:** Harbour's 15% dessert promo (Mar 12 to May 19, 502 lines) may have nudged dessert pairings at Harbour; it covers 1% of lines, so we did not remove it. The Garden cost gap lowers Garden's food margin here; fixing Garden's costs would raise the cross-sell numbers a little. Do not add the two findings together as if they were independent.
@@ -87,9 +87,8 @@ Why these numbers: +1 pp is a change too small to notice; +5 pp is about the siz
 ## A practical test Stories could run
 Question: does a counter prompt raise the share of drink orders that include a food item, and does it pay?
 - **Offer (no discount):** the cashier or POS prompt suggests a bakery item with Cold Drinks, and a savoury item or bowl with Matcha & Tea, because those are the under-sold pairs.
-- **Design A, two branches:** Garden gets the prompt, Uptown does not. They had similar attach rates (41.8% vs 40.9%) and neither had the 15% promo. Choose which gets it by coin toss. Run 4 weeks before and 8 weeks after. Compare the **change** in attach rate at Garden against the change at Uptown.
-- **Design B, larger:** Harbour gets the prompt, Garden and Uptown are the control. More transactions, so it detects smaller effects in less time.
-- **How long** (`basket_pilot_power.csv`, 80% power, 5% test level, using June volumes and a day-to-day noise factor we measured at 1.07–1.13). A gain of 5 points needs about 59 days in design A and 22 days in design B; 3 points needs about 163 days (A) or 62 days (B); 2 points needs 366 days (A) or 139 days (B). A two-branch pilot can only show a change of about 5 points in a normal-length trial. If the prompt moves less than that, the test would not see it, but it would also be worth less than about $4,300 per six months.
+- **Design: switchback by branch-week.** Each week, each branch is randomly switched on (prompt) or off, for about 8 weeks, so every branch spends time in both arms. With one treated branch, any change at that branch (staff, stock, a local event) would be mixed up with the prompt; rotating the treatment spreads those changes across both arms. Compare attach rates in on-weeks and off-weeks within each branch.
+- **How long.** We have not computed the detectable effect for the switchback design. For reference, `basket_pilot_power.csv` (80% power, 5% test level, June volumes, a day-to-day noise factor we measured at 1.07–1.13) gives the days needed for designs with one treated branch: a 5-point gain needs about 59 days with Garden against Uptown and 22 days with Harbour against Garden and Uptown. Those designs rest on one treated branch, so the figures are only a rough guide; small effects (2–3 points) would need months under any design.
 - **What to record:** attach rate on drink transactions (main measure); food gross profit per drink transaction; drinks per transaction and average ticket (to catch swapping); weekly numbers, so a trend at one branch is visible.
 - **Decision rule, set before the test:** roll out only if the lower end of the 95% interval for the attach-rate change is above the level needed to cover the extra staff time and waste. Stories has to supply those costs, because we do not have them.
 
@@ -103,7 +102,7 @@ Question: does a counter prompt raise the share of drink orders that include a f
 ## Approaches we did not use
 - **Market-basket "lift" or association rules on all baskets.** Most baskets have one or two lines, so plain lift is distorted by basket size (in a quick exploratory check, not in the script, average lift came out well below 1, which cannot be right for unrelated items). The shuffle that keeps each basket's shape fixes this.
 - **A recommender or classifier for "will this basket take food".** Branch, hour, day and month carry no signal, and the drink type alone gives a 5-point range. A model would add complexity without a decision to support.
-- **Customer-level cross-sell** (who buys what over time): customer IDs are unreliable.
+- **Customer-level cross-sell** (who buys what over time): not attempted in the time we had. The data is real Stories data with anonymized IDs; 36.5% of lines have no Customer ID, so customer results cover identified customers only. 94% of identified customers use more than one branch.
 
 ## Reproduce
 ```bash

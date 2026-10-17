@@ -1,6 +1,6 @@
 # What are the extra Tuesday transactions made of?
 
-Code: [`src/tuesday_decompose.py`](src/tuesday_decompose.py) (a few seconds, seeded; a second run from scratch gave identical output and tables). Tables: `results/tuesday_decomp_*.csv`. Figures: `figures/tuesday_decomp_components.png`, `tuesday_decomp_regulars.png`. Data: 25 full Mon–Sun weeks (Mon 5 Jan to Sun 28 Jun 2026), 33,887 transactions after removing 132 duplicates; 63.5% of transactions carry a Customer ID.
+Code: [`src/tuesday_decompose.py`](src/tuesday_decompose.py) (a few seconds, seeded; a second run from scratch gave identical output and tables). Tables: `results/tuesday_decomp_*.csv`. Figures: `figures/tuesday_decomp_components.png`, `tuesday_decomp_regulars.png`. Data: 25 full Mon–Sun weeks (Mon 5 Jan to Sun 28 Jun 2026), 32,761 transactions in those weeks (33,887 in the whole file after removing 132 duplicates); 63.5% of transactions carry a Customer ID.
 
 ## Short answer
 **Mostly more distinct customer IDs on Tuesday, plus a third that has no ID. Almost none of it is more trips per ID. The ID data cannot say why, and it cannot show that these are different people.** About two thirds of the extra Tuesday transactions are IDs that did not buy on a normal weekday that week. But those IDs are mostly not new faces (from week 9 on, only 2.6% of the excess is from IDs first seen that week) and not a Tuesday-only crowd: 99% of them also buy on other days, and no customer is a "Tuesday-only regular". The mix of the surge (66% identified, 34% not) is the same as the mix of all transactions (63.5% identified). Visits on one weekday look independent of visits on another for the same ID. Whatever causes the surge, the IDs behave like one pool of customers who buy a little more often on Tuesday, not like a distinct group.
@@ -58,8 +58,8 @@ Is the surge more people, more trips from the same people, or not attributable?
 - **Why Tuesday:** the decomposition says what the surge is made of, not what caused it. All reasons below are hypotheses until checked.
 
 ## The Stories records that would settle it
-1. **A promotion and campaign calendar for Tuesdays** (offers, loyalty-app pushes, e-mails with send time and number of recipients, delivery-app deals) for Jan–Jun. If a campaign hits every Tuesday, the surge is its response; the per-week excess should line up with campaign size.
-2. **Till or card-settlement data with a payment token or loyalty tap for every sale** (including the anonymous third), so distinct people can be counted, including the anonymous sales.
+1. **A promotion and campaign calendar for Tuesdays** (offers, loyalty-app pushes, e-mails with send time and number of recipients, delivery-app deals) for Jan–Jun. A recurring campaign could explain the surge; campaigns might also be scheduled on an already busy day. If the per-week excess lines up with campaign size, that supports the campaign explanation.
+2. **Till or card-settlement data with a payment token or loyalty tap for every sale** (including the anonymous third), so distinct people can be counted across all sales.
 3. **Daily till (Z-report) or bank totals by branch** to confirm the Tuesday peak is real in money received (the check proposed in `FINDING_weekend.md`).
 4. **Staff rosters by day**, to see whether Tuesday is staffed up because it is busy or is busy for another reason.
 

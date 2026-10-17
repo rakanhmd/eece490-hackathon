@@ -3,7 +3,7 @@
 Code: [`src/customer_model.py`](src/customer_model.py) (about 30 seconds, seeded; a second run from scratch printed identical output and tables). Tables: `results/customer_*.csv`; model rows are logged in `results/results.csv` (names start with `churn_`). Figures: `figures/customer_churn_pr_curve.png`, `customer_segments_pca.png`, `customer_segment_churn.png`.
 
 ## Short answer
-**We could not predict who will stop buying.** On the held-out test customers no model beats the no-skill baseline, so we do not recommend a model-targeted win-back campaign. The customers split into two groups (regulars and occasional), but their lapse rates are the same. With realistic assumptions a win-back offer loses money, because only 8.7% of customers lapse and an offer costs about as much per customer as a lapsed customer is worth.
+**We could not predict who will stop buying.** On the held-out test customers the selected model scored a PR-AUC of 0.0995 against 0.0877 for the no-skill baseline: a small gain, not clearly significant, and not usable for targeting. We do not recommend a model-targeted win-back campaign. The customers split into two groups (regulars and occasional), but their lapse rates are the same. With realistic assumptions a win-back offer loses money, because only 8.7% of customers lapse and an offer costs about as much per customer as a lapsed customer is worth.
 
 Only customers with an ID are used (3,494 IDs, 63% of lines). The data is real Stories data with anonymized IDs; 36.5% of lines have no Customer ID, so customer results cover identified customers only. 94% of identified customers use more than one branch. "Churn" below means "this ID stopped appearing".
 
