@@ -1,0 +1,10 @@
+profile,branch_vs_others,js_distance,permutation_p
+hour of day (transactions),Garden,0.0165,0.8104
+hour of day (transactions),Harbour,0.0139,0.8982
+hour of day (transactions),Uptown,0.0201,0.7904
+category mix (units),Garden,0.0526,0.002
+category mix (units),Harbour,0.0392,0.002
+category mix (units),Uptown,0.0634,0.002
+units per transaction,Garden,0.0071,0.7086
+units per transaction,Harbour,0.0114,0.1836
+units per transaction,Uptown,0.011,0.491

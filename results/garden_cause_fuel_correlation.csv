@@ -1,0 +1,4 @@
+weekly_series,mean,std,min,max,n_weeks,r_levels,r_ci_low,r_ci_high,p_levels,r_diff,p_diff,ratio_change_over_brent_range
+mix_neutral_ratio,1.43,0.0001,1.4299,1.4302,25,0.4835,0.1092,0.7377,0.0143,-0.0377,0.8612,0.0001
+naive_cost_per_unit_ratio,1.4635,0.0357,1.4014,1.5354,25,-0.0303,-0.4204,0.3693,0.8858,-0.0091,0.9662,-0.0032
+cost_to_revenue_ratio,1.4883,0.02,1.4396,1.5167,25,-0.2538,-0.5898,0.1571,0.2209,-0.1757,0.4115,-0.0152

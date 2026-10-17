@@ -1,0 +1,4 @@
+,transactions,lines_per_tx,units_per_tx,list_revenue_per_tx,dine_in_share,known_customer_share,cold_drink_share_of_units,food_share_of_units,median_hour,known_customers,share_also_buying_elsewhere
+Garden,11163,1.5112,1.5941,8.9659,0.5869,0.6324,0.2398,0.459,18.0,3012.0,0.9861
+Harbour,16334,1.5052,1.5933,9.2688,0.5896,0.6373,0.2493,0.4388,18.0,3320.0,0.9551
+Uptown,6390,1.5008,1.5861,8.7443,0.6025,0.636,0.2414,0.4545,18.0,2391.0,0.9891

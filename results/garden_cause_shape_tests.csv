@@ -1,0 +1,2 @@
+intercept_usd,intercept_ci_low,intercept_ci_high,slope,slope_ci_low,slope_ci_high,spearman_ratio_vs_harbour_cost,spearman_p,median_ratio_cheap_half,median_ratio_expensive_half,cheapest_ratio,cheapest_item,most_expensive_ratio,most_expensive_item,median_abs_diff_usd,cheap_half_median_diff_usd,expensive_half_median_diff_usd
+-0.0003,-0.0019,0.0011,1.4302,1.4297,1.4309,0.1114,0.4662,1.4298,1.4303,1.4386,English Breakfast Tea,1.4301,Chicken Salad Bowl,0.82,0.5,1.275
