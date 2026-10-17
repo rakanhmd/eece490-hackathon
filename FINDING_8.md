@@ -8,7 +8,7 @@ Many drink orders carry no food, but the gain from fixing that is modest. 59% of
 ## Definitions
 - **Drinks:** Hot Coffee, Cold Coffee, Cold Drinks, Matcha & Tea. **Food:** Bakery, Breakfast, Desserts, Meals, Sandwiches. Every product is one or the other.
 - **Drink transaction:** has at least one drink line. **Attach rate:** share of drink transactions that also have at least one food line. **Drink-only transaction:** the opposite, our measure of "could have carried food".
-- **Primary drink:** the most expensive drink line in the basket, so each drink transaction falls in exactly one drink category.
+- **Primary drink:** the most expensive drink line in the basket, so each drink transaction falls in exactly one drink category. This is one of several reasonable rules; section 1b shows how much the category rates move under four others.
 
 ## Measured facts (computed from the data)
 Counts: 33,887 transactions = 9,563 drink + food, 13,865 drink-only, 10,459 food-only.
@@ -23,7 +23,21 @@ Counts: 33,887 transactions = 9,563 drink + food, 13,865 drink-only, 10,459 food
 | Dine-in / takeaway | 40.3% / 41.6% | Borderline (p = 0.046 alone, 0.067 adjusted); small, and opposite to what we expected |
 | **Primary drink category** | Cold Coffee **38.1%**, Cold Drinks 40.7%, Hot Coffee 41.1%, Matcha & Tea **43.0%** | **Yes** (p < 0.0001, also after adjusting) |
 
-The drink-category gap holds inside each branch (Cold Coffee is lowest at Garden, Harbour and Uptown; Matcha & Tea highest at all three). So the opportunity is not "fix the slow hours" or "fix one weak branch": there is no weak hour or branch in this data.
+The drink-category gap holds inside each branch (Cold Coffee is lowest at Garden, Harbour and Uptown; Matcha & Tea highest at all three). We found **no detectable difference among the hours and branches tested** (the 95% intervals are about ±0.9 to ±1.5 points per branch and ±1.8 to ±4.3 points per hour, so only differences larger than that could be seen), so nothing here points to a particular hour or branch to fix. The one difference we can detect is by drink type, and that depends on how the primary drink is defined (next paragraph).
+
+**1b. Sensitivity to the definition of the primary drink** (`basket_attach_primary_drink_sensitivity.csv`). 15.1% of drink transactions (3,533 of 23,428) contain drinks from more than one category, so the rule that assigns a basket to one category changes the rates. Food-with-drink rate by category under five rules (%):
+
+| Rule | Hot Coffee | Cold Coffee | Cold Drinks | Matcha & Tea | Highest minus lowest (points) | Largest move vs main rule (points) |
+|---|---|---|---|---|---|---|
+| Most expensive drink line (main rule) | 41.1 | 38.1 | 40.7 | 43.0 | 4.8 | 0 |
+| First drink line listed in the transaction | 40.7 | 37.7 | 38.1 | 45.7 | 8.0 | 2.7 |
+| Cheapest drink line | 39.3 | 38.9 | 36.4 | 48.2 | 11.8 | 5.2 |
+| Only transactions with exactly one drink line (18,895) | 46.7 | 43.6 | 44.8 | 51.6 | 8.1 | 8.7 |
+| Every drink category in the basket (overlapping; 23,428) | 36.8 | 35.4 | 34.6 | 41.6 | 7.0 | 6.2 |
+
+- **What stays the same:** Matcha & Tea has the highest rate under every rule, and the category differences remain statistically detectable under every rule where the test applies (chi-square p < 0.0001 for the four non-overlapping rules; the overlapping rule counts baskets in several categories, so no test is given).
+- **What moves:** individual category rates move by up to 2.7 to 5.2 points between the three rules that keep all drink transactions without overlap, by 6.2 points under the overlapping rule and by 8.7 points when only single-drink transactions are used (a different, smaller group of baskets). The lowest category is Cold Coffee under three rules and Cold Drinks under two. The gap from lowest to highest runs from 4.8 to 11.8 points.
+- **So the exact figures in the table above (38.1% to 43.0%) belong to the main rule.** The reliable statement is that Matcha & Tea baskets carry food most often and the coffee and cold-drink baskets less often, by roughly 5 to 12 points depending on the rule; which of the other three categories is lowest is not settled.
 
 **2. Pair patterns.** For every drink item × food item we compared the number of baskets that contain both with what we would expect if each item were picked by its popularity, independently of the rest of the basket. The expected value comes from 2,000 random reshuffles that keep each basket's shape and branch (`basket_pairs.csv`).
 - *Category level* (`basket_pairs_category.csv`, figure `basket_pair_ratio.png`). Observed ÷ expected:
@@ -62,7 +76,7 @@ Basis: Jan–Jun 2026 volume (23,428 drink transactions), each branch's own food
 
 **Range: about $640 to $4,340 per six months** (the first and the sixth row), or about $1,290 to $8,680 per year (six months × 2). For scale, that is 0.4% to 2.4% of the six-month gross profit of $178,994.
 
-Why these numbers: +1 pp is a change too small to notice; +5 pp is about the size of the whole gap between the best and the worst drink category (4.8 pp: 43.0% vs 38.1%); the benchmark row lifts every category to the best one. "Cheap add-on" prices the extra basket at Bakery's margin (0.74 × the average food margin, measured). None of these is a forecast. We have no data on how much a prompt, a menu placement or a pairing offer would move the attach rate.
+Why these numbers: +1 pp is a change too small to notice; +5 pp is about the size of the whole gap between the best and the worst drink category (4.8 pp: 43.0% vs 38.1% under the main rule; the gap is 7.0 to 11.8 pp under the other rules); the benchmark row lifts every category to the best one under the main rule, so its size depends on the rule (the best category's rate is 41.6% to 51.6% across the five rules). "Cheap add-on" prices the extra basket at Bakery's margin (0.74 × the average food margin, measured). None of these is a forecast. We have no data on how much a prompt, a menu placement or a pairing offer would move the attach rate.
 
 **Discounted pairing loses money.** If the offer is 10% off any food sold with a drink, the discount is also given to the 9,563 baskets that already carry food. The discount then costs about $6,800 to $7,400 per six months, more than every scenario gains (net −$3,100 to −$6,200). The attach rate would need to rise by **9.4 points (40.8% to about 50%)** to break even (`basket_discount_breakeven.csv`). A prompt, a menu board or a counter display has no such hurdle.
 

@@ -1,0 +1,6 @@
+rule,drink_transactions_used,attach_Hot Coffee,attach_Cold Coffee,attach_Cold Drinks,attach_Matcha & Tea,lowest_category,highest_category,max_move_vs_main_rule_pts,gap_highest_minus_lowest_pts,chi_square_p_across_categories
+most expensive drink line (main rule),23428,0.4108,0.3815,0.4074,0.4298,Cold Coffee,Matcha & Tea,0.0,4.8369,0.0
+first drink line listed in the transaction,23428,0.4074,0.3771,0.3812,0.457,Cold Coffee,Matcha & Tea,2.7196,7.9914,0.0
+cheapest drink line,23428,0.3929,0.3889,0.3635,0.4816,Cold Drinks,Matcha & Tea,5.177,11.8077,0.0
+only transactions with exactly one drink line,18895,0.467,0.4355,0.4477,0.5165,Cold Coffee,Matcha & Tea,8.672,8.1007,0.0
+every drink category in the basket (overlapping),23428,0.3675,0.3539,0.3458,0.4159,Cold Drinks,Matcha & Tea,6.1617,7.0069,

@@ -97,6 +97,48 @@ lr = pd.DataFrame(lr).round(4)
 save_table(lr, "basket_attach_adjusted_tests.csv", index=False)
 print("\nMEASURED: does each factor still matter after controlling for the others? (likelihood-ratio test)\n", lr.to_string(index=False))
 
+# ---------- 1b. sensitivity to the definition of "primary drink" ----------
+# The main rule (most expensive drink line) is one choice among several reasonable ones. A transaction with two drinks of different
+# categories (15% of drink transactions) lands in a different category under each rule, so category attach rates can move.
+dr = d[d.is_drink][["Transaction ID", "Category", "Unit Price (USD)"]].reset_index()      # 'index' keeps the order of lines in the file
+attached_tx = set(t.index[t.n_food > 0])
+cat_rate = {}
+by_tx = dr.sort_values(["Transaction ID", "index"])
+cat_rate["most expensive drink line (main rule)"] = dt.groupby("drink_cat").attached.agg(["mean", "size"])
+first = by_tx.drop_duplicates("Transaction ID").set_index("Transaction ID").Category
+cheapest = dr.sort_values(["Transaction ID", "Unit Price (USD)", "index"]).drop_duplicates("Transaction ID").set_index("Transaction ID").Category
+n_drink_lines = dt.n_drink
+single = first[first.index.isin(dt.index[n_drink_lines == 1])]
+for name, series in [("first drink line listed in the transaction", first), ("cheapest drink line", cheapest),
+                     ("only transactions with exactly one drink line", single)]:
+    a = series.to_frame("c").assign(att=series.index.isin(attached_tx))
+    cat_rate[name] = a.groupby("c").att.agg(["mean", "size"])
+# overlapping rule: the transaction counts in every drink category it contains (sizes add up to more than the number of drink transactions)
+ov = dr.drop_duplicates(["Transaction ID", "Category"]).assign(att=lambda z: z["Transaction ID"].isin(attached_tx))
+cat_rate["every drink category in the basket (overlapping)"] = ov.groupby("Category").att.agg(["mean", "size"])
+sens_rows, base_rates = [], cat_rate["most expensive drink line (main rule)"]["mean"]
+for name, g in cat_rate.items():
+    row = {"rule": name, "drink_transactions_used": int(g["size"].sum() if "overlapping" not in name else dt.shape[0])}
+    for c in DRINK_CATS:
+        row[f"attach_{c}"] = g.loc[c, "mean"]
+    row["lowest_category"] = g["mean"].idxmin()
+    row["highest_category"] = g["mean"].idxmax()
+    row["max_move_vs_main_rule_pts"] = 100 * (g["mean"] - base_rates).abs().max()
+    row["gap_highest_minus_lowest_pts"] = 100 * (g["mean"].max() - g["mean"].min())
+    if "overlapping" not in name:
+        tab = pd.DataFrame({"att": (g["mean"] * g["size"]).round().astype(int), "n": g["size"]})
+        chi2_, p_, _, _ = stats.chi2_contingency(np.column_stack([tab.att, tab.n - tab.att]))
+        row["chi_square_p_across_categories"] = p_
+    sens_rows.append(row)
+sens_pd = pd.DataFrame(sens_rows).round(4)
+save_table(sens_pd, "basket_attach_primary_drink_sensitivity.csv", index=False)
+print("\nSENSITIVITY of the food-with-drink rate by drink category to the definition of the primary drink")
+print((sens_pd.set_index("rule")[[f"attach_{c}" for c in DRINK_CATS]] * 100).round(1).to_string())
+print(sens_pd[["rule", "drink_transactions_used", "lowest_category", "highest_category", "max_move_vs_main_rule_pts",
+               "gap_highest_minus_lowest_pts", "chi_square_p_across_categories"]].to_string(index=False))
+multi_cat = (dr.groupby("Transaction ID").Category.nunique() > 1).sum()
+print(f"transactions with drinks from more than one category: {multi_cat:,} of {len(dt):,} drink transactions ({multi_cat / len(dt):.1%})")
+
 # ---------- 2. under-sold drink + food pairs ----------
 # Null model: "each item is chosen according to its popularity, independently of the other items in the basket".
 # We keep every basket's shape (how many drink lines and food lines it has) and its branch, then shuffle which
