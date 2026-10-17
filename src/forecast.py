@@ -1,18 +1,28 @@
-"""June forecast of daily transactions per branch (staffing use, Tuesday surge).
+"""Forecast of daily transactions per branch (staffing use, Tuesday surge).
 
 Target: transactions per branch per day.
-Test:   June 2026, touched once at the end.
-Model choice: candidates are compared on May (validation) after training on Jan-Apr. The chosen model is
-then refit on Jan-May and scored on June.
 
-Models
-  dummy           : mean of the training period per branch (CLAUDE.md dummy baseline)
-  seasonal_naive  : same weekday last week (the brief's baseline). This uses actual counts from 7 days
-                    earlier, so it is a 1-week-ahead forecast.
-  weekday_trend   : per branch, least squares on weekday dummies + linear time trend. Uses no data from the
-                    forecast month at all, so it is a 1-to-5-weeks-ahead forecast (a harder setting).
-  weekday_logtrend: same, but on log(transactions), so growth is a percentage per day and weekday effects
-                    are multiplicative.
+MAIN EVALUATION: rolling origin, fixed 7-day horizon.
+  For each origin date t from 1 Mar to 23 Jun, every candidate is fit on data up to and including t and predicts
+  t + 7. All features are computed relative to the origin (never the target date). The candidate list below is
+  fixed before evaluation and every candidate is reported. The one model that "selects" (selected_trailing) picks,
+  at each origin, the candidate with the lowest MAE over the last 28 target dates already observed at t
+  (targets <= t), so selection uses only data before the origin. Interval for the MAE difference vs the seasonal
+  naive baseline: paired block bootstrap over contiguous weeks of target dates, all branches kept together, with
+  block lengths of 1, 2 and 3 weeks.
+
+Candidates (frozen)
+  dummy           : mean of all data up to t, per branch
+  seasonal_naive  : the count at t (same weekday, one week before the target): the brief's baseline
+  weekday_trend   : per branch, least squares on weekday dummies + linear time trend, fit on data up to t
+  weekday_logtrend: same on log(transactions)
+  hgb_lags        : HistGradientBoostingRegressor, pooled over branches, fixed settings (no tuning). Target
+                    log(y[t+7] / mean28[t]); features, all known at t: target weekday, branch, y[t]/mean28,
+                    y[t-7]/mean28, mean7/mean28 (mean7, mean28 = means of the 7 and 28 days ending at t).
+                    Trained on pairs (s, s+7) with s + 7 <= t.
+  selected_trailing: see above.
+
+SECONDARY CHECK (kept from the first version): train Jan-Apr, compare on May, refit Jan-May, score June once.
 """
 import numpy as np
 import pandas as pd
@@ -74,7 +84,7 @@ KINDS = ["dummy", "seasonal_naive", "weekday_trend", "weekday_logtrend"]
 # rerunning replaces this script's own rows in results.csv instead of appending duplicates
 if os.path.exists(RESULTS_CSV):
     _r = pd.read_csv(RESULTS_CSV)
-    _r[~_r.split.isin(["val_may", "test_june"])].to_csv(RESULTS_CSV, index=False)
+    _r[~_r.split.isin(["val_may", "test_june", "rolling_h7"])].to_csv(RESULTS_CSV, index=False)
 
 # ---------- validation: train Jan-Apr, score May ----------
 tr, va = tx.loc[:"2026-04-30"], tx.loc["2026-05-01":"2026-05-31"]
@@ -130,3 +140,134 @@ axes[-1].set_xlabel("Date")
 fig.tight_layout()
 save_fig(fig, "forecast_june.png")
 print("saved figures/forecast_june.png")
+
+
+# ======================= MAIN: rolling origin, 7-day horizon =======================
+from sklearn.ensemble import HistGradientBoostingRegressor
+
+from common import SEED
+
+H = 7
+CANDS = ["dummy", "seasonal_naive", "weekday_trend", "weekday_logtrend", "hgb_lags"]
+REPORT_FROM, REPORT_TO = pd.Timestamp("2026-03-01"), pd.Timestamp("2026-06-23")
+WARMUP_FROM = pd.Timestamp("2026-02-15")       # extra origins only so selected_trailing has a history on 1 Mar
+origins = pd.date_range(WARMUP_FROM, REPORT_TO, freq="D")
+m7, m28 = tx.rolling(7).mean(), tx.rolling(28).mean()
+
+
+def lag_rows(s_idx):
+    """Origin-relative features for origins s_idx (all branches stacked)."""
+    rows = []
+    for bi, b in enumerate(BRANCHES):
+        base = m28[b].loc[s_idx].values
+        rows.append(pd.DataFrame({
+            "origin": s_idx, "branch": b, "branch_code": bi,
+            "target_dow": (s_idx + pd.Timedelta(days=H)).dayofweek,
+            "lag0_rel": tx[b].loc[s_idx].values / base,
+            "lag7_rel": tx[b].shift(7).loc[s_idx].values / base,
+            "mean7_rel": m7[b].loc[s_idx].values / base,
+            "base": base}))
+    return pd.concat(rows, ignore_index=True)
+
+
+FEATS = ["branch_code", "target_dow", "lag0_rel", "lag7_rel", "mean7_rel"]
+all_feat = lag_rows(tx.index[27:])                        # need 28 days of history for mean28
+all_feat["target"] = [tx[b].get(o + pd.Timedelta(days=H), np.nan) for o, b in zip(all_feat.origin, all_feat.branch)]
+
+pred_rows = []
+for t in origins:
+    tgt = t + pd.Timedelta(days=H)
+    hist = tx.loc[:t]
+    for b in BRANCHES:
+        y = hist[b]
+        actual = tx[b].loc[tgt]
+        row = {"origin": t, "target_date": tgt, "branch": b, "actual": actual}
+        row["dummy"] = y.mean()
+        row["seasonal_naive"] = y.loc[t]                    # same weekday, one week before the target
+        t0 = hist.index[0]
+        Xtr, Xte = design(hist.index, t0), design(pd.DatetimeIndex([tgt]), t0)
+        row["weekday_trend"] = float((Xte @ np.linalg.lstsq(Xtr, y.values, rcond=None)[0])[0])
+        row["weekday_logtrend"] = float(np.exp(Xte @ np.linalg.lstsq(Xtr, np.log(y.values), rcond=None)[0])[0])
+        pred_rows.append(row)
+    # pooled gradient boosting: train only on pairs whose target is already observed at t
+    trn = all_feat[(all_feat.origin + pd.Timedelta(days=H) <= t)].dropna(subset=["target"])
+    cur = all_feat[all_feat.origin == t]
+    hgb = HistGradientBoostingRegressor(max_iter=200, learning_rate=0.05, max_depth=3, min_samples_leaf=20,
+                                        categorical_features=[0, 1], random_state=SEED)
+    hgb.fit(trn[FEATS], np.log(trn.target / trn.base))
+    p = np.exp(hgb.predict(cur[FEATS])) * cur.base.values
+    for b, v in zip(cur.branch, p):
+        pred_rows[-len(BRANCHES) + BRANCHES.index(b)]["hgb_lags"] = float(v)
+
+roll = pd.DataFrame(pred_rows)
+for k in CANDS:
+    roll[f"ae_{k}"] = (roll[k] - roll.actual).abs()
+
+# selected_trailing: at origin t, pick the candidate with the lowest MAE over the last 28 target dates <= t
+sel_pred = []
+for t in roll.origin.unique():
+    past = roll[(roll.target_date <= t) & (roll.target_date > t - pd.Timedelta(days=28))]
+    pick = "seasonal_naive" if past.target_date.nunique() < 7 else min(CANDS, key=lambda k: past[f"ae_{k}"].mean())
+    cur = roll.origin == t
+    sel_pred.append((t, pick))
+    roll.loc[cur, "selected_trailing"] = roll.loc[cur, pick]
+    roll.loc[cur, "selected_pick"] = pick
+roll["ae_selected_trailing"] = (roll.selected_trailing - roll.actual).abs()
+ALL = CANDS + ["selected_trailing"]
+rep = roll[(roll.origin >= REPORT_FROM) & (roll.origin <= REPORT_TO)].copy()
+rep["month"] = rep.target_date.dt.month
+rep["is_tue"] = rep.target_date.dt.dayofweek == 1
+print(f"\nROLLING ORIGIN (h = {H} days): origins {REPORT_FROM.date()} to {REPORT_TO.date()}, "
+      f"targets {rep.target_date.min().date()} to {rep.target_date.max().date()}, {rep.origin.nunique()} origins x {len(BRANCHES)} branches")
+
+mae_rows = []
+for k in ALL:
+    r = {"model": k, "mae_all": rep[f"ae_{k}"].mean(), "mae_tuesdays": rep.loc[rep.is_tue, f"ae_{k}"].mean(),
+         "mae_other_days": rep.loc[~rep.is_tue, f"ae_{k}"].mean()}
+    for m in sorted(rep.month.unique()):
+        r[f"mae_month_{m}"] = rep.loc[rep.month == m, f"ae_{k}"].mean()
+    for b in BRANCHES:
+        r[f"mae_{b}"] = rep.loc[rep.branch == b, f"ae_{k}"].mean()
+    mae_rows.append(r)
+rmae = pd.DataFrame(mae_rows).round(2)
+print(rmae.to_string(index=False))
+print("selected_trailing picks (share of reported origins):",
+      rep.drop_duplicates("origin").selected_pick.value_counts(normalize=True).round(3).to_dict())
+save_table(rmae, "forecast_rolling_mae.csv", index=False)
+for r in rmae.itertuples():
+    log_result(r.model, "rolling_h7", {f"mae_{b}": getattr(r, f"mae_{b}") for b in BRANCHES} |
+               {"mae_all": r.mae_all, "mae_tuesdays": r.mae_tuesdays, "mae_other_days": r.mae_other_days},
+               "rolling origin 1 Mar-23 Jun, horizon 7 days, fit on data up to the origin")
+
+# paired block bootstrap of daily error differences vs seasonal naive (all branches kept together)
+rng = np.random.default_rng(SEED)
+N_BOOT = 2000
+day0 = rep.target_date.min()
+boot_rows = []
+for weeks in [1, 2, 3]:
+    blk = ((rep.target_date - day0).dt.days // (7 * weeks)).values
+    ublk = np.unique(blk)
+    draws = rng.integers(0, len(ublk), size=(N_BOOT, len(ublk)))
+    for k in ALL:
+        if k == "seasonal_naive":
+            continue
+        diff = (rep[f"ae_{k}"] - rep["ae_seasonal_naive"]).values       # negative = better than the baseline
+        bs = np.array([diff[blk == u].sum() for u in ublk]); bn = np.array([(blk == u).sum() for u in ublk])
+        means = bs[draws].sum(1) / bn[draws].sum(1)
+        boot_rows.append({"model": k, "block_weeks": weeks, "n_blocks": len(ublk), "mae_diff_vs_naive": diff.mean(),
+                          "ci_low": np.percentile(means, 2.5), "ci_high": np.percentile(means, 97.5)})
+boot = pd.DataFrame(boot_rows).round(3)
+print("\nMAE difference vs seasonal naive (negative = better), paired block bootstrap over weeks:\n", boot.to_string(index=False))
+save_table(boot, "forecast_rolling_bootstrap.csv", index=False)
+
+fig, ax = plt.subplots(figsize=(8, 4))
+months = [c for c in rmae.columns if c.startswith("mae_month_")]
+for r in rmae.itertuples():
+    ax.plot([int(c.split("_")[-1]) for c in months], [getattr(r, c) for c in months], "o-", label=r.model.replace("_", " "))
+ax.set_xticks([3, 4, 5, 6], ["Mar", "Apr", "May", "Jun"])
+ax.set_title("Rolling-origin forecast, 7 days ahead: MAE by target month")
+ax.set_xlabel("Target month"); ax.set_ylabel("MAE (transactions per branch per day)")
+ax.legend(fontsize=7, ncol=2)
+fig.tight_layout()
+save_fig(fig, "forecast_rolling.png")
+print("saved figures/forecast_rolling.png")

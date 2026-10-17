@@ -21,6 +21,11 @@ wg = pd.read_csv(os.path.join(R, "external_weather_growth.csv")).iloc[0]
 hs = pd.read_csv(os.path.join(R, "external_holidays_summary.csv")).iloc[0]
 sig = pd.read_csv(os.path.join(R, "reference_signatures.csv")).set_index("dataset")
 tb = pd.read_csv(os.path.join(R, "external_tuesday_by_branch.csv")).set_index("branch")
+# Stories weather intervals: week-block bootstrap (1-week blocks, all branches together), not plain OLS
+rob = pd.read_csv(os.path.join(R, "external_weather_robust.csv"))
+rob = rob[rob.block_weeks == 1].set_index(["model", "term"])
+pw = pd.read_csv(os.path.join(R, "external_weather_power.csv")).set_index("scenario")
+T_FE, R_TR = rob.loc[("weekday + month fixed effects (1c)", "tmax")], rob.loc[("weekday + trend (1a)", "rain_day")]
 
 REAL, OURS, FICT = "#2c3e50", "#c0392b", "#7f8c8d"
 
@@ -37,10 +42,10 @@ panels = [
         ("Stories", 100 * (hs.mean_ratio - 1), 100 * (hs.ci_low - 1), 100 * (hs.ci_high - 1), OURS, "o")]),
     ("Temperature, within month (% per °C)", [
         ("French bakery", *bakery(MONTH, "per 1 degC of daily max temperature"), REAL, "o"),
-        ("Stories", wg.within_month_tmax_coef_pct_per_degC, wg.within_month_tmax_ci_low, wg.within_month_tmax_ci_high, OURS, "o")]),
+        ("Stories", T_FE.effect_pct, T_FE.block_boot_ci_low, T_FE.block_boot_ci_high, OURS, "o")]),
     ("Rain day effect (%)", [
         ("French bakery", *bakery(MAIN, "rain day (1 mm or more)"), REAL, "o"),
-        ("Stories", wc.loc["rain_day", "effect_pct"], wc.loc["rain_day", "effect_ci_low_pct"], wc.loc["rain_day", "effect_ci_high_pct"], OURS, "o")]),
+        ("Stories", R_TR.effect_pct, R_TR.block_boot_ci_low, R_TR.block_boot_ci_high, OURS, "o")]),
     ("Day-to-day variation (variance / mean)", [
         ("French bakery", sig.loc["French bakery (real)", "dispersion_ratio"], None, None, REAL, "o"),
         ("Vending machine", sig.loc["Vending machine (real)", "dispersion_ratio"], None, None, REAL, "o"),
@@ -69,8 +74,11 @@ for k, (ax, (title, rows)) in enumerate(zip(axes, panels)):
     ax.set_ylim(-0.6, len(rows) - 0.4)
     ax.set_title(title, fontsize=10)
     ax.set_xlabel("Value (bars: 95% interval; Stories variation bar: pure-chance range)" if k == 3 else "Value (bars: 95% interval)", fontsize=8)
-fig.suptitle("Real shops (dark) vs Stories (red): clear gaps on holidays, day-to-day variation and Tuesday; temperature borderline (intervals touch); rain cannot tell",
-             fontsize=11)
+p_t = pw.loc["temperature, bakery within-month effect", "detection_rate_cluster_5pct"]
+p_h = pw.loc["public holiday, bakery effect (trend model)", "detection_rate_cluster_5pct"]
+fig.suptitle("Real shops (dark) vs Stories (red; weather bars = week-block bootstrap): clear gaps on holidays, variation and Tuesday; "
+             f"temperature intervals overlap. Bakery-sized effects would be detected in {100*p_t:.0f}% (temperature) and "
+             f"{100*p_h:.0f}% (holiday) of simulations", fontsize=10)
 fig.tight_layout()
 save_fig(fig, "outside_factors_summary.png")
 print("saved figures/outside_factors_summary.png")

@@ -1,0 +1,6 @@
+scenario,term,injected_effect_pct,simulations,detection_rate_cluster_5pct,mean_estimate_pct
+"temperature, bakery within-month effect",tmax,0.8152,500,0.946,0.7996
+"public holiday, bakery effect (month fixed effects)",holiday,27.9519,500,1.0,27.8933
+"public holiday, bakery effect (trend model)",holiday,35.6738,500,1.0,35.6588
+"no effect injected (false-positive check), temperature",tmax,0.0,500,0.072,-0.0009
+"no effect injected (false-positive check), holiday",holiday,0.0,500,0.06,0.0452

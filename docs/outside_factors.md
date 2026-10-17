@@ -9,7 +9,7 @@ We tested whether public data explains the two biggest patterns, the Tuesday sur
 | Factor | Data source | Real-world effect | Our effect | Verdict |
 |---|---|---|---|---|
 | Public holidays | holidaydb.com, calendarlabs.com; French government holiday API | French bakery: +36% [+19, +54] | −0.5% [−3.9, +3.0] over 26 holiday days | Not supported by our test. Ours lacks an effect our data could detect |
-| Temperature | Open-Meteo, Beirut; Paris for the bakery | French bakery, within month: +0.82% per °C [+0.37, +1.27] | −0.09% per °C [−0.54, +0.37] within month | Not supported by our test. The difference is borderline: the intervals touch |
+| Temperature | Open-Meteo, Beirut; Paris for the bakery | French bakery, within month: +0.82% per °C [+0.37, +1.27] | −0.09% per °C within month; OLS [−0.54, +0.37], date-clustered [−0.51, +0.34], week-block bootstrap [−0.64, +0.48] | Not supported by our test. The OLS intervals touch; with the bootstrap they overlap, so the difference is not clear |
 | Hot days and cold drinks | Open-Meteo; United Baristas | One London café: cold-coffee share +2.2 points per °C | +0.08 points per °C [−0.06, +0.22]; 24.4% in January, 25.0% in June | Not supported by our test |
 | Rain | Open-Meteo; Foursquare and AccuWeather | French bakery: −2.6% [−6.9, +2.0]; US coffee shops: less traffic in rain | −0.9% [−3.6, +1.9] | Not supported by our test. Cannot tell if different |
 | Ramadan | L'Orient Today | — | Evening share +0.4 points [−1.4, +2.2] vs before, −1.6 [−3.6, +0.4] vs after | Not supported by our test |
@@ -37,6 +37,29 @@ We tested whether public data explains the two biggest patterns, the Tuesday sur
 - **Prices.** Prices did not change during about 17% annual inflation.
 
 ### Details
+**Robust uncertainty for the weather terms** (`results/external_weather_robust.csv`). The three branches share one weather series, so branch-days on the same date are not independent. We therefore also report standard errors clustered by date and a bootstrap that resamples contiguous weeks of dates, all branches together.
+
+| Model and term | Effect | OLS 95% | Clustered by date | Week-block bootstrap (1 week) | (2 weeks) |
+|---|---|---|---|---|---|
+| Weekday + trend: temperature, % per °C | −0.21 | [−0.64, +0.21] | [−0.66, +0.24] | [−0.74, +0.29] | [−0.80, +0.34] |
+| Weekday + trend: rain day, % | −0.89 | [−3.58, +1.88] | [−3.56, +1.85] | [−4.23, +2.68] | [−4.22, +2.61] |
+| Month fixed effects: temperature, % per °C | −0.09 | [−0.54, +0.37] | [−0.51, +0.34] | [−0.64, +0.48] | [−0.63, +0.45] |
+| Month fixed effects: rain day, % | −0.44 | [−3.14, +2.33] | [−3.09, +2.28] | [−3.30, +3.29] | [−2.79, +3.35] |
+
+The robust intervals are a little wider than OLS, and no conclusion changes: no weather term is significant (clustered p = 0.35 to 0.75).
+
+**Power: would the bakery's effects show up in our data?** (`src/weather_power.py`, `results/external_weather_power.csv`.) We kept Stories' own series: the month-fixed-effects model's fit without temperature and holiday terms, plus Stories' residuals resampled in blocks of contiguous weeks (all branches together). We injected the bakery's effect on the real Beirut dates, refit, and tested at 5% with date-clustered standard errors, 500 times per scenario.
+
+| Injected effect | Detected |
+|---|---|
+| Temperature, +0.82% per °C (bakery, within month) | 94.6% |
+| Public holiday, +28.0% (bakery, month fixed effects) | 100% |
+| Public holiday, +35.7% (bakery, trend model) | 100% |
+| None injected, temperature (false-positive check) | 7.2% |
+| None injected, holiday (false-positive check) | 6.0% |
+
+So effects as large as the bakery's would almost always be visible in Stories' data, and Stories shows none. The false-positive rates are a little above 5%, so clustered tests here are slightly liberal. This is about detectability only: it does not say what Beirut's real effects are, and smaller effects could still be present.
+
 **Method.** Weather and calendar effects come from the weekday + log-trend model of finding 5, with p-values from shuffling weather across days within each month. Adding temperature and rain raises R² by only 0.00018 (p = 0.56). Source: `src/external_factors.py`, `results/external_*.csv`, `figures/weather_vs_sales.png`, `figures/tuesday_by_branch_school.png`.
 
 **Tuesday.**

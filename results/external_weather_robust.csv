@@ -1,0 +1,9 @@
+model,term,block_weeks,effect_pct,ols_ci_low,ols_ci_high,cluster_date_ci_low,cluster_date_ci_high,cluster_date_p,block_boot_ci_low,block_boot_ci_high
+weekday + trend (1a),tmax,1,-0.2128,-0.63586,0.21205,-0.65861,0.235,0.35106,-0.73929,0.29348
+weekday + trend (1a),rain_day,1,-0.88786,-3.57834,1.8777,-3.55461,1.85263,0.52161,-4.23036,2.67803
+weekday + trend (1a),tmax,2,-0.2128,-0.63586,0.21205,-0.65861,0.235,0.35106,-0.79504,0.34371
+weekday + trend (1a),rain_day,2,-0.88786,-3.57834,1.8777,-3.55461,1.85263,0.52161,-4.2189,2.61334
+weekday + month fixed effects (1c),tmax,1,-0.08846,-0.54078,0.36593,-0.51333,0.33823,0.684,-0.63671,0.48309
+weekday + month fixed effects (1c),rain_day,1,-0.44076,-3.13722,2.33077,-3.08673,2.27745,0.74789,-3.29833,3.28885
+weekday + month fixed effects (1c),tmax,2,-0.08846,-0.54078,0.36593,-0.51333,0.33823,0.684,-0.63378,0.44889
+weekday + month fixed effects (1c),rain_day,2,-0.44076,-3.13722,2.33077,-3.08673,2.27745,0.74789,-2.79161,3.35231

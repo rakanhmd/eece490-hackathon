@@ -1,0 +1,15 @@
+analysis,group,tuesday_tx,baseline_tx_per_day,lift,ci_low,ci_high,customers
+ID status,identified,4505.0,2935.0,1.5349,1.4897,1.586,
+ID status,anonymous,2524.0,1709.0,1.4769,1.4117,1.5386,
+ID status,identified minus anonymous,,,0.058,-0.0182,0.1402,
+ID status by branch,Garden: identified minus anonymous,,,0.0595,-0.0709,0.1953,
+ID status by branch,Harbour: identified minus anonymous,,,0.0234,-0.0822,0.144,
+ID status by branch,Uptown: identified minus anonymous,,,0.1438,-0.017,0.3073,
+frequency (non-Tuesday transactions in the other half of the weeks),0,442.0,290.25,1.5228,1.3562,1.7104,651.0
+frequency (non-Tuesday transactions in the other half of the weeks),1-2,2173.0,1463.25,1.4851,1.4147,1.5664,3279.0
+frequency (non-Tuesday transactions in the other half of the weeks),3-5,1754.0,1086.25,1.6147,1.5342,1.7011,2491.0
+frequency (non-Tuesday transactions in the other half of the weeks),6+,136.0,95.25,1.4278,1.1863,1.7044,216.0
+first-seen month (first transaction excluded),1,2186.0,1432.5,1.526,1.4617,1.5962,1804.0
+first-seen month (first transaction excluded),2,987.0,670.75,1.4715,1.4054,1.5391,931.0
+first-seen month (first transaction excluded),3,396.0,263.75,1.5014,1.3375,1.6596,475.0
+first-seen month (first transaction excluded),4,88.0,68.0,1.2941,0.987,1.6322,162.0

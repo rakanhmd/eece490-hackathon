@@ -43,6 +43,25 @@ summary = summary.round(4)
 print("\nPrice and cost ratios vs Harbour (45 products):\n", summary)
 save_table(summary, "pricing_ratios_summary.csv")
 
+# Price STRUCTURE: is each branch's price one multiple of Harbour's for every product (a branch-level rule), or
+# set product by product? Values are stored in cents, so a branch price = round(m x Harbour price, 2) allows
+# the product's ratio to sit anywhere in m +- 0.005 / Harbour price. If one m fits inside every product's band,
+# a single multiplier plus cent rounding reproduces all 45 values. Same test as GARDEN_CAUSE.md uses for costs.
+struct = []
+for col, (kind, br) in {"price_garden_vs_harbour": ("price", "Garden"), "price_uptown_vs_harbour": ("price", "Uptown"),
+                        "cost_garden_vs_harbour": ("cost", "Garden"), "cost_uptown_vs_harbour": ("cost", "Uptown")}.items():
+    r, base = ratios[col], wide[kind]["Harbour"]
+    lo, hi = (r - 0.005 / base).max(), (r + 0.005 / base).min()
+    slope, intercept = np.polyfit(base, wide[kind][br], 1)
+    struct.append({"ratio": col, "products": len(r), "min": r.min(), "median": r.median(), "max": r.max(), "std": r.std(),
+                   "one_multiplier_fits_all_within_rounding": bool(lo <= hi),
+                   "multiplier_range_low": lo if lo <= hi else np.nan, "multiplier_range_high": hi if lo <= hi else np.nan,
+                   "fit_slope": slope, "fit_intercept_usd": intercept,
+                   "spearman_ratio_vs_harbour_value": r.corr(base, method="spearman")})
+struct = pd.DataFrame(struct)
+print("\nPrice and cost structure vs Harbour:\n", struct.round(4).to_string(index=False))
+save_table(struct.round(5), "pricing_structure.csv", index=False)
+
 # per-branch margin at list price (before discounts), unit-weighted
 lm = pb.assign(list_gp=lambda x: x.units * (x.price - x.cost)).groupby("Branch")[["list_rev", "list_gp"]].sum()
 lm["list_margin"] = (lm.list_gp / lm.list_rev).round(4)

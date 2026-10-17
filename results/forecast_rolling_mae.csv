@@ -1,0 +1,7 @@
+model,mae_all,mae_tuesdays,mae_other_days,mae_month_3,mae_month_4,mae_month_5,mae_month_6,mae_Garden,mae_Harbour,mae_Uptown
+dummy,15.04,44.82,9.88,12.03,12.85,15.03,19.67,14.3,21.96,8.87
+seasonal_naive,8.79,11.8,8.26,8.75,7.84,8.94,9.6,7.95,11.14,7.27
+weekday_trend,6.65,9.26,6.2,6.38,6.25,6.5,7.44,6.06,8.68,5.21
+weekday_logtrend,6.39,8.27,6.07,6.35,6.05,6.21,6.96,5.86,8.09,5.23
+hgb_lags,6.71,8.61,6.38,6.63,6.25,6.76,7.19,6.76,8.04,5.33
+selected_trailing,6.55,8.36,6.23,6.44,6.28,6.47,6.97,5.97,8.51,5.16

@@ -1,0 +1,16 @@
+model,block_weeks,n_blocks,mae_diff_vs_naive,ci_low,ci_high
+dummy,1,17,6.258,4.994,7.582
+weekday_trend,1,17,-2.131,-2.721,-1.448
+weekday_logtrend,1,17,-2.392,-2.968,-1.721
+hgb_lags,1,17,-2.075,-2.732,-1.382
+selected_trailing,1,17,-2.238,-2.772,-1.563
+dummy,2,9,6.258,4.797,7.949
+weekday_trend,2,9,-2.131,-2.645,-1.502
+weekday_logtrend,2,9,-2.392,-2.903,-1.791
+hgb_lags,2,9,-2.075,-2.443,-1.627
+selected_trailing,2,9,-2.238,-2.712,-1.658
+dummy,3,6,6.258,4.526,8.356
+weekday_trend,3,6,-2.131,-2.528,-1.667
+weekday_logtrend,3,6,-2.392,-2.679,-1.998
+hgb_lags,3,6,-2.075,-2.524,-1.719
+selected_trailing,3,6,-2.238,-2.552,-1.831

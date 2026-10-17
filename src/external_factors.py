@@ -184,6 +184,59 @@ print("\n1c. Jan->Jun growth vs weather (weather effects estimated within month)
 print(growth.T.round(4))
 save_table(growth.round(5), "external_weather_growth.csv", index=False)
 
+# 1d. ROBUST uncertainty for the weather terms. The three branches share one weather series, so branch-days on
+# the same date are not independent: (i) standard errors clustered by date (CR1); (ii) a block bootstrap that
+# resamples contiguous weeks of dates, all branches together, and refits. A separate random generator keeps
+# every other result in this script unchanged.
+rng_w = np.random.default_rng(SEED + 1)
+
+
+def cluster_se(X, y, groups):
+    beta, *_ = np.linalg.lstsq(X, y, rcond=None)
+    u = y - X @ beta
+    bread = np.linalg.pinv(X.T @ X)
+    n, k = X.shape[0], np.linalg.matrix_rank(X)
+    ug = pd.DataFrame(X * u[:, None]).groupby(groups).sum().values
+    G = ug.shape[0]
+    V = (G / (G - 1)) * ((n - 1) / (n - k)) * bread @ (ug.T @ ug) @ bread
+    return beta, np.sqrt(np.diag(V))
+
+
+def week_block_boot(X, y, dates, term_idx, weeks=1, n_boot=N_BOOT):
+    blk = ((dates - dates.min()).dt.days // (7 * weeks)).values
+    ub = np.unique(blk)
+    rows_of = {b_: np.where(blk == b_)[0] for b_ in ub}
+    out = []
+    for _ in range(n_boot):
+        idx = np.concatenate([rows_of[b_] for b_ in rng_w.choice(ub, size=len(ub), replace=True)])
+        out.append(np.linalg.lstsq(X[idx], y[idx], rcond=None)[0][term_idx])
+    return np.percentile(np.array(out), [2.5, 97.5], axis=0)
+
+
+def pct(x):
+    return 100 * (np.exp(x) - 1)
+
+
+rob_rows = []
+for model_name, Xdf in [("weekday + trend (1a)", Xf), ("weekday + month fixed effects (1c)", Xmw)]:
+    Xv, yv = Xdf.values, P.y.values
+    tidx = [list(Xdf.columns).index(c) for c in WCOLS]
+    b_ols, s_ols, _, _ = ols(Xv, yv)
+    b_cl, s_cl = cluster_se(Xv, yv, P.date.values)
+    for weeks in [1, 2]:
+        lo_hi = week_block_boot(Xv, yv, P.date, tidx, weeks=weeks)
+        for j, (term, ti) in enumerate(zip(WCOLS, tidx)):
+            rob_rows.append({"model": model_name, "term": term, "block_weeks": weeks, "effect_pct": pct(b_ols[ti]),
+                             "ols_ci_low": pct(b_ols[ti] - 1.96 * s_ols[ti]), "ols_ci_high": pct(b_ols[ti] + 1.96 * s_ols[ti]),
+                             "cluster_date_ci_low": pct(b_cl[ti] - 1.96 * s_cl[ti]),
+                             "cluster_date_ci_high": pct(b_cl[ti] + 1.96 * s_cl[ti]),
+                             "cluster_date_p": 2 * stats.norm.sf(abs(b_cl[ti] / s_cl[ti])),
+                             "block_boot_ci_low": pct(lo_hi[0][j]), "block_boot_ci_high": pct(lo_hi[1][j])})
+robust = pd.DataFrame(rob_rows)
+print("\n1d. Weather terms with date-clustered SEs and a week-block bootstrap (all branches together):")
+print(robust.round(3).to_string(index=False))
+save_table(robust.round(5), "external_weather_robust.csv", index=False)
+
 # ---------------------------------------------------------------- 2. CALENDAR
 chain = txb.sum(axis=1)
 
