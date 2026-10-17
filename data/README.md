@@ -54,3 +54,22 @@ Published figures used only as context in `src/benchmarks.py`. Each row of the C
 - [BLOMINVEST Bank, 2026-07-28, citing the Central Administration of Statistics](https://blog.blominvestbank.com/lebanons-inflation-rate-increased-by-17-25-yoy-by-june-2026/): Lebanon CPI +17.25% year on year in June 2026, and +19.04% in May.
 - [QSR Web, "The Weather Effect report" (2019-07-12), Foursquare and AccuWeather](https://www.qsrweb.com/news/the-weather-effect-report-tracks-weather-trends-related-to-dining-traffic): an industry report, not peer-reviewed.
 - [United Baristas, 2026-07-08](https://unitedbaristas.com/articles/explainers/cold-coffee-demand-is-more-predictable-than-the-british-weather/): cold coffee share rose 2.2 points per 1 °C at one London café. This is a trade analysis, not peer-reviewed.
+
+### Reference shop datasets (`data/external/reference/`, gitignored; downloaded 2026-10-17)
+Used by `src/reference_compare.py` as a picture of what shop data looks like. They are not a cause of anything in our data. The raw files are not committed. Download them with:
+```bash
+cd data/external/reference
+kaggle datasets download -d ahmedabbas757/coffee-sales -p ahmedabbas757_coffee-sales --unzip
+kaggle datasets download -d matthieugimbert/french-bakery-daily-sales -p matthieugimbert_french-bakery-daily-sales --unzip
+kaggle datasets download -d ihelon/coffee-sales -p ihelon_coffee-sales --unzip
+```
+
+| Dataset | URL | License (Kaggle) | Real or fictional, per its own description |
+|---|---|---|---|
+| Coffee Shop Sales (Maven Roasters; 3 NYC stores, 2023-01-01 to 2023-06-30) | https://www.kaggle.com/datasets/ahmedabbas757/coffee-sales | GNU LGPL 3.0 | **Fictional**: "Transaction records for Maven Roasters, a fictitious coffee shop operating out of three NYC locations". The upload says the data is from Maven Analytics |
+| French bakery daily sales (2021-01-02 to 2022-09-30) | https://www.kaggle.com/datasets/matthieugimbert/french-bakery-daily-sales | copyright-authors | **Claims real**: "The dataset belongs to a French bakery". No city is given; we **assume Paris** for weather and holidays |
+| Coffee Sales (one vending machine, 2024-03-01 to 2025-03-23 in our download; file `index_1.csv`) | https://www.kaggle.com/datasets/ihelon/coffee-sales | CC0-1.0 | **Claims real**: "coffee sales from a vending machine", run by the dataset author. No location is given in the description, and the file is used for its signatures only |
+
+Extra files committed in `data/external/` for the bakery test:
+- `weather_paris_2021_2022.csv`: Open-Meteo archive, daily max temperature and precipitation, 2021-01-01 to 2022-09-30, Europe/Paris. Open-Meteo snaps to the nearest grid cell, 48.89 N 2.29 E. URL: `https://archive-api.open-meteo.com/v1/archive?latitude=48.86&longitude=2.35&start_date=2021-01-01&end_date=2022-09-30&daily=temperature_2m_max,precipitation_sum&timezone=Europe%2FParis&format=csv`
+- `france_holidays_2021_2022.csv`: French public holidays for metropolitan France, from the official government API at `https://calendrier.api.gouv.fr/jours-feries/metropole/2021.json` and `.../2022.json`.

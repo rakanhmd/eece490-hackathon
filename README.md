@@ -157,6 +157,46 @@ These published figures are context, not causes. Each is set beside one Stories 
 - **Growth.** The 52.6% rise is in transaction counts, and prices never changed, so inflation cannot produce it. It is three times a full year of consumer-price inflation, reached in five months. Keeping every price fixed for six months while consumer prices rose about 17% in a year is also unusual. One caveat: Stories prices in US dollars, while the inflation rate is measured on Lebanese pounds.
 - **Weather.** Industry and trade analyses report that weather moves coffee-shop traffic and the share of cold drinks; we found no peer-reviewed café study. Stories shows neither effect, which is consistent with the daily data being generated rather than recorded.
 
+### How our data compares with real shops
+We compared our data with three public transaction datasets from Kaggle, used only as a reference for what shop data looks like. No other shop's pattern is a cause of ours. Licenses and claims are recorded in [`data/README.md`](data/README.md).
+- **French bakery.** It claims to be real: one bakery, January 2021 to September 2022.
+- **Coffee vending machine.** It claims to be real: one machine, March 2024 to March 2025.
+- **Maven Roasters.** Its own description calls it a *fictitious* coffee shop: three New York stores, January to June 2023.
+
+Source: `src/reference_compare.py`, `results/reference_*.csv`, `figures/reference_signatures.png`.
+
+| Signature | Stories | French bakery (real) | Vending machine (real) | Maven (fictitious) | Verdict |
+|---|---|---|---|---|---|
+| Tuesday / Mon, Wed, Thu, Fri | 1.53 | 0.97 | 1.08 | 0.98 | Ours is unusual |
+| Busiest day (ratio to Mon–Fri average) | Tue (1.39) | Sun (1.35) | Tue (1.06) | Fri (1.01) | Ours is unusual |
+| Peak hour | 21:00 | 11:00 | 10:00 | 10:00 | Ours is unusual. A late peak may be local habit, so on its own this proves nothing |
+| Day-to-day variation, variance ÷ mean after weekday × month | **0.98**; pure-chance range 0.88–1.14 | 8.45 | 1.84 | 4.76 | Ours lacks normal variation |
+| Items per transaction | 1.59 | 2.67 | 1.00 | 1.44 | Normal |
+| Top-3 category share of items | 52% | 48% | 60% | 85% | Normal |
+
+**Weather and holiday effects in the real bakery.** The test asks whether effects of the bakery's size would show up in our data. We assume the bakery is in Paris, because the dataset names no city, and join Open-Meteo weather and official French holidays. The model is the same as for Stories: log(daily transactions) on weekday, trend, temperature, rain day and holiday. Results are from `results/reference_effect_transfer.csv`:
+
+| Effect | French bakery, 95% interval | Stories, 95% interval | Bakery effect outside our interval? |
+|---|---|---|---|
+| Temperature, within month (month fixed effects) | +0.82% per °C [+0.37, +1.27] | −0.09% per °C [−0.54, +0.37] | Yes, just. The intervals touch at +0.37 |
+| Temperature, no month effects | +3.2% per °C [+2.9, +3.6] | −0.21% per °C [−0.64, +0.21] | Yes, but the bakery figure mixes in its summer season |
+| Rain day | −2.6% [−6.9, +2.0] | −0.9% [−3.6, +1.9] | No. Neither is clearly different from zero, so we cannot tell |
+| Public holiday | +36% [+19, +54] | −0.5% [−3.9, +3.0] | Yes, by a wide margin |
+
+**Does our data come from the Maven dataset?** Probably not. It shares Maven's framing: January 1 to June 30, three stores and nine categories. But almost everything at row level differs (`results/reference_template_maven.csv`):
+- **Products.** Only 3 of our 45 product names appear in Maven: Almond Croissant, Cappuccino and Chocolate Croissant. Only one category name is shared.
+- **Prices.** The median price is $5.41 against $3.00.
+- **Baskets.** Ours average 1.51 lines per transaction, while Maven always has one.
+- **Traffic.** We have 62 transactions per store per day against 275.
+- **Hours.** Our hourly profile runs opposite to Maven's, with a correlation of −0.58.
+- **Weekdays and noise.** Maven has no Tuesday peak, at 0.98, and its day-to-day variation is 4.76 against our 0.98.
+
+This is evidence, not certainty: the shared framing could be a loose template or a coincidence.
+
+**Verdict.** All three reference datasets vary from day to day far more than chance alone, and so does a fictitious one. None of them has a Tuesday peak near 1.5. Our data sits inside the pure-chance range and has a Tuesday surge no reference shows. The real bakery also has temperature and holiday effects that our data would have detected, and our intervals exclude them. Together these add to the earlier signs that Stories' daily counts lack the normal variation of real shops. The French holiday effect need not apply in Beirut, though: the test shows that effects of this size would be visible in our data, not that Stories should have them.
+
+This day-to-day ratio of 0.98 pools the three branches and uses year-month cells, so the same method fits every dataset. The per-branch figures earlier in this section, 0.86 to 1.10, use the same idea.
+
 ## Estimated business value
 Estimates, kept separate from the measured facts above.
 
@@ -251,5 +291,6 @@ python basket_analysis.py     # drink + food cross-sell, about 15 seconds
 python external_factors.py    # weather, calendar, Tuesday and cost checks against public data in data/external/, about 10 seconds
 python benchmarks.py          # Stories next to published coffee-chain benchmarks (run after external_factors.py)
 python garden_cost_cause.py   # Garden cost-cause checks (Brent crude, branch profile), written up in GARDEN_CAUSE.md
+python reference_compare.py   # comparison with public shop datasets; first download them with the Kaggle API (see data/README.md)
 ```
 Summary tables are saved in `results/`, figures in `figures/`.

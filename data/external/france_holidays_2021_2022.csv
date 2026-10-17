@@ -1,0 +1,23 @@
+date,holiday,source
+2021-01-01,1er janvier,https://calendrier.api.gouv.fr/jours-feries/metropole/2021.json
+2021-04-05,Lundi de Pâques,https://calendrier.api.gouv.fr/jours-feries/metropole/2021.json
+2021-05-01,1er mai,https://calendrier.api.gouv.fr/jours-feries/metropole/2021.json
+2021-05-08,8 mai,https://calendrier.api.gouv.fr/jours-feries/metropole/2021.json
+2021-05-13,Ascension,https://calendrier.api.gouv.fr/jours-feries/metropole/2021.json
+2021-05-24,Lundi de Pentecôte,https://calendrier.api.gouv.fr/jours-feries/metropole/2021.json
+2021-07-14,14 juillet,https://calendrier.api.gouv.fr/jours-feries/metropole/2021.json
+2021-08-15,Assomption,https://calendrier.api.gouv.fr/jours-feries/metropole/2021.json
+2021-11-01,Toussaint,https://calendrier.api.gouv.fr/jours-feries/metropole/2021.json
+2021-11-11,11 novembre,https://calendrier.api.gouv.fr/jours-feries/metropole/2021.json
+2021-12-25,Jour de Noël,https://calendrier.api.gouv.fr/jours-feries/metropole/2021.json
+2022-01-01,1er janvier,https://calendrier.api.gouv.fr/jours-feries/metropole/2022.json
+2022-04-18,Lundi de Pâques,https://calendrier.api.gouv.fr/jours-feries/metropole/2022.json
+2022-05-01,1er mai,https://calendrier.api.gouv.fr/jours-feries/metropole/2022.json
+2022-05-08,8 mai,https://calendrier.api.gouv.fr/jours-feries/metropole/2022.json
+2022-05-26,Ascension,https://calendrier.api.gouv.fr/jours-feries/metropole/2022.json
+2022-06-06,Lundi de Pentecôte,https://calendrier.api.gouv.fr/jours-feries/metropole/2022.json
+2022-07-14,14 juillet,https://calendrier.api.gouv.fr/jours-feries/metropole/2022.json
+2022-08-15,Assomption,https://calendrier.api.gouv.fr/jours-feries/metropole/2022.json
+2022-11-01,Toussaint,https://calendrier.api.gouv.fr/jours-feries/metropole/2022.json
+2022-11-11,11 novembre,https://calendrier.api.gouv.fr/jours-feries/metropole/2022.json
+2022-12-25,Jour de Noël,https://calendrier.api.gouv.fr/jours-feries/metropole/2022.json

@@ -1,0 +1,19 @@
+feature,stories,maven
+Date span,2026-01-01 to 2026-06-30,2023-01-01 to 2023-06-30
+Stores,3,3
+Categories,9,9
+Category names in common,1 (Bakery),
+Products,45,80
+"Product names in common (exact, case-insensitive)",3,
+Median unit price (USD),5.41,3.00
+Unit price range (USD),1.87-13.07,0.80-45.00
+Quantity values,"1,2","1,2,3,4,6,8"
+Lines per transaction,1.51,1.00
+Transactions per store per day,62.4,274.6
+"Transactions, last month / first month",1.52,2.04
+Peak hour,21:00,10:00
+Correlation of hourly profiles,-0.58,
+Busiest weekday (ratio to Mon-Fri average),Tue (1.39),Fri (1.01)
+"Tuesday / Mon, Wed, Thu, Fri",1.53,0.98
+Dispersion ratio (Poisson about 1),0.98,4.76
+Customer IDs,yes (63% of transactions),no

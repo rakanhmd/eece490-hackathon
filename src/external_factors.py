@@ -204,6 +204,7 @@ print(hol.round(3).to_string(index=False))
 hol_summary = pd.DataFrame({"holiday_days": [len(hol)], "mean_ratio": [hol.ratio.mean()],
                             "ci_low": [np.percentile(bs, 2.5)], "ci_high": [np.percentile(bs, 97.5)]})
 save_table(hol.round(4), "external_holidays.csv", index=False)
+save_table(hol_summary.round(4), "external_holidays_summary.csv", index=False)
 
 # 2b. Ramadan: evening share of transactions (18:00 or later) vs the three weeks before and after
 txh = d.groupby("Transaction ID").agg(date=("date", "first"), hour=("hour", "first"))

@@ -2,6 +2,7 @@
 data/*
 !data/README.md
 !data/external/
+data/external/reference/
 *.zip
 *.parquet
 *.pkl

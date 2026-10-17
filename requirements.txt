@@ -2,6 +2,7 @@ numpy
 pandas
 scikit-learn>=1.4
 scipy
+openpyxl
 matplotlib
 seaborn
 jupyter

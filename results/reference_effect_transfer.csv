@@ -1,0 +1,7 @@
+spec,effect,bakery_pct,bakery_ci_low,bakery_ci_high,ours_pct,ours_ci_low,ours_ci_high,bakery_effect_outside_our_ci
+weekday + trend + weather + holiday,per 1 degC of daily max temperature,3.2336,2.9118,3.5564,-0.2128,-0.6359,0.212,True
+weekday + trend + weather + holiday,rain day (1 mm or more),-2.5619,-6.8873,1.9645,-0.8879,-3.5783,1.8777,False
+weekday + trend + weather + holiday,public holiday,35.6738,19.2837,54.3159,-0.49,-3.85,2.99,True
+same + month fixed effects,per 1 degC of daily max temperature,0.8152,0.366,1.2665,-0.0885,-0.5408,0.3659,True
+same + month fixed effects,rain day (1 mm or more),-0.6644,-4.0415,2.8315,,,,
+same + month fixed effects,public holiday,27.9519,16.0484,41.0764,,,,
