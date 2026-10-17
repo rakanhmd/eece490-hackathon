@@ -1,0 +1,27 @@
+start,end,event,type,used_in_tests,source
+2026-01-01,2026-01-01,New Year's Day,public_holiday,yes,holidaydb.com + calendarlabs.com
+2026-01-06,2026-01-06,Armenian Orthodox Christmas,public_holiday,yes,holidaydb.com + calendarlabs.com
+2026-02-09,2026-02-09,Saint Maroun's Day,public_holiday,yes,holidaydb.com + calendarlabs.com
+2026-02-14,2026-02-14,Rafic Hariri commemoration,public_holiday,yes,holidaydb.com + calendarlabs.com
+2026-03-20,2026-03-23,Eid al-Fitr (Mar 20) and holiday days (Mar 21-23),public_holiday,yes,holidaydb.com; calendarlabs.com lists Mar 20 only
+2026-03-25,2026-03-25,Feast of the Annunciation,public_holiday,yes,holidaydb.com + calendarlabs.com
+2026-04-03,2026-04-06,Western Good Friday (Apr 3) to Easter Monday (Apr 6),public_holiday,yes,holidaydb.com + calendarlabs.com (calendarlabs swaps the Western/Orthodox Easter labels)
+2026-04-10,2026-04-13,Orthodox Good Friday (Apr 10) to Easter Monday (Apr 13),public_holiday,yes,holidaydb.com + calendarlabs.com
+2026-05-01,2026-05-01,Labour Day,public_holiday,yes,holidaydb.com + calendarlabs.com
+2026-05-03,2026-05-03,Martyrs' Day,public_holiday,yes,holidaydb.com + calendarlabs.com
+2026-05-25,2026-05-25,Resistance and Liberation Day,public_holiday,yes,holidaydb.com + calendarlabs.com
+2026-05-27,2026-05-28,Eid al-Adha (May 27) and holiday (May 28),public_holiday,yes,holidaydb.com; calendarlabs.com lists May 27 only
+2026-06-16,2026-06-17,Islamic New Year (sources differ: Jun 16 or Jun 17),public_holiday,yes,calendarlabs.com (Jun 16); holidaydb.com (Jun 17)
+2026-06-25,2026-06-26,Ashoura (sources differ: Jun 25 or Jun 26),public_holiday,yes,calendarlabs.com (Jun 25); holidaydb.com (Jun 26)
+2026-02-18,2026-03-19,Ramadan (Sunni start Feb 18; Shiite council Feb 19; Eid Mar 20),ramadan,yes,L'Orient Today 2026 articles 1495201 and 1495346 (via search summary; pages blocked automated fetch)
+2026-03-02,2026-06-30,Israel-Hezbollah escalation begins Mar 2; over 1 million displaced by early April (end date not established),security,yes,Al-Monitor April 2026 (via search summary)
+2026-03-02,2026-03-09,Public schools closed (sheltering displaced families); private schools urged to avoid in-person classes; resume Mar 10 in person or remote,school_closure,yes,LBC 2026-03-03; L'Orient Today article 1498259 (via search summary)
+2026-03-20,2026-03-23,All schools closed for Eid al-Fitr,school_closure,yes,LBC 2026-03-17
+2026-04-02,2026-04-06,Secondary schools and technical institutes closed for Catholic Easter,school_closure,yes,LBC 2026-03-27
+2026-04-09,2026-04-13,Secondary schools and technical institutes closed for Orthodox Easter,school_closure,yes,LBC 2026-03-27
+2026-06-15,2026-06-30,End of school year (ASSUMED; no official 2025-26 date found),school_out_assumed,yes,assumption stated in README
+2026-03-30,2026-03-31,AUB fully online (precaution after Iranian threat to US universities),university_online,yes,Jordan Times / Annahar 2026-03-29
+2026-04-07,2026-05-04,AUB classes synchronously online or hybrid until further notice; last day of classes May 4,university_online,yes,AUB Provost message 2026-04-07 (PDF)
+2026-05-05,2026-05-07,AUB reading period,university_no_classes,yes,AUB Provost message 2026-04-07 (PDF)
+2026-05-08,2026-05-17,AUB final exams (on campus),university_exams,yes,AUB Provost message 2026-04-07 (PDF)
+2026-05-18,2026-06-30,AUB no spring classes (commencement Jun 5-6),university_no_classes,yes,AUB Provost message 2026-04-07 (PDF)

@@ -1,0 +1,4 @@
+test,actual_vs_trend_pct,ci_low_pct,ci_high_pct
+"PLACEBO: fit Jan 1-Feb 1, score Feb 2-Mar 1",5.717,1.938,10.549
+"Escalation month: fit Jan 1-Mar 1, score Mar 2-Mar 31",2.374,-2.557,6.833
+"Following month: fit Jan 1-Mar 1, score Apr 1-Apr 30",0.761,-2.176,5.292

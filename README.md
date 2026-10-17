@@ -4,7 +4,7 @@
 EECE 490 (Introduction to Machine Learning), American University of Beirut · Hackathon, October 17, 2026
 
 ## Conclusion
-Garden is Stories' biggest profit leak. On every one of its 45 products, Garden's recorded unit cost is 1.43 times Harbour's. Yet its price list is a flat 95% of Harbour's, so it keeps 47% of sales as gross profit against Harbour's 65%. We recommend two steps. First, audit where Garden's extra cost comes from: suppliers, delivery, or how costs are booked. Second, move a random half of Garden's products to Harbour's prices for four weeks and compare them with the other half. If the costs are real and Garden can buy at Harbour's prices, our estimate is about $17,600 more gross profit per six months, roughly $35,600 a year. This assumes customers cut purchases 1% for every 1% price rise, and the range is $14,600–$20,900. About 90% of that gain comes from the cost fix. The main assumption is that the unit-cost column records money Stories really pays. If Garden's cost includes overheads that other branches book elsewhere, most of the saving disappears, which is why the audit comes first. Separately, Tuesday brings about 1.5 times a normal weekday's transactions at every branch, every week. A simple forecast cuts the Tuesday planning error from 15.2 to 9.0 transactions a day compared with "same weekday last week". 59% of drink orders carry no food. A counter prompt, not a discount, could add an estimated $640 to $4,340 per six months if it lifts the food-with-drink rate by 1 to 5 points. Neither discount we examined shows evidence of paying for itself.
+Garden is Stories' biggest profit leak. On every one of its 45 products, Garden's recorded unit cost is 1.43 times Harbour's. Yet its price list is a flat 95% of Harbour's, so it keeps 47% of sales as gross profit against Harbour's 65%. We recommend two steps. First, audit where Garden's extra cost comes from: suppliers, delivery, or how costs are booked. Second, move a random half of Garden's products to Harbour's prices for four weeks and compare them with the other half. If the costs are real and Garden can buy at Harbour's prices, our estimate is about $17,600 more gross profit per six months, roughly $35,600 a year. This assumes customers cut purchases 1% for every 1% price rise, and the range is $14,600–$20,900. About 90% of that gain comes from the cost fix. The main assumption is that the unit-cost column records money Stories really pays. If Garden's cost includes overheads that other branches book elsewhere, most of the saving disappears, which is why the audit comes first. Separately, Tuesday brings about 1.5 times a normal weekday's transactions at every branch, every week. A simple forecast cuts the Tuesday planning error from 15.2 to 9.0 transactions a day compared with "same weekday last week". Public weather, holiday, Ramadan, school and campus data explain none of the surge. The daily counts also show none of the real-world effects we tested, so Stories should confirm the Tuesday pattern against raw till records before changing staffing. 59% of drink orders carry no food. A counter prompt, not a discount, could add an estimated $640 to $4,340 per six months if it lifts the food-with-drink rate by 1 to 5 points. Neither discount we examined shows evidence of paying for itself.
 
 | Rank | Finding and action | Value over 6 months (Jan–Jun) | Measured or estimated |
 |---|---|---|---|
@@ -103,6 +103,42 @@ Facts computed directly from the data (after removing 132 duplicate rows). Each 
 
    The drink-type gap appears inside every branch. Some drink and food pairs sell less often together than item popularity predicts. To test this, we reshuffled items 2,000 times, keeping each basket's size and branch fixed. Cold Drinks + Bakery comes out at 0.63 of the expected count, 605 baskets against 958 expected. It stays at 0.62 when the comparison is limited to baskets that already hold both a drink and food. Matcha & Tea + Meals and + Sandwiches also stay under-sold, at 0.64 and 0.70, under that stricter test. Item-level pairs rest on small counts, so we treat them as pointers only. Food gross profit per drink-and-food basket averages $3.70: $4.22 at Harbour, $4.00 at Uptown and $2.77 at Garden. Garden's figure is lower because of its higher costs. Full write-up: [`FINDING_8.md`](FINDING_8.md). Source: `src/basket_analysis.py`, `results/basket_*.csv`, `figures/basket_attach_by_category.png`, `figures/basket_pair_ratio.png`.
 
+## Did outside factors cause this?
+We tested public data against the two biggest patterns: the Tuesday surge and Garden's 43% higher unit costs. **Assumption:** Stories is a Lebanese chain, and branch addresses are not in the data, so we treat all three branches as being in Greater Beirut (lat 33.89, lon 35.50). Weather and calendar are therefore the same for every branch. Datasets, URLs and download dates are in [`data/README.md`](data/README.md). Every result below is an association tested against shuffled versions of the same data, not proof of cause.
+
+**Outside factors we checked.** Brackets are 95% intervals. The p-values come from shuffling weather across days within each month, or calendar labels across weeks.
+
+| Factor | Dataset | Test | Result | Verdict |
+|---|---|---|---|---|
+| Temperature | Open-Meteo daily max, Beirut | Added to the weekday + log-trend model from finding 5 | −0.21% transactions per °C [−0.64, +0.21], p = 0.29 | does not explain |
+| Rain | Open-Meteo precipitation; rain day = 1 mm or more | Same model | −0.9% on rain days [−3.6, +1.9], p = 0.54. Adding both weather terms raises R² by 0.00018, p = 0.56 | does not explain |
+| Hot days and cold drinks | Open-Meteo | Cold-drink share of items vs temperature, beyond month and weekday | +0.08 points per °C [−0.06, +0.22], p = 0.31. Share 24.4% in January and 25.0% in June, although June averaged 28.1 °C against 17.4 °C | does not explain |
+| January to June growth | Open-Meteo | Weather effect measured within months, applied to the January-to-June change in weather | Weather predicts −0.7% of the observed +52.6% | does not explain |
+| Public holidays | holidaydb.com, calendarlabs.com | 26 holiday days vs the same weekday 1–3 weeks before and after | Mean ratio 0.995 [0.961, 1.030] | does not explain |
+| Ramadan, Feb 18 to Mar 19 | L'Orient Today | Share of transactions at 18:00 or later vs three weeks before and after | +0.4 points [−1.4, +2.2] vs before; −1.6 points [−3.6, +0.4] vs after | does not explain |
+| Security escalation from Mar 2 | Al-Monitor, LBC | Actual sales vs a weekday + trend model fitted on January–February | March +2.4% [−2.6, +6.8]; April +0.8% [−2.2, +5.3]. The same model scored on February gives +5.7%, so errors of about ±6% are normal | does not explain |
+| School or campus drives Tuesday | AUB Provost calendar, LBC school closures | Tuesday ratio while AUB was online or out (Mar 30 to Jun 30) vs in person | −0.026 [−0.096, +0.050], p = 0.51. Tuesday is still 1.50× with campus out | does not explain |
+| University Tue/Thu timetable | Transactions | Thursday / mean of Mon, Wed, Fri | 0.971 [0.940, 1.003], so Thursday is not raised | does not explain |
+| A local cause near one branch | Transactions | Tuesday ratio per branch, holidays excluded | Garden 1.56 [1.49, 1.66], Harbour 1.56 [1.47, 1.65], Uptown 1.53 [1.42, 1.67]. All pairwise gaps include zero | does not explain |
+| Normal real-world day-to-day noise | Transactions | Variance ÷ mean of daily counts after weekday × month, vs simulated Poisson counts | Garden 0.86, Harbour 1.10, Uptown 0.99. Pure-chance (Poisson) ranges are about 0.76 to 1.25 | cannot tell (data diagnostic) |
+| World coffee price and Garden's costs | IMF arabica price via FRED | Do recorded unit costs move with the world price? | Arabica fell 15.4% from January to June. All 135 product-branch pairs keep one unit cost for all six months | cannot tell |
+
+Source: `src/external_factors.py`, `results/external_*.csv` (summary in `results/external_factors_summary.csv`), `figures/weather_vs_sales.png`, `figures/tuesday_by_branch_school.png`.
+
+**(a) Tuesday.** None of the outside factors we could test explains the surge.
+- **Branches.** It is the same size at all three branches, which argues against a local cause such as a school, a market day or an office next to one shop.
+- **School and campus.** It did not fade while AUB taught online or after its exams ended. It did not fade in late June either: the June 23 week has the highest ratio of the half-year at 1.74.
+- **Thursday.** Thursday is not raised, so a university Tuesday/Thursday timetable cannot explain it.
+- **One test was sensitive to how we chose weeks.** Our first version kept only weeks with three or more non-holiday comparison days. It found a small dip when the campus was out, −0.068 [−0.135, −0.001], p = 0.08. Keeping weeks with two comparison days, the version above, the dip shrinks to −0.026, p = 0.51. Either way, Tuesday stays about 1.5 times a normal weekday with the campus out.
+- **Calendar caveats.** The school Easter and Eid closures contained no Tuesday. Late June rests on two weeks, one of them a holiday. The end-of-school date of June 15 is our assumption.
+
+**(b) Garden's costs.** Public data cannot explain the 43% gap.
+- **Fixed costs.** The recorded unit costs never change in six months, even though the world arabica price fell 15.4%. So the cost column looks like a fixed standard cost, not what Stories paid each month.
+- **Location.** With no branch addresses, we cannot test location causes such as rent or delivery distance.
+- **Action unchanged.** The cost audit in the conclusion is still the way to find the cause.
+
+**What the null results suggest.** A real café in Beirut would normally show some of these effects. Typical examples are fewer customers on rainy days, more cold drinks in June, different evening traffic in Ramadan, and some change during a war that displaced over a million people. This data shows none of them. Its day-to-day variation is also no larger than pure chance: real shop counts usually vary more than a Poisson model predicts, because of weather, events and promotions. Ratios at or below 1 suggest the daily counts may have been generated or smoothed rather than recorded as they happened. We cannot tell which from the data. Stories' data team can check this against raw till records. This matters most for the Tuesday staffing recommendation and the forecast, which rely on the daily pattern being real.
+
 ## Estimated business value
 Estimates, kept separate from the measured facts above.
 
@@ -149,6 +185,7 @@ Estimates, kept separate from the measured facts above.
 | Lower prices at Garden and Uptown are not a deliberate response to local competitors | A competitor next door could make customers more price-sensitive than the range we assume | The price rise could lose more customers than estimated; the pilot below would show this |
 | The Tuesday surge reflects real customer visits | Staffing and stock plans would follow it | If it comes from how the data was produced or exported, Tuesday staffing should not change until Stories checks its till and footfall records |
 | An extra food basket earns the branch's average food gross profit, or 0.74 of it, and does not replace a second drink | Sets the size of the cross-sell gain | If customers swap a drink for a pastry, or prep and waste costs rise, the gain falls; we have no data on either |
+| All branches are in Greater Beirut (lat 33.89, lon 35.50); branch addresses are not in the data | Weather and calendar tests use one location for all branches | If branches are far apart, local weather or local events could differ by branch; our tests could not detect a cause that affects only one branch |
 | The 132 exact duplicate rows are recording errors, not real repeat purchases | We removed them before all analysis | If they were real, revenue rises by $741, which is 0.24%; no margin or finding changes. Source: `results/duplicates_summary.csv` |
 | Garden could buy at Harbour's unit costs | Sets the size of the cost fix, the largest row | If part of the gap is unavoidable, such as a remote location, the gain scales down roughly in proportion |
 
@@ -165,6 +202,7 @@ Estimates, kept separate from the measured facts above.
 - Prices never change in the data, so price sensitivity is an assumption, not a measurement. The pricing estimates are only as good as the elasticity range.
 - We could not find the cause of the Tuesday surge in the data. We can only rule out the recording errors we tested.
 - The cross-sell data shows how baskets look today, not how a prompt would change them. We do not know what cashiers say now, where the bakery case sits, or which items were out of stock. Any of these could explain the Cold Drinks + Bakery gap.
+- Some calendar dates come from news pages we could only read through search summaries, and the end of the school year is an assumption. Holiday sources disagree by a day on two Islamic dates, so both days are counted.
 - The promo analysis compares Harbour with only two control branches, and the result changes with the choice of control.
 - The forecast was tested on one month. June continued the January-to-June growth, so a log trend fit well. A change in trend, for example in summer, would hurt it.
 
@@ -192,5 +230,6 @@ python forecast.py            # June forecast vs same-weekday-last-week baseline
 python promo_analysis.py      # Harbour 15% promo, 30 seconds to about 2 minutes depending on the machine
 python discount_analysis.py   # 10% discount
 python basket_analysis.py     # drink + food cross-sell, about 15 seconds
+python external_factors.py    # weather, calendar, Tuesday and cost checks against public data in data/external/, about 10 seconds
 ```
 Summary tables are saved in `results/`, figures in `figures/`.

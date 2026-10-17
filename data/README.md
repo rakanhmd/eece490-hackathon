@@ -17,3 +17,29 @@ Transaction ID, Date, Time, Branch, Customer ID, Order Type, Product, Category, 
 | Profit formula | Line Gross Profit = Line Revenue − Quantity × Unit Cost holds on every row; no negative values |
 | Quantity / prices | No zero or negative values; quantity is 1 or 2 |
 | Customer IDs across branches | 94% of known customers bought at more than one branch, which is unusual for a café chain. Treated as a caveat: customer IDs may not identify real individuals reliably |
+
+## External data (`data/external/`, committed)
+Downloaded or compiled on **2026-10-17** for `src/external_factors.py`. **Assumption:** Stories is a Lebanese chain and branch addresses are not in the data, so all three branches are treated as being in Greater Beirut (lat 33.89, lon 35.50). Weather and calendar are therefore the same for every branch.
+
+| File | What | Source |
+|---|---|---|
+| `weather_beirut_2026H1.csv` | Daily max temperature (°C) and precipitation (mm), 2026-01-01 to 2026-06-30, timezone Asia/Beirut. Open-Meteo snaps to the nearest grid cell, 33.85 N 35.53 E. | Open-Meteo historical weather API: `https://archive-api.open-meteo.com/v1/archive?latitude=33.89&longitude=35.50&start_date=2026-01-01&end_date=2026-06-30&daily=temperature_2m_max,precipitation_sum&timezone=Asia%2FBeirut&format=csv` |
+| `coffee_price_arabica_fred.csv` | Monthly world price of arabica coffee (US cents per pound), Jul 2025 to Jul 2026 | IMF series via FRED, PCOFFOTMUSDM: `https://fred.stlouisfed.org/graph/fredgraph.csv?id=PCOFFOTMUSDM&cosd=2025-07-01&coed=2026-09-01` |
+| `lebanon_calendar_2026H1.csv` | Public holidays, Ramadan, school closures, AUB calendar and the security escalation, compiled by hand from the sources below | see below |
+
+Sources for the calendar. Some news pages blocked automated download. For those, marked "via search summary", we used the dates as reported in web search results and could not read the page ourselves.
+- **Public holidays:** [holidaydb.com, Lebanon 2026](https://holidaydb.com/guides/public-holidays/lebanon/2026) and [calendarlabs.com, Lebanon 2026](https://www.calendarlabs.com/holidays/lebanon/2026).
+  - The two sites agree except on a few dates. Eid holiday lengths differ, and so do the Islamic New Year (Jun 16 or 17) and Ashoura (Jun 25 or 26), so both possible days are included.
+  - Calendarlabs swaps the Western and Orthodox Easter labels. In 2026 Western Easter was April 5 and Orthodox Easter April 12.
+  - The official [Banque du Liban holiday list](https://bdl.gov.lb/bankingholidays.php) blocked automated access.
+- **Ramadan, Feb 18 to Mar 19:** L'Orient Today, [Ramadan to begin Feb 18](https://today.lorientlejour.com/article/1495201/first-day-of-ramadan-will-fall-on-feb-18-shiite-cleric-fadlallah.html) and [Higher Islamic Shiite Council: Feb 19](https://today.lorientlejour.com/article/1495346/higher-islamic-shiite-council-says-ramadan-will-begin-on-thursday-feb-19.html), via search summary.
+- **Security escalation from Mar 2:** [Al-Monitor, April 2026](https://www.al-monitor.com/originals/2026/04/israel-strikes-beirut-us-warns-iran-may-hit-lebanese-universities), via search summary.
+- **School closures:**
+  - [LBC, 2026-03-03](https://v7cdn.lbcgroup.tv/news/lebanon-news/909926/lebanese-ministry-of-education-announces-closure-of-public-schools-adv/en): public schools closed that week, sheltering displaced families.
+  - [L'Orient Today, schools may restart Mar 10](https://today.lorientlejour.com/article/1498259/karameh-lets-schools-decide-between-remote-and-in-person-classes.html), via search summary.
+  - [LBC, 2026-03-17](https://v7cdn.lbcgroup.tv/news/lebanon-news/915562/lebanon-closes-schools-for-eid-al-fitr-holiday-through-march-23/en): Eid closure through Mar 23.
+  - [LBC, 2026-03-27](https://v7cdn.lbcgroup.tv/news/lebanon-news/918939/lebanon-announces-school-closures-for-catholic-and-orthodox-easter-hol/en): Easter closures Apr 2–6 and Apr 9–13.
+- **End of school year:** no official 2025–26 date was found. We **assume** schools were out from June 15.
+- **AUB:**
+  - [Jordan Times](https://jordantimes.com/news/region/american-university-of-beirut-moves-to-online-learning-after-iran-threats): fully online Mar 30–31.
+  - [AUB Provost message, 2026-04-07](https://www.aub.edu.lb/Registrar/Documents/announcements/provostmessage-students-semester-remainder-planning.pdf): classes synchronously online until further notice, last class May 4, reading period May 5–7, finals May 8–17, commencement Jun 5–6.

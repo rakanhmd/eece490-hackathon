@@ -1,0 +1,3 @@
+comparison,ramadan_evening_share,other_evening_share,diff_pts,ci_low_pts,ci_high_pts
+Ramadan vs 3 weeks before (Jan 28-Feb 17),0.50021,0.49611,0.4101,-1.3703,2.23116
+Ramadan vs 3 weeks after (Mar 24-Apr 13),0.50021,0.51624,-1.60307,-3.57955,0.43693

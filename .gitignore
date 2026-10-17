@@ -1,6 +1,7 @@
 # data stays local (GitHub rejects files > 100 MB)
 data/*
 !data/README.md
+!data/external/
 *.zip
 *.parquet
 *.pkl

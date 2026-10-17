@@ -1,0 +1,7 @@
+branch,tue_ratio,ci_low,ci_high
+Garden,1.5629,1.4887,1.6558
+Harbour,1.5601,1.4743,1.6541
+Uptown,1.5335,1.4178,1.6678
+Garden minus Harbour,0.0028,-0.0888,0.1059
+Garden minus Uptown,0.0294,-0.0754,0.1394
+Harbour minus Uptown,0.0266,-0.1178,0.1603

@@ -1,0 +1,4 @@
+branch,days,mean_tx_per_day,dispersion_ratio,poisson_sim_p2.5,poisson_sim_p97.5
+Garden,181,61.674,0.8582,0.7879,1.2451
+Harbour,181,90.2431,1.1022,0.7754,1.225
+Uptown,181,35.3039,0.9924,0.7628,1.2324

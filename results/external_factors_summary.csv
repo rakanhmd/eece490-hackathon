@@ -1,0 +1,13 @@
+factor,dataset,test,result,verdict
+Temperature,"Open-Meteo daily max temperature, Beirut",Add to weekday + log-trend model; permutation within month,"-0.21% transactions per degC [-0.64, +0.21], p = 0.29",does not explain
+Rain,Open-Meteo daily precipitation (rain day = 1 mm or more),Same model,"-0.9% on rain days [-3.6, +1.9], p = 0.54; R2 gain from both 0.00018, p = 0.56",does not explain
+Hot days and cold drinks,Open-Meteo max temperature,"Cold-drink share of items vs temperature, month and weekday fixed effects","+0.08 pts per degC [-0.06, +0.22], p = 0.31; share 24.4% in Jan vs 25.0% in Jun",does not explain
+Jan to Jun growth,Open-Meteo,"Weather effect estimated within month, applied to the Jan-Jun change in weather",weather predicts -0.7% of the observed +52.6%,does not explain
+Public holidays,"holidaydb.com, calendarlabs.com",Holiday day vs same weekday 1-3 weeks before and after,"mean ratio 0.995 [0.961, 1.030] over 26 days",does not explain
+Ramadan,L'Orient Today (dates),"Share of transactions at 18:00 or later, Ramadan vs 3 weeks before and after","+0.4 pts [-1.4, +2.2] vs before; -1.6 pts [-3.6, +0.4] vs after",does not explain
+Security escalation from Mar 2,"Al-Monitor, LBC (dates)",Actual vs Jan-Feb weekday + trend model; placebo on Feb,"Mar +2.4% [-2.6, +6.8], Apr +0.8% [-2.2, +5.3]; placebo Feb +5.7%",does not explain
+School or campus drives Tuesday,"AUB Provost calendar, LBC school closures","Tuesday ratio, campus online/out vs in person (permutation over weeks)","-0.026 [-0.096, +0.050], p = 0.51; Tuesday still 1.50x with campus out",does not explain
+University Tue/Thu timetable,Transactions only,"Thursday / mean(Mon, Wed, Fri)","0.971 [0.940, 1.003]",does not explain
+"Local cause (school, market day near one branch)",Transactions by branch,"Tuesday ratio per branch, bootstrap over weeks","Garden 1.56 [1.49, 1.66]; Harbour 1.56 [1.47, 1.65]; Uptown 1.53 [1.42, 1.67]",does not explain
+Real-world day-to-day noise,Transactions only,"Variance / mean of daily counts after weekday x month, vs simulated Poisson",Garden 0.86 (Poisson range 0.79-1.25); Harbour 1.10 (Poisson range 0.78-1.22); Uptown 0.99 (Poisson range 0.76-1.23),cannot tell (data diagnostic)
+World coffee price and Garden's costs,FRED PCOFFOTMUSDM (IMF arabica price),Do recorded unit costs move with the world price?,arabica -15.4% Jan-Jun; 135 of 135 product-branch pairs keep one unit cost all six months,cannot tell

@@ -1,0 +1,7 @@
+period,weeks,tue_ratio_mean,tue_ratio_min,tue_ratio_max,tuesday_holidays
+"1 Jan-Feb: schools and AUB in session, before escalation",8,1.5372,1.4578,1.6877,1
+2 Mar 2-9: public schools closed (escalation),1,1.6096,1.6096,1.6096,0
+"3 Mar 10-29: schools reopen, AUB in person",3,1.516,1.4332,1.614,0
+4 Mar 30-May 4: AUB online or hybrid,5,1.4736,1.3951,1.5838,0
+5 May 5-Jun 14: AUB exams then no classes,5,1.5046,1.3955,1.6497,0
+"6 Jun 15-30: AUB out, schools out (assumed)",2,1.5845,1.429,1.74,1
